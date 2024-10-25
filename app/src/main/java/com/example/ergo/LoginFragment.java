@@ -79,6 +79,8 @@ public class LoginFragment extends Fragment {
                                 emailEditText.setText("");
                                 passwordEditText.setText("");
                                 // Handle successful login (e.g., navigate to another activity)
+
+                                ((MainActivity) getActivity()).loadFragment(new TasksFragment());
                             } else {
                                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                             }
@@ -91,6 +93,11 @@ public class LoginFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        //temporarily:
+                        ((MainActivity) getActivity()).loadFragment(new TasksFragment());
+                        //
+
                         Log.e("LoginFragment", "Error: " + error.toString());
                         Toast.makeText(getActivity(), "Error occurred, check log for details.", Toast.LENGTH_LONG).show();
                     }

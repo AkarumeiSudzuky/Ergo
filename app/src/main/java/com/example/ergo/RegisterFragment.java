@@ -20,6 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,28 +61,47 @@ public class RegisterFragment extends Fragment {
     }
 
     private void performRegister() {
-        final String username = usernameEditText.getText().toString();
-        final String email = emailEditText.getText().toString();
-        final String password = passwordEditText.getText().toString();
+        final String username = usernameEditText.getText().toString().trim();
+        final String email = emailEditText.getText().toString().trim();
+        final String password = passwordEditText.getText().toString().trim();
+
+        // Check for empty fields
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, insertUserUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        builder.setTitle("Server Response");
-                        builder.setMessage("Response: " + response);
-                        builder.setPositiveButton("Ok", (dialog, which) -> {
-                            usernameEditText.setText("");
-                            emailEditText.setText("");
-                            passwordEditText.setText("");
-                        });
-                        AlertDialog alertDialog = builder.create();
-                        alertDialog.show();
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            String status = jsonResponse.getString("status");
+                            String message = jsonResponse.getString("message");
+
+                            // Handle server response
+                            if (status.equals("success")) {
+                                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                                // Navigate to TasksFragment
+                                ((MainActivity) getActivity()).loadFragment(new TasksFragment());
+                            } else {
+                                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(), "Error parsing response", Toast.LENGTH_LONG).show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        //temporarily:
+                        ((MainActivity) getActivity()).loadFragment(new TasksFragment());
+                        //
+
                         String errorMessage = "Error: " + error.toString();
                         Log.e("RegisterFragment", errorMessage);
                         Toast.makeText(getActivity(), "Error occurred, check log for details.", Toast.LENGTH_LONG).show();
