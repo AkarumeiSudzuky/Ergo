@@ -52,5 +52,10 @@
     <string name="password">Password</string>
     <string name="_7dyns23df">#@7dynS23df@</string>
     <string name="create_account">Create account</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="log_in_text">Log in</string>
+    <string name="please_provide_details_for_your_account">Please provide details for your account</string>
+    <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
+    <string name="register">Register</string>
 
 </resources>
