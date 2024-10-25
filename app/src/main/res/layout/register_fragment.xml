@@ -76,7 +76,8 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextSizeCheck" />
 
             <EditText
                 android:id="@+id/EmailInput"
@@ -104,7 +105,8 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/EmailText"
-                app:layout_constraintTop_toBottomOf="@+id/EmailText" />
+                app:layout_constraintTop_toBottomOf="@+id/EmailText"
+                tools:ignore="TextSizeCheck" />
 
             <EditText
                 android:id="@+id/UsernameInput"
@@ -133,7 +135,8 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/UsernameText"
-                app:layout_constraintTop_toBottomOf="@+id/UsernameText" />
+                app:layout_constraintTop_toBottomOf="@+id/UsernameText"
+                tools:ignore="TextSizeCheck" />
 
             <EditText
                 android:id="@+id/PasswordInput"
@@ -165,7 +168,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/PasswordInput"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="1.0"
+                tools:ignore="VisualLintButtonSize" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -199,58 +203,6 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--    <FrameLayout-->
-<!--        android:id="@+id/frameLayout"-->
-<!--        android:layout_width="350dp"-->
-<!--        android:layout_height="200dp"-->
-<!--        android:layout_marginStart="48dp"-->
-<!--        android:layout_marginTop="32dp"-->
-<!--        android:layout_marginEnd="48dp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/GettingStartedText"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/PurpleCircle"-->
-<!--            android:layout_width="209dp"-->
-<!--            android:layout_height="97dp"-->
-<!--            android:layout_marginTop="80dp"-->
-<!--            android:layout_marginEnd="128dp"-->
-<!--            android:foregroundGravity="top"-->
-<!--            app:srcCompat="@drawable/circle_violet"-->
-<!--            tools:ignore="ContentDescription" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/DarkPurpleRectangle"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="128dp"-->
-<!--            android:layout_marginTop="112dp"-->
-<!--            app:srcCompat="@drawable/rectangle_dark_purple" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/DarkPurpleCircle"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:foregroundGravity="bottom"-->
-<!--            app:srcCompat="@drawable/circle_purple"-->
-<!--            tools:ignore="ContentDescription"-->
-<!--            tools:layout_editor_absoluteX="-50dp"-->
-<!--            tools:layout_editor_absoluteY="248dp" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/LavenderRectangle"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="128dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            app:srcCompat="@drawable/rectangle_lavender"-->
-<!--            tools:ignore="ContentDescription" />-->
-<!--    </FrameLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
