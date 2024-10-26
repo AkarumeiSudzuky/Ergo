@@ -7,6 +7,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout7"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:gravity="top"
         android:text="@string/choose_friends"
         android:textColor="@color/darkest_purple_col"
         android:textSize="24sp"
@@ -26,16 +28,4 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        app:backgroundTint="#B688EE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/button_nav_menu"
-        tools:ignore="VisualLintBottomNav" />
 </androidx.constraintlayout.widget.ConstraintLayout>

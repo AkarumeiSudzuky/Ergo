@@ -21,12 +21,9 @@
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="348dp"
-            android:layout_marginTop="64dp"
             android:backgroundTint="#FEE5FF"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
+            android:foregroundGravity="top|right"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/constraintLayout4"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/sign_in" />
 
@@ -34,14 +31,18 @@
             android:id="@+id/constraintLayout4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/FriendsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
                 android:layout_marginTop="64dp"
+                android:layout_marginEnd="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -76,7 +77,9 @@
                 android:id="@+id/GroupsLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginEnd="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/FriendsLayout">
@@ -86,6 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/groups"
                     android:textColor="@color/darkest_purple_col"
                     android:textSize="24sp"
@@ -97,39 +101,16 @@
                 <LinearLayout
                     android:id="@+id/GroupListLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintBottom_toTopOf="@+id/GroupsText"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/GroupsText">
 
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </FrameLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:backgroundTint="#B688EE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"
-        app:menu="@menu/button_nav_menu" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

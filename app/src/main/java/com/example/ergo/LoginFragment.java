@@ -39,21 +39,21 @@ public class LoginFragment extends Fragment {
         loginButton = view.findViewById(R.id.LogInButton);
 
         TextView noAccountYet = view.findViewById(R.id.RegisterText);
-        noAccountYet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).loadFragment(new RegisterFragment());
-            }
-        });
+        noAccountYet.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new RegisterFragment()));
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performLogin();
-            }
-        });
+        loginButton.setOnClickListener(v -> performLogin());
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        loginButton = view.findViewById(R.id.LogInButton);
+        loginButton.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).onLoginSuccess();
+        });
     }
 
     private void performLogin() {
