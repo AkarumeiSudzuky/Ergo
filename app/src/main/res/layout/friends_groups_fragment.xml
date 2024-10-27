@@ -46,14 +46,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/FriendsText">
-
-                <ListView
-                    android:id="@+id/friends_in_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@id/FriendsText"/>
 
             <Button
                 android:id="@+id/AddNewFriendButton"
@@ -102,14 +95,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/GroupsText">
-
-                <ListView
-                    android:id="@+id/groups_in_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@id/GroupsText"/>
 
             <Button
                 android:id="@+id/AddNewGroupButton"

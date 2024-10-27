@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
 
-    };
+    }
 
     protected void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()

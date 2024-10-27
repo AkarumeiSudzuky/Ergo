@@ -77,4 +77,5 @@
     <string name="pick_start_date">Pick start date</string>
     <string name="title">Title</string>
     <string name="new_group">New Group</string>
+    <string name="tasks_not_yet_due">Tasks not yet due</string>
 </resources>
