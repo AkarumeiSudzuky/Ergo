@@ -7,4 +7,5 @@
     <color name="darkest_purple_col">#863B97</color>
     <color name="violet_col">#E17FFC</color>
     <color name="lavender_col">#B688EE</color>
+    <color name="app_background_col">#FEE5FF</color>
 </resources>

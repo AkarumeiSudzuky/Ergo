@@ -2,8 +2,6 @@
     <string name="app_name">Ergo</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -57,5 +55,29 @@
     <string name="please_provide_details_for_your_account">Please provide details for your account</string>
     <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
     <string name="register">Register</string>
-
+    <string name="friends_text">Friends</string>
+    <string name="choose_friends">Choose friends</string>
+    <string name="add_friends">Add Friends</string>
+    <string name="friend_s_username">Friend\'s Username</string>
+    <string name="in_0_group_s_with_you">In 0 group(s) with you</string>
+    <string name="friend_s_name">Friend\'s Name</string>
+    <string name="friends">Friends</string>
+    <string name="groups">Groups</string>
+    <string name="add_a_new_friend">Add a new friend</string>
+    <string name="add_a_new_group">Add a new group</string>
+    <string name="new_task">New Task</string>
+    <string name="description">Description</string>
+    <string name="end_date">End date</string>
+    <string name="start_date">Start date</string>
+    <string name="save_task">Save Task</string>
+    <string name="tasks_due_today">Tasks due today</string>
+    <string name="add_your_friends">Add Your Friends</string>
+    <string name="pick_end_date">Pick end date</string>
+    <string name="members">Members</string>
+    <string name="pick_start_date">Pick start date</string>
+    <string name="title">Title</string>
+    <string name="new_group">New Group</string>
+    <string name="tasks_not_yet_due">Tasks not yet due</string>
+    <string name="uni_mates">Uni mates</string>
+    <string name="add_a_new_member">Add a new member</string>
 </resources>

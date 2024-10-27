@@ -36,24 +36,24 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
         emailEditText = view.findViewById(R.id.EmailET);
         passwordEditText = view.findViewById(R.id.PasswordET);
-        loginButton = view.findViewById(R.id.LogInButton);
+        loginButton = view.findViewById(R.id.SaveTaskButton);
 
         TextView noAccountYet = view.findViewById(R.id.RegisterText);
-        noAccountYet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).loadFragment(new RegisterFragment());
-            }
-        });
+        noAccountYet.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new RegisterFragment()));
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performLogin();
-            }
-        });
+        loginButton.setOnClickListener(v -> performLogin());
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        loginButton = view.findViewById(R.id.SaveTaskButton);
+        loginButton.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).onLoginSuccess();
+        });
     }
 
     private void performLogin() {

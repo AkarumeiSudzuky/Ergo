@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="850dp"
+    android:background="@color/app_background_col"
+    android:backgroundTint="@color/app_background_col"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/AddFriendsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        tools:context=".YourActivity"> <!-- Replace with your actual activity -->
+
+        <!-- Add Friends Text -->
+        <TextView
+            android:id="@+id/AddFriendsText"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginVertical="16dp"
+            android:layout_marginTop="64dp"
+            android:text="@string/add_your_friends"
+            android:textColor="@color/darkest_purple_col"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Constraint Layout for Friend Input Section -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="-256dp"
+            android:layout_marginEnd="48dp"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayoutAFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/GivenFriendNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/friend_s_username"
+                android:textColor="@color/darkest_purple_col"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/GivenFriendNameET"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_edittext_background"
+                android:ems="10"
+                android:hint="@string/_7dyns23df"
+                android:inputType="textPassword"
+                android:textColor="@color/dark_purple_col"
+                android:textColorHint="@color/dark_purple_col"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/GivenFriendNameText" />
+
+            <Button
+                android:id="@+id/AddNewFriendButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_darkest_purple"
+                android:text="@string/add_a_new_friend"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/GivenFriendNameET" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Frame Layout -->
+        <FrameLayout
+            android:id="@+id/frameLayoutAFF"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/app_background_col"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
