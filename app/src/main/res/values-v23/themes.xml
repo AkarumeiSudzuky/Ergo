@@ -3,7 +3,7 @@
     <style name="Theme.Ergo" parent="Base.Theme.Ergo">
         <!-- Transparent system bars for edge-to-edge. -->
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="android:statusBarColor">@color/app_background_col</item>
+        <item name="android:windowLightStatusBar">@color/app_background_col</item>
     </style>
 </resources>

@@ -36,7 +36,7 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
         emailEditText = view.findViewById(R.id.EmailET);
         passwordEditText = view.findViewById(R.id.PasswordET);
-        loginButton = view.findViewById(R.id.LogInButton);
+        loginButton = view.findViewById(R.id.SaveTaskButton);
 
         TextView noAccountYet = view.findViewById(R.id.RegisterText);
         noAccountYet.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new RegisterFragment()));
@@ -50,7 +50,7 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loginButton = view.findViewById(R.id.LogInButton);
+        loginButton = view.findViewById(R.id.SaveTaskButton);
         loginButton.setOnClickListener(v -> {
             ((MainActivity) getActivity()).onLoginSuccess();
         });

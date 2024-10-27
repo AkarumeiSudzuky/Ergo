@@ -25,13 +25,12 @@
             android:paddingEnd="48dp"
             android:gravity="center_horizontal">
 
-            <!-- Centered Title TextView -->
             <TextView
-                android:id="@+id/NewTaskT"
+                android:id="@+id/NewGroupText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/new_task"
+                android:text="@string/new_group"
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -39,24 +38,23 @@
             <!-- Other Scrollable Content Below the Title -->
 
             <TextView
-                android:id="@+id/TitleT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/password"
+                android:text="@string/title"
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/PasswordET"
+                android:id="@+id/TitleET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_edittext_background"
                 android:inputType="textPassword"
                 android:textColor="@color/dark_purple_col"
-                android:textColorHint="@color/dark_purple_col"/>
+                android:textColorHint="@color/dark_purple_col" />
 
             <TextView
                 android:id="@+id/StartDateT"
@@ -68,15 +66,19 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/StartDateET"
+            <Button
+                android:id="@+id/StartDateButton"
+                style="?android:spinnerStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_edittext_background"
-                android:inputType="datetime"
-                android:textColor="@color/dark_purple_col"
-                android:textColorHint="@color/dark_purple_col"/>
+                android:background="@drawable/no_color_button"
+                android:onClick="openDatePicker"
+                android:text="@string/pick_start_date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/white"
+                android:textColorHint="@color/dark_purple_col"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/EndDateT"
@@ -88,48 +90,40 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/EndDateET"
+            <Button
+                android:id="@+id/EndDateButton"
+                style="?android:spinnerStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_edittext_background"
-                android:inputType="datetime"
-                android:textColor="@color/dark_purple_col"
-                android:textColorHint="@color/dark_purple_col"/>
+                android:background="@drawable/no_color_button"
+                android:onClick="openDatePicker"
+                android:text="@string/pick_end_date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/white"
+                android:textColorHint="@color/dark_purple_col"
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/DescriptionText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/description"
+                android:text="@string/members"
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/editTextTextMultiLine"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/rounded_edittext_background"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:textColor="@color/dark_purple_col"
-                android:textColorHighlight="@color/dark_purple_col"/>
-
             <Button
-                android:id="@+id/SaveTaskButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="112dp"
-                android:background="@drawable/button_darkest_purple"
+                android:background="@drawable/no_color_button"
+                android:backgroundTint="@null"
                 android:text="@string/save_task"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:cornerRadius="30dp" />
 
         </LinearLayout>
     </ScrollView>

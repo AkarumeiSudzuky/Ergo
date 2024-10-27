@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment) // Ensure you have a FrameLayout in your activity_main.xml with this id
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 
