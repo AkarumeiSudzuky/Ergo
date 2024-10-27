@@ -52,9 +52,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_edittext_background"
+                android:hint="@string/uni_mates"
                 android:inputType="textPassword"
                 android:textColor="@color/dark_purple_col"
-                android:textColorHint="@color/dark_purple_col" />
+                android:textColorHint="@color/lavender_col" />
 
             <TextView
                 android:id="@+id/StartDateT"
@@ -77,7 +78,7 @@
                 android:text="@string/pick_start_date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white"
-                android:textColorHint="@color/dark_purple_col"
+                android:textColorHint="@color/lavender_col"
                 android:textSize="20sp" />
 
             <TextView
@@ -114,13 +115,32 @@
                 android:textStyle="bold" />
 
             <Button
+                android:id="@+id/AddNewMemberButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="112dp"
+                android:background="@drawable/no_color_button"
+                android:backgroundTint="@null"
+                android:text="@string/add_a_new_member"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:cornerRadius="30dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+            <Button
+                android:id="@+id/SaveGroupButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="112dp"
                 android:background="@drawable/no_color_button"
                 android:backgroundTint="@null"
-                android:text="@string/save_task"
+                android:text="Save Group"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:cornerRadius="30dp" />

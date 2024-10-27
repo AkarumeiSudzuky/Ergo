@@ -16,6 +16,7 @@ import java.util.TimeZone;
 public class AddNewGroupFragment extends Fragment {
     private Button StartDateButton;
     private Button EndDateButton;
+    private Button SaveGroupButton;
     private DatePickerDialog datePickerDialog;
 
 
@@ -27,10 +28,13 @@ public class AddNewGroupFragment extends Fragment {
         StartDateButton.setText(getTodayDate());
         EndDateButton = view.findViewById(R.id.EndDateButton);
         EndDateButton.setText(getTodayDate());
+        SaveGroupButton = view.findViewById(R.id.SaveGroupButton);
         initDatePicker();
 
         StartDateButton.setOnClickListener(v -> openDatePicker(view));
         EndDateButton.setOnClickListener(v -> openDatePicker(view));
+
+        SaveGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new FriendsFragment()));;
 
         return view;
     }
