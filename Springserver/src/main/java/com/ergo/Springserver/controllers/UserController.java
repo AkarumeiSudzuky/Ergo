@@ -30,6 +30,11 @@ public class UserController {
         return userDao.getFriends(id);
     }
 
+    @GetMapping("/user/get-all")
+    public List<User> getAll() {
+        return userDao.findAll();
+    }
+
 
 
     //=========POST=================
