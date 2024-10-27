@@ -80,7 +80,7 @@ public class RegisterFragment extends Fragment {
             user.setUsername(username);
             user.setEmail(email);
             user.setPassword(password);
-            userAPI.save(user)
+            userAPI.saveUser(user)
                     .enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {

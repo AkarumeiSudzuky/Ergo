@@ -30,6 +30,8 @@ public class UserController {
         return userDao.getFriends(id);
     }
 
+
+
     //=========POST=================
     @PostMapping("/user/save")
     public User addUser(@RequestBody User user) {

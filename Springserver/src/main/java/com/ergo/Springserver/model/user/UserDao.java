@@ -21,6 +21,10 @@ public class UserDao {
         usrRepository.delete(user);
     }
 
+    public List<User> findAll() {
+        return (List<User>)usrRepository.findAll();
+    }
+
     public User findByUsername(String username) {
         return usrRepository.findByUsername(username);
     }

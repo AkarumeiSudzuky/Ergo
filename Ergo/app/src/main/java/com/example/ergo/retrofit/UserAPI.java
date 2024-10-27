@@ -2,7 +2,6 @@ package com.example.ergo.retrofit;
 
 import com.example.ergo.model.User;
 
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,6 +21,9 @@ public interface UserAPI {
 
     //================POST=====================
     @POST("/user/save")
-    Call<User> save(@Body User user);
+    Call<User> saveUser(@Body User user);
+
+    @POST("/user/add-friend")
+    Call<User> addFriend(@Query("userId") Long userId, @Query("friendId") Long friendId);
 
 }

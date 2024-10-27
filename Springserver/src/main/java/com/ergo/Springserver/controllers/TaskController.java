@@ -17,7 +17,7 @@ public class TaskController {
 
     //==============Get=================
 
-    @GetMapping("/task/get-tasks-foruser")
+    @GetMapping("/task/get-tasks-for-user")
     public List<Task> getTasksForUser(Long userId) {
         return taskDao.getAllTasksForUser(userId);
     }
