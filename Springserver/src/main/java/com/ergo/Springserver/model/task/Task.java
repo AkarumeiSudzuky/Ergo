@@ -78,6 +78,14 @@ public class Task {
         this.startDate = startDate;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Task{" +

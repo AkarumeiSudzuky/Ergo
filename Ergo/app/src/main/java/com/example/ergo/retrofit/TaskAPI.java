@@ -10,8 +10,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface TaskAPI {
-    //==============GET===========================
 
+    //==============GET===========================
     @GET("/task/get-tasks-for-user")
     Call<List<Task>> getTasksForUser(@Query("userId") Long userId);
 
