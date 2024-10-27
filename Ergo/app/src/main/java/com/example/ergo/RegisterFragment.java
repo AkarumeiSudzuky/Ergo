@@ -17,20 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-//import com.android.volley.Request;
-//import com.android.volley.Response;
-//import com.android.volley.VolleyError;
-//import com.android.volley.toolbox.StringRequest;
 
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.UserAPI;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,8 +33,7 @@ import retrofit2.Response;
 public class RegisterFragment extends Fragment {
     private EditText usernameEditText, passwordEditText, emailEditText;
     private Button createAccountButton;
-    private String insertUserUrl = "http://192.168.150.1/ergo/insert_user.php";
-    private AlertDialog.Builder builder;
+
 
     @Nullable
     @Override
@@ -52,7 +43,6 @@ public class RegisterFragment extends Fragment {
         passwordEditText = view.findViewById(R.id.PasswordInput);
         emailEditText = view.findViewById(R.id.EmailInput);
         createAccountButton = view.findViewById(R.id.CreateAccountButton);
-        builder = new AlertDialog.Builder(getActivity());
 
         TextView logInText = view.findViewById(R.id.LogInText);
         logInText.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +84,9 @@ public class RegisterFragment extends Fragment {
                     .enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
-                            Toast.makeText(getActivity(),"Save successfull!", LENGTH_LONG).show();
+//                            Toast.makeText(getActivity(),"Save successfull!", LENGTH_LONG).show();
+                            ((MainActivity) getActivity()).onLoginSuccess();
+                            ((MainActivity) getActivity()).loadFragment(new TasksFragment());
 
                         }
 
