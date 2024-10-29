@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface UnderTaskRepository extends CrudRepository<UnderTask, Integer> {
-    List<UnderTask> findByTaskId(Long taskId);
+    List<UnderTask> findByParentTaskId(Long parentTaskId);
     List<UnderTask> findByUserId(Long userId);
 }

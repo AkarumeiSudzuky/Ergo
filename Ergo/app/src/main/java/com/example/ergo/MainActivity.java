@@ -8,12 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.ergo.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
-
+    private User activeUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Load the LoginFragment by default, tasks in other cases
         if (savedInstanceState == null) {
-            loadFragment(new LoginFragment());
+            loadFragment(new LoginFragment(), activeUser);
             bottomNavigationView.setVisibility(View.GONE);
         }
 
@@ -44,22 +45,25 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (selectedFragment != null) {
-                loadFragment(selectedFragment);
+                loadFragment(selectedFragment, activeUser);
             }
             return true;
 
     }
 
-    protected void loadFragment(Fragment fragment) {
+    public void onLoginSuccess(User user) {
+        loadFragment(new TasksFragment(), user);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+    }
+
+    protected void loadFragment(Fragment fragment, User user) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);  // Assuming User implements Serializable
+        fragment.setArguments(bundle);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
-    }
-
-
-    public void onLoginSuccess() {
-        loadFragment(new TasksFragment());
-        bottomNavigationView.setVisibility(View.VISIBLE);
     }
 
 }

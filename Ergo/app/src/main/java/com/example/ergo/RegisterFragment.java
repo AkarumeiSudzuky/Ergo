@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class RegisterFragment extends Fragment {
     private EditText usernameEditText, passwordEditText, emailEditText;
     private Button createAccountButton;
-
+    private User activeUser;
 
     @Nullable
     @Override
@@ -48,7 +48,7 @@ public class RegisterFragment extends Fragment {
         logInText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).loadFragment(new LoginFragment());
+                ((MainActivity) getActivity()).loadFragment(new LoginFragment(), activeUser);
             }
         });
 
@@ -76,17 +76,15 @@ public class RegisterFragment extends Fragment {
         }
 
         createAccountButton.setOnClickListener(view->{
-            User user = new User();
-            user.setUsername(username);
-            user.setEmail(email);
-            user.setPassword(password);
-            userAPI.saveUser(user)
+            activeUser.setUsername(username);
+            activeUser.setEmail(email);
+            activeUser.setPassword(password);
+            userAPI.saveUser(activeUser)
                     .enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
 //                            Toast.makeText(getActivity(),"Save successfull!", LENGTH_LONG).show();
-                            ((MainActivity) getActivity()).onLoginSuccess();
-                            ((MainActivity) getActivity()).loadFragment(new TasksFragment());
+                            ((MainActivity) getActivity()).onLoginSuccess(activeUser);
 
                         }
 
@@ -100,52 +98,5 @@ public class RegisterFragment extends Fragment {
 
 
 
-//        StringRequest strRequest = new StringRequest(Request.Method.POST, insertUserUrl,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject jsonResponse = new JSONObject(response);
-//                            String status = jsonResponse.getString("status");
-//                            String message = jsonResponse.getString("message");
-//
-//                            // Handle server response
-//                            if (status.equals("success")) {
-//                                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-//                                // Navigate to TasksFragment
-//                                ((MainActivity) getActivity()).loadFragment(new TasksFragment());
-//                            } else {
-//                                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            Toast.makeText(getActivity(), "Error parsing response", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//
-//                        //temporarily:
-//                        ((MainActivity) getActivity()).loadFragment(new TasksFragment());
-//                        //
-//
-//                        String errorMessage = "Error: " + error.toString();
-//                        Log.e("RegisterFragment", errorMessage);
-//                        Toast.makeText(getActivity(), "Error occurred, check log for details.", Toast.LENGTH_LONG).show();
-//                    }
-//                }) {
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("username", username);
-//                params.put("email", email);
-//                params.put("password", password);
-//                return params;
-//            }
-//        };
-//
-//        MySingleton.getInstance(getActivity()).addToRequestQueue(strRequest);
     }
 }

@@ -34,7 +34,7 @@ public class AddNewGroupFragment extends Fragment {
         StartDateButton.setOnClickListener(v -> openDatePicker(view));
         EndDateButton.setOnClickListener(v -> openDatePicker(view));
 
-        SaveGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new FriendsFragment()));;
+//        SaveGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new FriendsFragment()));;
 
         return view;
     }

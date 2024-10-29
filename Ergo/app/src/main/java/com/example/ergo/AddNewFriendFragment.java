@@ -20,7 +20,7 @@ public class AddNewFriendFragment extends Fragment {
         addNewFriend = view.findViewById(R.id.AddNewFriendButton);
         //actual performAddFriend() somewhere here:
 //        addNewFriend.setOnClickListener(...);
-        addNewFriend.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new FriendsFragment()));
+//        addNewFriend.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new FriendsFragment()));
 
 
         return view;

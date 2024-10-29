@@ -13,6 +13,7 @@ public class FriendsFragment extends Fragment {
     private Button addNewFriendButton;
     private Button addNewGroupButton;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -21,9 +22,9 @@ public class FriendsFragment extends Fragment {
         addNewFriendButton = view.findViewById(R.id.AddNewFriendButton);
         addNewGroupButton = view.findViewById(R.id.AddNewGroupButton);
 
-        addNewFriendButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewFriendFragment()));
-        addNewGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewGroupFragment()));
-
+//        addNewFriendButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewFriendFragment()));
+//        addNewGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewGroupFragment()));
+//
 
         return view;
     }

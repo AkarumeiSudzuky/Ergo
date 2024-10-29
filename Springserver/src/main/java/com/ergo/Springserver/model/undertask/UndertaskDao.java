@@ -24,7 +24,7 @@ public class UndertaskDao {
 
     // Method to get all under-tasks for a specific task
     public List<UnderTask> getAllUnderTasksForTask(Long taskId) {
-        return underTaskRepository.findByTaskId(taskId);
+        return underTaskRepository.findByParentTaskId(taskId);
     }
 
     // Get tasks for a specific user
