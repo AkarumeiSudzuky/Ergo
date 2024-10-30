@@ -57,59 +57,8 @@ public class AddTaskFragment extends Fragment implements AdapterView.OnItemSelec
         StatusSpinner = view.findViewById(R.id.StatusSpinner);
         PrioritySpinner = view.findViewById(R.id.PrioritySpinner);
 
-        //status
-        String[] spinnerStatusItems = getResources().getStringArray(R.array.spinner_status_items);
-        ArrayAdapter<String> adapterStatus = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, spinnerStatusItems);
-        adapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        StatusSpinner.setAdapter(adapterStatus);
-
-        StatusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = spinnerStatusItems[position];
-
-                if (position == 0) {
-                    StatusSpinner.setBackgroundResource(R.drawable.status_and_priority_red);
-                } else if (position == 1) {
-                    StatusSpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
-                } else if (position == 2) {
-                    StatusSpinner.setBackgroundResource(R.drawable.status_and_priority_green);
-                }
-                //Toast.makeText(requireContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        //priority
-        String[] spinnerPriorityItems = getResources().getStringArray(R.array.spinner_priority_items);
-        ArrayAdapter<String> adapterPriority = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, spinnerPriorityItems);
-        adapterPriority.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        PrioritySpinner.setAdapter(adapterPriority);
-
-        PrioritySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = spinnerPriorityItems[position];
-                if (position == 0) {
-                    PrioritySpinner.setBackgroundResource(R.drawable.status_and_priority_green);
-                } else if (position == 1) {
-                    PrioritySpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
-                } else if (position == 2) {
-                    PrioritySpinner.setBackgroundResource(R.drawable.status_and_priority_red);
-                }
-                //Toast.makeText(requireContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        setupStatusSpinner(StatusSpinner);
+        setupPrioritySpinner(PrioritySpinner);
 
         //calendar
         calendar = Calendar.getInstance();
@@ -131,6 +80,71 @@ public class AddTaskFragment extends Fragment implements AdapterView.OnItemSelec
 
         return view;
     }
+
+    private void setupStatusSpinner(Spinner statusSpinner) {
+        String[] spinnerStatusItems = getResources().getStringArray(R.array.spinner_status_items);
+        ArrayAdapter<String> adapterStatus = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, spinnerStatusItems);
+        adapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        statusSpinner.setAdapter(adapterStatus);
+
+        statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = spinnerStatusItems[position];
+                switch (position) {
+                    case 0:
+                        statusSpinner.setBackgroundResource(R.drawable.status_and_priority_red);
+                        break;
+                    case 1:
+                        statusSpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
+                        break;
+                    case 2:
+                        statusSpinner.setBackgroundResource(R.drawable.status_and_priority_green);
+                        break;
+                }
+                // Optionally show the selected item as a Toast
+                // Toast.makeText(requireContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Optional: handle no selection if needed
+            }
+        });
+    }
+
+    private void setupPrioritySpinner(Spinner prioritySpinner) {
+        String[] spinnerPriorityItems = getResources().getStringArray(R.array.spinner_priority_items);
+        ArrayAdapter<String> adapterPriority = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, spinnerPriorityItems);
+        adapterPriority.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        prioritySpinner.setAdapter(adapterPriority);
+
+        prioritySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = spinnerPriorityItems[position];
+                switch (position) {
+                    case 0:
+                        prioritySpinner.setBackgroundResource(R.drawable.status_and_priority_green);
+                        break;
+                    case 1:
+                        prioritySpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
+                        break;
+                    case 2:
+                        prioritySpinner.setBackgroundResource(R.drawable.status_and_priority_red);
+                        break;
+                }
+                // Optionally show the selected item as a Toast
+                // Toast.makeText(requireContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Optional: handle no selection if needed
+            }
+        });
+    }
+
 
 //    private void loadFriends() {
 //        //actual friends
