@@ -82,4 +82,5 @@
     <string name="uni_mates">Uni mates</string>
     <string name="add_a_new_member">Add a new member</string>
     <string name="add_people_to_this_task">Add people to this task</string>
+    <string name="priority">Priority</string>
 </resources>

@@ -23,7 +23,7 @@ public class FriendsFragment extends Fragment {
         addNewGroupButton = view.findViewById(R.id.AddNewGroupButton);
 
 //        addNewFriendButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewFriendFragment()));
-//        addNewGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewGroupFragment()));
+//        addNewGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewGroupFragment(), activeUser));
 //
 
         return view;

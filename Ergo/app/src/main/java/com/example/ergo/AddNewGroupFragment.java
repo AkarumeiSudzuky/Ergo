@@ -24,6 +24,8 @@ public class AddNewGroupFragment extends Fragment {
         SaveGroupButton = view.findViewById(R.id.SaveGroupButton);
 
 
+
+
         return view;
     }
 }

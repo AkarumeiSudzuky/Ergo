@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +22,10 @@ import com.example.ergo.retrofit.TaskAPI;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class AddTaskFragment extends Fragment {
@@ -31,6 +35,10 @@ public class AddTaskFragment extends Fragment {
     private TextView startDateTV, endDateTV;
     private Date selectedStartDate, selectedEndDate;
     private Calendar calendar;
+
+    private Spinner PrioritySpinner;
+    private Spinner StatusSpinner;
+
 //
 //    private List<Friend> friends;
 
@@ -44,6 +52,23 @@ public class AddTaskFragment extends Fragment {
         endDateTV = view.findViewById(R.id.EndDateTextView);
         descriptionEditText = view.findViewById(R.id.editTextTextMultiLine);
         saveTaskButton = view.findViewById(R.id.SaveTaskButton);
+
+        //drop-down lists
+//        StatusSpinner = view.findViewById(R.id.StatusSpinner);
+//        PrioritySpinner = view.findViewById(R.id.PrioritySpinner);
+
+//        List<String> statuses = new ArrayList<>();
+//        statuses.add("Completed");
+//        statuses.add("In Progress");
+//        statuses.add("Not started");
+//
+//        StatusSpinner.setOnItemSelectedListener(this);
+//
+//        ArrayAdapter<String> statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statuses);
+//        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+//        StatusSpinner.setAdapter(statusAdapter);
+
+
 
         calendar = Calendar.getInstance();
 

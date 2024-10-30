@@ -55,6 +55,40 @@
                 android:textColorHint="@color/dark_purple_col"/>
 
             <TextView
+                android:id="@+id/PriorityText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/priority"
+                android:textColor="@color/darkest_purple_col"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/PrioritySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/no_color_button" />
+
+            <TextView
+                android:id="@+id/StatusT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Status"
+                android:textColor="@color/darkest_purple_col"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/StatusSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/no_color_button" />
+
+            <TextView
                 android:id="@+id/StartDateT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
