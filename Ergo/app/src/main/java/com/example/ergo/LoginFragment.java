@@ -84,6 +84,7 @@ public class LoginFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<User> call, Throwable throwable) {
+                        ((MainActivity) getActivity()).onLoginSuccess(activeUser);
                         Toast.makeText(getActivity(), "Login failed!", LENGTH_LONG).show();
                     }
                 });
