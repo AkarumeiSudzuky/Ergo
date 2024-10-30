@@ -34,8 +34,6 @@ public class AddNewGroupFragment extends Fragment {
         StartDateButton.setOnClickListener(v -> openDatePicker(view));
         EndDateButton.setOnClickListener(v -> openDatePicker(view));
 
-//        SaveGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new FriendsFragment()));;
-
         return view;
     }
 
@@ -84,17 +82,4 @@ public class AddNewGroupFragment extends Fragment {
 
     }
 
-//    private void openDialog() {
-//        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-//        int currentYear = calendar.get(Calendar.YEAR);
-//        int currentMonth = calendar.get(Calendar.MONTH);
-//        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-//
-//        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-//                dateText.setText();
-//            }
-//        }, currentYear, currentMonth, currentDay);
-//    }
 

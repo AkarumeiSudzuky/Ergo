@@ -68,15 +68,18 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/StartDateET"
+            <Button
+                android:id="@+id/StartDateButton"
+                style="?android:spinnerStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_edittext_background"
-                android:inputType="datetime"
-                android:textColor="@color/dark_purple_col"
-                android:textColorHint="@color/dark_purple_col"/>
+                android:background="@drawable/no_color_button"
+                android:onClick="openDatePicker"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/EndDateT"
@@ -88,15 +91,18 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/EndDateET"
+            <Button
+                android:id="@+id/EndDateButton"
+                style="?android:spinnerStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_edittext_background"
-                android:inputType="datetime"
-                android:textColor="@color/dark_purple_col"
-                android:textColorHint="@color/dark_purple_col"/>
+                android:background="@drawable/no_color_button"
+                android:onClick="openDatePicker"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/MembersText"
