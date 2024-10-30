@@ -99,6 +99,27 @@
                 android:textColorHint="@color/dark_purple_col"/>
 
             <TextView
+                android:id="@+id/MembersText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/add_people_to_this_task"
+                android:textColor="@color/darkest_purple_col"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <LinearLayout
+                android:id="@+id/Friends_to_add_to_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-16dp"
+                android:orientation="vertical">
+
+                <include layout="@layout/choose_friends_list_item" />
+            </LinearLayout>
+
+            <TextView
                 android:id="@+id/DescriptionText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

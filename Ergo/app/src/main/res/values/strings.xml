@@ -81,4 +81,5 @@
     <string name="tasks_not_yet_due">Tasks not yet due</string>
     <string name="uni_mates">Uni mates</string>
     <string name="add_a_new_member">Add a new member</string>
+    <string name="add_people_to_this_task">Add people to this task</string>
 </resources>

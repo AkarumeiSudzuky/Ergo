@@ -67,12 +67,13 @@
             app:layout_constraintTop_toBottomOf="@+id/PleaseDetailsText">
 
             <TextView
-                android:id="@+id/EmailT"
+                android:id="@+id/UsernameT"
                 android:layout_width="wrap_content"
-                android:layout_height="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="256dp"
-                android:text="@string/email"
+                android:text="@string/username"
                 android:textColor="@color/darkest_purple_col"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -86,13 +87,13 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_edittext_background"
                 android:ems="10"
-                android:hint="@string/your_email"
+                android:hint="@string/your_username"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/dark_purple_col"
                 android:textColorHint="@color/dark_purple_col"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/EmailT"
+                app:layout_constraintTop_toBottomOf="@+id/UsernameT"
                 tools:ignore="Autofill,TouchTargetSizeCheck" />
 
             <TextView
@@ -104,8 +105,8 @@
                 android:textColor="@color/darkest_purple_col"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/EmailT"
-                app:layout_constraintTop_toBottomOf="@+id/EmailT" />
+                app:layout_constraintStart_toStartOf="@+id/UsernameT"
+                app:layout_constraintTop_toBottomOf="@+id/UsernameT" />
 
             <EditText
                 android:id="@+id/TitleET"

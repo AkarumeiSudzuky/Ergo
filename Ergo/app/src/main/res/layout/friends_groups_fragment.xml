@@ -46,7 +46,10 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/FriendsText"/>
+                app:layout_constraintTop_toBottomOf="@id/FriendsText">
+
+                <include layout="@layout/choose_friends_list_item" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/AddNewFriendButton"
@@ -95,7 +98,10 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/GroupsText"/>
+                app:layout_constraintTop_toBottomOf="@id/GroupsText">
+
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/AddNewGroupButton"
