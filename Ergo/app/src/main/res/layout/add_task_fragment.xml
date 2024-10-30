@@ -70,11 +70,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/no_color_button"
-                android:clickable="true"
-                android:focusable="true"
                 android:padding="10dp"
                 android:textColor="@color/dark_purple_col"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <TextView
                 android:id="@+id/EndDateT"
