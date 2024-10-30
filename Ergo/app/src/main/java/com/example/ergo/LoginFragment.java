@@ -3,7 +3,6 @@ package com.example.ergo;
 import static android.widget.Toast.LENGTH_LONG;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,6 @@ import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.UserAPI;
 
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,7 +34,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
         emailEditText = view.findViewById(R.id.EmailET);
-        passwordEditText = view.findViewById(R.id.PasswordET);
+        passwordEditText = view.findViewById(R.id.TitleET);
         loginButton = view.findViewById(R.id.SaveTaskButton);
 
         TextView noAccountYet = view.findViewById(R.id.RegisterText);

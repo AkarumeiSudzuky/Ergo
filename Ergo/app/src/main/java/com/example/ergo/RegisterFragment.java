@@ -72,7 +72,6 @@ public class RegisterFragment extends Fragment {
         // Check for empty fields
         if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
             makeText(getActivity(), "Please fill in all fields", LENGTH_LONG).show();
-            return;
         }
 
         createAccountButton.setOnClickListener(view->{
