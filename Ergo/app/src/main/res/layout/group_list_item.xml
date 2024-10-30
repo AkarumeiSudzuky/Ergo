@@ -11,7 +11,7 @@
         android:id="@+id/Group_list_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Uni mates"
+        android:text="@string/uni_mates"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
