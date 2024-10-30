@@ -58,54 +58,6 @@
                 android:textColorHint="@color/lavender_col" />
 
             <TextView
-                android:id="@+id/StartDateT"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/start_date"
-                android:textColor="@color/darkest_purple_col"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/StartDateButton"
-                style="?android:spinnerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/no_color_button"
-                android:onClick="openDatePicker"
-                android:text="@string/pick_start_date"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/white"
-                android:textColorHint="@color/lavender_col"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/EndDateT"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/end_date"
-                android:textColor="@color/darkest_purple_col"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/EndDateButton"
-                style="?android:spinnerStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/no_color_button"
-                android:onClick="openDatePicker"
-                android:text="@string/pick_end_date"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/white"
-                android:textColorHint="@color/dark_purple_col"
-                android:textSize="20sp" />
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

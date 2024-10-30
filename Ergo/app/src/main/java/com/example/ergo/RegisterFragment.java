@@ -70,20 +70,22 @@ public class RegisterFragment extends Fragment {
         UserAPI userAPI = retrofitService.getRetrofit().create(UserAPI.class);
 
         // Check for empty fields
-        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty()||  email.isEmpty()||  password.isEmpty()) {
             makeText(getActivity(), "Please fill in all fields", LENGTH_LONG).show();
         }
 
         createAccountButton.setOnClickListener(view->{
-            activeUser.setUsername(username);
-            activeUser.setEmail(email);
-            activeUser.setPassword(password);
-            userAPI.saveUser(activeUser)
+            User user = new User();
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setPassword(password);
+            activeUser = user;
+            userAPI.saveUser(user)
                     .enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
-//                            Toast.makeText(getActivity(),"Save successfull!", LENGTH_LONG).show();
-                            ((MainActivity) getActivity()).onLoginSuccess(activeUser);
+                           // Toast.makeText(getActivity(),"Save successfull!", LENGTH_LONG).show();
+                            ((MainActivity) getActivity()).onLoginSuccess(user);
 
                         }
 
