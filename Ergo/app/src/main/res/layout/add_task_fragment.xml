@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="850dp"
-    android:background="@color/app_background_col"
-    android:backgroundTint="@color/app_background_col">
+    android:background="@color/app_background_col">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,7 +24,6 @@
             android:paddingEnd="48dp"
             android:gravity="center_horizontal">
 
-            <!-- Centered Title TextView -->
             <TextView
                 android:id="@+id/NewTaskT"
                 android:layout_width="wrap_content"
@@ -35,8 +33,6 @@
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="24sp"
                 android:textStyle="bold" />
-
-            <!-- Other Scrollable Content Below the Title -->
 
             <TextView
                 android:id="@+id/TitleT"
@@ -54,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_edittext_background"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:textColor="@color/dark_purple_col"
                 android:textColorHint="@color/dark_purple_col"/>
 
@@ -68,18 +64,17 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/StartDateButton"
-                style="?android:spinnerStyle"
+            <TextView
+                android:id="@+id/StartDateTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/no_color_button"
-                android:onClick="openDatePickers"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="20sp" />
+                android:padding="10dp"
+                android:textColor="@color/dark_purple_col"
+                android:textSize="20sp"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <TextView
                 android:id="@+id/EndDateT"
@@ -91,18 +86,17 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/EndDateButton"
-                style="?android:spinnerStyle"
+            <TextView
+                android:id="@+id/EndDateTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/no_color_button"
-                android:onClick="openDatePickers"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="20sp" />
+                android:padding="10dp"
+                android:textColor="@color/dark_purple_col"
+                android:textSize="20sp"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <TextView
                 android:id="@+id/MembersText"
@@ -112,8 +106,7 @@
                 android:text="@string/add_people_to_this_task"
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/Friends_to_add_to_task"
@@ -160,5 +153,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

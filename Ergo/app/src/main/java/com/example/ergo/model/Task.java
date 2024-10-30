@@ -1,7 +1,6 @@
 package com.example.ergo.model;
 
 import java.util.Date;
-import java.util.List;
 
 
 public class Task {
@@ -15,15 +14,15 @@ public class Task {
 
     //friends
     //unsure about this
-    private List<String> selectedFriends;
-    public List<String> getSelectedFriends() {
-        return selectedFriends;
-    }
-
-    public void setSelectedFriends(List<String> selectedFriends) {
-        this.selectedFriends = selectedFriends;
-    }
-
+//    private List<String> selectedFriends;
+//    public List<String> getSelectedFriends() {
+//        return selectedFriends;
+//    }
+//
+//    public void setSelectedFriends(List<String> selectedFriends) {
+//        this.selectedFriends = selectedFriends;
+//    }
+//
 
 //    @ManyToOne
 //    @JoinColumn(name = "user_id", nullable = true) // 'task_id' will be the foreign key column in the database
