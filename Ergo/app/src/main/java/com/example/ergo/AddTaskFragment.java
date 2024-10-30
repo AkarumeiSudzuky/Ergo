@@ -67,7 +67,7 @@ public class AddTaskFragment extends Fragment {
             task.setStartDate(parseDate(startDate));
             task.setStopDate(parseDate(endDate));
             task.setDescription(description);
-            taskAPI.saveTask(task)
+            taskAPI.saveTask(task);
 
         });
 
