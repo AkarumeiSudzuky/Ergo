@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess(User user) {
+        activeUser=user;
         loadFragment(new TasksFragment(), user);
         bottomNavigationView.setVisibility(View.VISIBLE);
     }

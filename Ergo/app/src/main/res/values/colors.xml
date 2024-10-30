@@ -8,4 +8,8 @@
     <color name="violet_col">#E17FFC</color>
     <color name="lavender_col">#B688EE</color>
     <color name="app_background_col">#FEE5FF</color>
+
+    <color name="status_red">#F44336</color>
+    <color name="status_yellow">#FFD301</color>
+    <color name="status_green">#00E27B</color>
 </resources>

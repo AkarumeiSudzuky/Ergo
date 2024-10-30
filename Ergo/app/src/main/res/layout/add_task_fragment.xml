@@ -69,14 +69,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/no_color_button" />
+                android:background="@drawable/status_and_priority_red"
+                android:prompt="@string/spinner_status_prompt" />
 
             <TextView
                 android:id="@+id/StatusT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Status"
+                android:text="@string/status"
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -86,7 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/no_color_button" />
+                android:background="@drawable/status_and_priority_green"
+                android:prompt="@string/spinner_priority_prompt" />
 
             <TextView
                 android:id="@+id/StartDateT"

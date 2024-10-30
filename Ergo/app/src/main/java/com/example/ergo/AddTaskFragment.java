@@ -1,5 +1,6 @@
 package com.example.ergo;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,13 +24,11 @@ import com.example.ergo.retrofit.TaskAPI;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-public class AddTaskFragment extends Fragment {
+public class AddTaskFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private EditText titleEditText, descriptionEditText;
     private Button saveTaskButton;
@@ -53,23 +53,65 @@ public class AddTaskFragment extends Fragment {
         descriptionEditText = view.findViewById(R.id.editTextTextMultiLine);
         saveTaskButton = view.findViewById(R.id.SaveTaskButton);
 
-        //drop-down lists
-//        StatusSpinner = view.findViewById(R.id.StatusSpinner);
-//        PrioritySpinner = view.findViewById(R.id.PrioritySpinner);
+        //spinners
+        StatusSpinner = view.findViewById(R.id.StatusSpinner);
+        PrioritySpinner = view.findViewById(R.id.PrioritySpinner);
 
-//        List<String> statuses = new ArrayList<>();
-//        statuses.add("Completed");
-//        statuses.add("In Progress");
-//        statuses.add("Not started");
-//
-//        StatusSpinner.setOnItemSelectedListener(this);
-//
-//        ArrayAdapter<String> statusAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statuses);
-//        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-//        StatusSpinner.setAdapter(statusAdapter);
+        //status
+        String[] spinnerStatusItems = getResources().getStringArray(R.array.spinner_status_items);
+        ArrayAdapter<String> adapterStatus = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, spinnerStatusItems);
+        adapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        StatusSpinner.setAdapter(adapterStatus);
 
+        StatusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = spinnerStatusItems[position];
 
+                if (position == 0) {
+                    StatusSpinner.setBackgroundResource(R.drawable.status_and_priority_red);
+                } else if (position == 1) {
+                    StatusSpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
+                } else if (position == 2) {
+                    StatusSpinner.setBackgroundResource(R.drawable.status_and_priority_green);
+                }
+                //Toast.makeText(requireContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        //priority
+        String[] spinnerPriorityItems = getResources().getStringArray(R.array.spinner_priority_items);
+        ArrayAdapter<String> adapterPriority = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, spinnerPriorityItems);
+        adapterPriority.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        PrioritySpinner.setAdapter(adapterPriority);
+
+        PrioritySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = spinnerPriorityItems[position];
+                if (position == 0) {
+                    PrioritySpinner.setBackgroundResource(R.drawable.status_and_priority_green);
+                } else if (position == 1) {
+                    PrioritySpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
+                } else if (position == 2) {
+                    PrioritySpinner.setBackgroundResource(R.drawable.status_and_priority_red);
+                }
+                //Toast.makeText(requireContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        //calendar
         calendar = Calendar.getInstance();
 
         selectedStartDate = Calendar.getInstance().getTime();
@@ -185,4 +227,13 @@ public class AddTaskFragment extends Fragment {
         taskAPI.saveTask(task);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }
