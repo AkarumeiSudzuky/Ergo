@@ -3,39 +3,33 @@ package com.ergo.Springserver.model.task;
 import com.ergo.Springserver.model.user.User;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String title;
     private String description;
+    private int priority;
     private Date startDate;
     private Date stopDate;
-    private int priority;
     private int status;
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = true) // 'task_id' will be the foreign key column in the database
-    private User user; // Reference to the Task entity
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id", nullable = true)
+    private User user;
 
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
@@ -54,12 +48,12 @@ public class Task {
         this.priority = priority;
     }
 
-    public int getStatus() {
-        return status;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getStopDate() {
@@ -70,12 +64,21 @@ public class Task {
         this.stopDate = stopDate;
     }
 
-    public Date getStartDate() {
-        return startDate;
+
+    public int getStatus() {
+        return status;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public User getUser() {
@@ -90,12 +93,13 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", priority=" + priority +
+                ", startDate=" + startDate +
+                ", stopDate=" + stopDate +
                 ", status=" + status +
+                ", title='" + title + '\'' +
                 ", user=" + user +
                 '}';
     }
-
 }

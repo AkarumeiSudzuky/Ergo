@@ -26,9 +26,9 @@ public class TasksFragment extends Fragment {
         }
 
         // Use user data as needed
-        if (user != null) {
-            Toast.makeText(getActivity(), "Welcome " + user.getUsername(), Toast.LENGTH_LONG).show();
-        }
+//        if (user != null) {
+//            Toast.makeText(getActivity(), "Welcome " + user.getUsername(), Toast.LENGTH_LONG).show();
+//        }
 
         return view;
     }

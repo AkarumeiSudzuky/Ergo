@@ -1,6 +1,9 @@
 package com.ergo.Springserver.model.task;
 
 import com.ergo.Springserver.model.user.User;
+import com.ergo.Springserver.model.user.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
@@ -14,9 +17,28 @@ public class TaskDao {
     @Autowired
     private TaskRepository taskRepository;
 
-    public void save(Task task) {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Transactional
+    public void saveTask(Task task) {
+        // Assuming the task has a method to get the associated User
+        User user = task.getUser();
+
+        // Save the user first if it's not already saved
+        if (user.getId() == null) {
+            user = userRepository.save(user);
+        } else {
+            user = userRepository.findById(user.getId())
+                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        }
+
+        task.setUser(user);
         taskRepository.save(task);
     }
+
+
+
     public void delete(Task task) {
         taskRepository.delete(task);
     }

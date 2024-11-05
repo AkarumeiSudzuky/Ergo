@@ -1,10 +1,14 @@
 package com.example.ergo;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +18,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ergo.model.Task;
+import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddTaskFragment extends Fragment {
 
@@ -31,6 +38,10 @@ public class AddTaskFragment extends Fragment {
     private TextView startDateTV, endDateTV;
     private Date selectedStartDate, selectedEndDate;
     private Calendar calendar;
+
+    private User user;
+
+
 //
 //    private List<Friend> friends;
 
@@ -38,6 +49,17 @@ public class AddTaskFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_task_fragment, container, false);
+
+
+        // Retrieve the User object from the arguments
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable("user");
+        }
+//
+//        if (user != null) {
+//            Toast.makeText(getActivity(), "Welcome " + user.getUsername(), Toast.LENGTH_LONG).show();
+//        }
+
 
         titleEditText = view.findViewById(R.id.TitleET);
         startDateTV = view.findViewById(R.id.StartDateTextView);
@@ -126,38 +148,64 @@ public class AddTaskFragment extends Fragment {
         textView.setText(dateFormat.format(date));
     }
 
+
     private void performSavingTask() {
         final String title = titleEditText.getText().toString().trim();
         final String description = descriptionEditText.getText().toString().trim();
-//        List<String> selectedFriendsNames = new ArrayList<>();
+
+        RetrofitService retrofitService = new RetrofitService();
+        TaskAPI taskAPI = retrofitService.getRetrofit().create(TaskAPI.class);
 
         if (title.isEmpty() || selectedStartDate == null || selectedEndDate == null || description.isEmpty()) {
             Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_LONG).show();
             return;
         }
 
-//        if (friends != null) {
-//            for (Friend friend : friends) {
-//                if (friend.isSelected()) {
-//                    selectedFriendsNames.add(friend.getName());
-//                }
-//            }
-//        } else {
-//            Toast.makeText(getActivity(), "No friends loaded", Toast.LENGTH_LONG).show();
-//        }
-
-        RetrofitService retrofitService = new RetrofitService();
-        TaskAPI taskAPI = retrofitService.getRetrofit().create(TaskAPI.class);
 
         Task task = new Task();
         task.setTitle(title);
         task.setStartDate(selectedStartDate);
         task.setStopDate(selectedEndDate);
         task.setDescription(description);
-//        //friend select
-//        task.setSelectedFriends(selectedFriendsNames);
+        task.setUser(user);
+        task.setStatus(0);
+        task.setPriority(1);
 
-        taskAPI.saveTask(task);
+        // Log the Task object to debug the data being sent
+        Log.d("Task Data", task.toString());
+
+
+
+        task.setStartDate(selectedStartDate);
+        task.setStopDate(selectedEndDate);
+
+
+        taskAPI.saveTask(task).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("API Response", "Code: " + response.code());
+                if (response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Save successful!", Toast.LENGTH_LONG).show();
+                } else {
+                    // Log error response
+                    Log.e("API Error", "Response code: " + response.code() + ", message: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                Log.e("API Failure", "Error occurred", throwable);
+                Toast.makeText(getActivity(), "Save failed!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     }
+
+
+
+
+
+
 
 }

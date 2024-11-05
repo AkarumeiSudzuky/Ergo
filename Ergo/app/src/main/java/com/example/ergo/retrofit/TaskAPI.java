@@ -19,5 +19,5 @@ public interface TaskAPI {
 
     //=============POST==========================
     @POST("/task/save")
-    Call<Task>saveTask(@Body Task task);
+    Call<Void>saveTask(@Body Task task);
 }

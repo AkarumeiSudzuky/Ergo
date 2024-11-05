@@ -43,22 +43,22 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new FriendsFragment();
             }
 
-
             if (selectedFragment != null) {
-                loadFragment(selectedFragment, activeUser);
+                loadFragment(selectedFragment, activeUser);  // Pass activeUser to the fragment
             }
             return true;
+        }
 
-    }
 
     public void onLoginSuccess(User user) {
+        activeUser = user;
         loadFragment(new TasksFragment(), user);
         bottomNavigationView.setVisibility(View.VISIBLE);
     }
 
     protected void loadFragment(Fragment fragment, User user) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("user", user);  // Assuming User implements Serializable
+        bundle.putSerializable("user", user);
         fragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()

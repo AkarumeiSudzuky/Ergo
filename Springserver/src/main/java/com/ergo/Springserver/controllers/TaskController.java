@@ -6,6 +6,7 @@ import com.ergo.Springserver.model.task.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,10 +27,10 @@ public class TaskController {
     //=================Post===============
 
     @PostMapping("/task/save")
-    public void saveTask(Task task) {
-        taskDao.save(task);
-    }
+    public void saveTask(@RequestBody Task task) {
 
+        taskDao.saveTask(task);
+    }
 
 
 
