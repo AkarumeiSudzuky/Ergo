@@ -30,6 +30,19 @@ public class TasksFragment extends Fragment {
 //            Toast.makeText(getActivity(), "Welcome " + user.getUsername(), Toast.LENGTH_LONG).show();
 //        }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
         return view;
     }
 }
