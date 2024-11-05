@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/single_undertask_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- RadioButton for marking completion -->
+    <Button
+        android:id="@+id/element_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/switch_not_clicked" /> <!-- Default state -->
+
+    <!-- TextView for task title -->
+    <EditText
+        android:id="@+id/element_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/no_color_button"
+        android:hint="@string/enter_undertask_title"
+        android:padding="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+</LinearLayout>

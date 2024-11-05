@@ -53,7 +53,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/rounded_edittext_background"
                 android:hint="@string/uni_mates"
-                android:inputType="textPassword"
+                android:inputType="text"
                 android:textColor="@color/dark_purple_col"
                 android:textColorHint="@color/lavender_col" />
 
@@ -65,19 +65,34 @@
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/AddNewMemberButton"
+            <SearchView
+                android:id="@+id/userSearchViewGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="112dp"
-                android:background="@drawable/no_color_button"
-                android:backgroundTint="@null"
-                android:text="@string/add_a_new_member"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:cornerRadius="30dp" />
+                android:background="@drawable/no_color_button" />
+
+
+            <ListView
+                android:id="@+id/userListViewGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+
+
+<!--            <Button-->
+<!--                android:id="@+id/AddNewMemberButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginBottom="112dp"-->
+<!--                android:background="@drawable/no_color_button"-->
+<!--                android:backgroundTint="@null"-->
+<!--                android:text="@string/add_a_new_member"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="20sp"-->
+<!--                app:cornerRadius="30dp" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"

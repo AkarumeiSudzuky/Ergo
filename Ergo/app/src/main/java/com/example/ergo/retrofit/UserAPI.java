@@ -3,6 +3,8 @@ package com.example.ergo.retrofit;
 import com.example.ergo.model.User;
 
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -18,6 +20,10 @@ public interface UserAPI {
 
     @GET("/user/get-one-username")
     Call<User> getUserByUsername(@Query("username") String username);
+
+    //for adding friends
+    @GET("/user/search")
+    Call<List<User>> searchUsers(@Query("query") String query);
 
     //================POST=====================
     @POST("/user/save")

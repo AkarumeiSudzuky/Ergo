@@ -59,6 +59,8 @@
 
     <string name="spinner_priority_prompt">Select priority for your task</string>
     <string name="status">Status</string>
+    <string name="enter_undertask_title">Enter undertask title</string>
+    <string name="undertasks">Undertasks</string>
     <string-array name="spinner_priority_items">
         <item>Light</item>
         <item>Medium</item>

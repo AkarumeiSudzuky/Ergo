@@ -39,7 +39,6 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-
             <TextView
                 android:id="@+id/Friend_item_name"
                 android:layout_width="match_parent"

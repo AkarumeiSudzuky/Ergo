@@ -16,6 +16,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,10 +28,13 @@ import com.example.ergo.model.Task;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
+import com.example.ergo.retrofit.UserAPI;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -46,6 +53,16 @@ public class AddTaskFragment extends Fragment {
     private Spinner PrioritySpinner;
     private Spinner StatusSpinner;
 
+
+    //searching for users
+    private SearchView userSearchView;
+    private ListView userListView;
+    private ArrayAdapter<User> userAdapter;
+    private List<User> userList = new ArrayList<>();
+
+    //undertasks
+    private LinearLayout elementsContainer;
+    private Button addElementButton;
 
 //
 //    private List<Friend> friends;
@@ -71,6 +88,9 @@ public class AddTaskFragment extends Fragment {
         endDateTV = view.findViewById(R.id.EndDateTextView);
         descriptionEditText = view.findViewById(R.id.editTextTextMultiLine);
         saveTaskButton = view.findViewById(R.id.SaveTaskButton);
+        userSearchView = view.findViewById(R.id.userSearchView);
+        userListView = view.findViewById(R.id.userListView);
+
 
         //spinners
         StatusSpinner = view.findViewById(R.id.StatusSpinner);
@@ -83,16 +103,35 @@ public class AddTaskFragment extends Fragment {
 
         selectedStartDate = Calendar.getInstance().getTime();
         selectedEndDate = Calendar.getInstance().getTime();
-
         updateDateDisplay(startDateTV, selectedStartDate);
         updateDateDisplay(endDateTV, selectedEndDate);
-
-
         startDateTV.setOnClickListener(v -> showDatePickerDialog(true));
         endDateTV.setOnClickListener(v -> showDatePickerDialog(false));
 
-//        loadFriends(); // Load friends into the list
-//        setupFriendSelection(view); // Set up click listeners
+
+        userAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
+                userList);
+        userListView.setAdapter(userAdapter);
+        userSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchUsers(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
+
+        elementsContainer = view.findViewById(R.id.elements_container);
+        addElementButton = view.findViewById(R.id.add_element_button);
+        addElementButton.setOnClickListener(v -> addElement());
+
+
 
         saveTaskButton.setOnClickListener(v -> performSavingTask());
 
@@ -131,6 +170,59 @@ public class AddTaskFragment extends Fragment {
 //            friendsLayout.addView(friendView);
 //        }
 //    }
+
+    private void addElement() {
+        View elementView = LayoutInflater.from(getActivity()).inflate(R.layout.dynamic_undertask,
+                elementsContainer, false);
+
+        Button elementButton = elementView.findViewById(R.id.element_button);
+        TextView elementTitle = elementView.findViewById(R.id.element_title);
+
+        elementButton.setBackgroundResource(R.drawable.switch_not_clicked);
+
+        // Button click listener to toggle completion
+        elementButton.setOnClickListener(v -> {
+            boolean isCompleted = (elementButton.getTag() != null) && (boolean) elementButton.getTag();
+
+            if (isCompleted) {
+                // If already completed, mark as not completed
+                elementButton.setBackgroundResource(R.drawable.switch_not_clicked);
+                elementButton.setTag(false); // Mark it as not completed
+                Toast.makeText(getActivity(), "Task marked as not completed!", Toast.LENGTH_SHORT).show();
+            } else {
+                // If not completed, mark as completed
+                elementButton.setBackgroundResource(R.drawable.switch_clicked);
+                elementButton.setTag(true); // Mark it as completed
+                Toast.makeText(getActivity(), "Task marked as completed!", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        elementsContainer.addView(elementView);
+    }
+
+    // Method to load all users (you will implement API call here)
+    private void searchUsers(String query) {
+        UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
+        userAPI.searchUsers(query).enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    userList.clear(); // Clear previous results
+                    userList.addAll(response.body()); // Add new results
+                    userAdapter.notifyDataSetChanged(); // Notify adapter of data change
+                } else {
+                    Toast.makeText(getActivity(), "No users found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable throwable) {
+                Log.e("API Failure", "Error occurred while searching users", throwable);
+                Toast.makeText(getActivity(), "Search failed!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
     private void setupStatusSpinner(Spinner statusSpinner) {
         String[] spinnerStatusItems = getResources().getStringArray(R.array.spinner_status_items);
@@ -278,11 +370,4 @@ public class AddTaskFragment extends Fragment {
 
 
     }
-
-
-
-
-
-
-
 }
