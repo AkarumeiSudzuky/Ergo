@@ -100,7 +100,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/GroupsText">
 
-
+                <include
+                    layout="@layout/group_list_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
             </LinearLayout>
 
             <Button
