@@ -144,15 +144,25 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/Friends_to_add_to_task"
+            <SearchView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="-16dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/no_color_button" />
 
-                <include layout="@layout/choose_friends_list_item" />
-            </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:id="@+id/Friends_to_add_to_task"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="-16dp"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <include layout="@layout/choose_friends_list_item" />-->
+<!--            </LinearLayout>-->
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/DescriptionText"

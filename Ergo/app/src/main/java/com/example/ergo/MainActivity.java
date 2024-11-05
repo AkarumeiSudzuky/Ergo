@@ -1,8 +1,10 @@
 package com.example.ergo;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        setupKeyboardVisibilityListener();
 
         // Load the LoginFragment by default, tasks in other cases
         if (savedInstanceState == null) {
@@ -66,4 +69,24 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+
+    private void setupKeyboardVisibilityListener() {
+        final View rootView = findViewById(android.R.id.content);
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                rootView.getWindowVisibleDisplayFrame(r);
+                int heightDiff = rootView.getRootView().getHeight() - (r.bottom - r.top);
+                // Check if the height difference is more than a threshold
+                if (heightDiff > 200) { // 200 can be adjusted as per your requirement
+                    // Keyboard is opened
+                    bottomNavigationView.setVisibility(View.GONE);
+                } else {
+                    // Keyboard is closed
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
 }

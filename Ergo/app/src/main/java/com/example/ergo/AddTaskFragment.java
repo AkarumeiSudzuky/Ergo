@@ -12,8 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,8 @@ public class AddTaskFragment extends Fragment {
     private Calendar calendar;
 
     private User user;
+    private Spinner PrioritySpinner;
+    private Spinner StatusSpinner;
 
 
 //
@@ -66,6 +71,13 @@ public class AddTaskFragment extends Fragment {
         endDateTV = view.findViewById(R.id.EndDateTextView);
         descriptionEditText = view.findViewById(R.id.editTextTextMultiLine);
         saveTaskButton = view.findViewById(R.id.SaveTaskButton);
+
+        //spinners
+        StatusSpinner = view.findViewById(R.id.StatusSpinner);
+        PrioritySpinner = view.findViewById(R.id.PrioritySpinner);
+
+        setupStatusSpinner(StatusSpinner);
+        setupPrioritySpinner(PrioritySpinner);
 
         calendar = Calendar.getInstance();
 
@@ -119,6 +131,71 @@ public class AddTaskFragment extends Fragment {
 //            friendsLayout.addView(friendView);
 //        }
 //    }
+
+    private void setupStatusSpinner(Spinner statusSpinner) {
+        String[] spinnerStatusItems = getResources().getStringArray(R.array.spinner_status_items);
+        ArrayAdapter<String> adapterStatus = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, spinnerStatusItems);
+        adapterStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        statusSpinner.setAdapter(adapterStatus);
+
+        statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = spinnerStatusItems[position];
+                switch (position) {
+                    case 0:
+                        statusSpinner.setBackgroundResource(R.drawable.status_and_priority_red);
+                        break;
+                    case 1:
+                        statusSpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
+                        break;
+                    case 2:
+                        statusSpinner.setBackgroundResource(R.drawable.status_and_priority_green);
+                        break;
+                }
+                // Optionally show the selected item as a Toast
+                // Toast.makeText(requireContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Optional: handle no selection if needed
+            }
+        });
+    }
+
+    private void setupPrioritySpinner(Spinner prioritySpinner) {
+        String[] spinnerPriorityItems = getResources().getStringArray(R.array.spinner_priority_items);
+        ArrayAdapter<String> adapterPriority = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, spinnerPriorityItems);
+        adapterPriority.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        prioritySpinner.setAdapter(adapterPriority);
+
+        prioritySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = spinnerPriorityItems[position];
+                switch (position) {
+                    case 0:
+                        prioritySpinner.setBackgroundResource(R.drawable.status_and_priority_green);
+                        break;
+                    case 1:
+                        prioritySpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
+                        break;
+                    case 2:
+                        prioritySpinner.setBackgroundResource(R.drawable.status_and_priority_red);
+                        break;
+                }
+                // Optionally show the selected item as a Toast
+                // Toast.makeText(requireContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Optional: handle no selection if needed
+            }
+        });
+    }
+
 
     private void showDatePickerDialog(boolean isStartDate) {
         int year = calendar.get(Calendar.YEAR);
