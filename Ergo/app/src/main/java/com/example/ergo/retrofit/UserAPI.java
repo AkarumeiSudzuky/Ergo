@@ -21,9 +21,12 @@ public interface UserAPI {
     @GET("/user/get-one-username")
     Call<User> getUserByUsername(@Query("username") String username);
 
-    //for adding friends
-    @GET("/user/search")
-    Call<List<User>> searchUsers(@Query("query") String query);
+    @GET("/user/get-all")
+    Call<List<User>> getAllUsers();
+
+    @GET("/user/get-friends")
+    Call<List<User>> getAllFriends(@Query("id") int id);
+
 
     //================POST=====================
     @POST("/user/save")

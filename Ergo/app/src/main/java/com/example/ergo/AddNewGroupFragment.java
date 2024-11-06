@@ -61,7 +61,7 @@ public class AddNewGroupFragment extends Fragment {
         userSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchUsers(query);
+//                searchUsers(query);
                 return true;
             }
 
@@ -77,27 +77,27 @@ public class AddNewGroupFragment extends Fragment {
         return view;
     }
 
-    private void searchUsers(String query) {
-        UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
-        userAPI.searchUsers(query).enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    userList.clear(); // Clear previous results
-                    userList.addAll(response.body()); // Add new results
-                    userAdapter.notifyDataSetChanged(); // Notify adapter of data change
-                } else {
-                    Toast.makeText(getActivity(), "No users found", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable throwable) {
-                Log.e("API Failure", "Error occurred while searching users", throwable);
-                Toast.makeText(getActivity(), "Search failed!", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+//    private void searchUsers(String query) {
+//        UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
+//        userAPI.searchUsers(query).enqueue(new Callback<List<User>>() {
+//            @Override
+//            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    userList.clear(); // Clear previous results
+//                    userList.addAll(response.body()); // Add new results
+//                    userAdapter.notifyDataSetChanged(); // Notify adapter of data change
+//                } else {
+//                    Toast.makeText(getActivity(), "No users found", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<User>> call, Throwable throwable) {
+//                Log.e("API Failure", "Error occurred while searching users", throwable);
+//                Toast.makeText(getActivity(), "Search failed!", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 }
 
 

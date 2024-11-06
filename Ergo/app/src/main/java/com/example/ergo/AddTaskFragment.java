@@ -60,13 +60,12 @@ public class AddTaskFragment extends Fragment {
     private ListView userListView;
     private ArrayAdapter<User> userAdapter;
     private List<User> userList = new ArrayList<>();
+    private List<Integer> friendsList = new ArrayList<>();
 
     //undertasks
     private LinearLayout elementsContainer;
     private Button addElementButton;
 
-//
-//    private List<Friend> friends;
 
     @Nullable
     @Override
@@ -105,23 +104,31 @@ public class AddTaskFragment extends Fragment {
         endDateTV.setOnClickListener(v -> showDatePickerDialog(false));
 
 
-        userAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
-                userList);
+        userSearchView = view.findViewById(R.id.userSearchView);
+        userListView = view.findViewById(R.id.userListView);
+
+
+        // Set up the adapter for displaying all users
+                userAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, userList);
         userListView.setAdapter(userAdapter);
+
+        // Set up search view to filter users by name
         userSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchUsers(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+//                filterUsers(newText); // Filter users based on input text
+                return true;
             }
         });
 
-
+//        loadFriends();
+//        // Load all users initially (only once)
+//        loadAllUsers();
 
         elementsContainer = view.findViewById(R.id.elements_container);
         addElementButton = view.findViewById(R.id.add_element_button);
@@ -133,6 +140,77 @@ public class AddTaskFragment extends Fragment {
 
         return view;
     }
+
+
+//    //PROBLEM FETCH FRIENDS
+//    private void loadFriends(){
+//        UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
+//        userAPI.getAllFriends(user.getId()).enqueue(new Callback<List<Integer>>() {
+//            @Override
+//            public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    friendsList.clear();
+//                    friendsList = response.body();
+//
+//                    Log.d("Friends list", friendsList.toString());
+//                    userAdapter.notifyDataSetChanged();
+//                } else {
+//                    Toast.makeText(getActivity(), "Failed to fetch friends", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Integer>> call, Throwable throwable) {
+//                Toast.makeText(getActivity(), "Error fetching users", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
+//
+//    private void loadAllUsers() {
+//        UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
+//        userAPI.getAllUsers().enqueue(new Callback<List<User>>() {
+//            @Override
+//            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    userList.clear();
+//                    List<User> allUsers = response.body();
+//
+//                    // Filter users whose IDs appear in friendsList
+//                    for (User user : allUsers) {
+//                        if (friendsList.contains(user.getId())) {
+//                            userList.add(user);
+//                        }
+//                    }
+//
+//                    Log.d("Filtered User list", userList.toString());
+//                    userAdapter.notifyDataSetChanged();
+//                } else {
+//                    Toast.makeText(getActivity(), "Failed to fetch users", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<User>> call, Throwable throwable) {
+//                Toast.makeText(getActivity(), "Error fetching users", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
+//
+//
+//    // Method to filter users locally
+//    private void filterUsers(String query) {
+//        List<User> filteredList = new ArrayList<>();
+//        for (User user : userList) {
+//            if (user.getUsername().toLowerCase().contains(query.toLowerCase())) {
+//                filteredList.add(user); // Only add matching users to the filtered list
+//            }
+//        }
+//
+//        userAdapter.clear(); // Clear previous suggestions
+//        userAdapter.addAll(filteredList); // Add filtered suggestions
+//        userAdapter.notifyDataSetChanged();
+//    }
+
 
 //    private void loadFriends() {
 //        //actual friends
@@ -195,29 +273,6 @@ public class AddTaskFragment extends Fragment {
         });
 
         elementsContainer.addView(elementView);
-    }
-
-    // Method to load all users (you will implement API call here)
-    private void searchUsers(String query) {
-        UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
-        userAPI.searchUsers(query).enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    userList.clear(); // Clear previous results
-                    userList.addAll(response.body()); // Add new results
-                    userAdapter.notifyDataSetChanged(); // Notify adapter of data change
-                } else {
-                    Toast.makeText(getActivity(), "No users found", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable throwable) {
-                Log.e("API Failure", "Error occurred while searching users", throwable);
-                Toast.makeText(getActivity(), "Search failed!", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     private void setupStatusSpinner(Spinner statusSpinner) {
