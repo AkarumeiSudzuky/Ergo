@@ -47,6 +47,7 @@ public class AddTaskFragment extends Fragment {
     private Button saveTaskButton;
     private TextView startDateTV, endDateTV;
     private Date selectedStartDate, selectedEndDate;
+    private int priority, status;
     private Calendar calendar;
 
     private User user;
@@ -77,11 +78,6 @@ public class AddTaskFragment extends Fragment {
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable("user");
         }
-//
-//        if (user != null) {
-//            Toast.makeText(getActivity(), "Welcome " + user.getUsername(), Toast.LENGTH_LONG).show();
-//        }
-
 
         titleEditText = view.findViewById(R.id.TitleET);
         startDateTV = view.findViewById(R.id.StartDateTextView);
@@ -236,12 +232,15 @@ public class AddTaskFragment extends Fragment {
                 String selectedItem = spinnerStatusItems[position];
                 switch (position) {
                     case 0:
+                        status =1;
                         statusSpinner.setBackgroundResource(R.drawable.status_and_priority_red);
                         break;
                     case 1:
+                        status =2;
                         statusSpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
                         break;
                     case 2:
+                        status = 3;
                         statusSpinner.setBackgroundResource(R.drawable.status_and_priority_green);
                         break;
                 }
@@ -268,12 +267,15 @@ public class AddTaskFragment extends Fragment {
                 String selectedItem = spinnerPriorityItems[position];
                 switch (position) {
                     case 0:
+                        priority =1;
                         prioritySpinner.setBackgroundResource(R.drawable.status_and_priority_green);
                         break;
                     case 1:
+                        priority =2;
                         prioritySpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
                         break;
                     case 2:
+                        priority=3;
                         prioritySpinner.setBackgroundResource(R.drawable.status_and_priority_red);
                         break;
                 }
@@ -337,8 +339,8 @@ public class AddTaskFragment extends Fragment {
         task.setStopDate(selectedEndDate);
         task.setDescription(description);
         task.setUser(user);
-        task.setStatus(0);
-        task.setPriority(1);
+        task.setStatus(status);
+        task.setPriority(priority);
 
         // Log the Task object to debug the data being sent
         Log.d("Task Data", task.toString());
