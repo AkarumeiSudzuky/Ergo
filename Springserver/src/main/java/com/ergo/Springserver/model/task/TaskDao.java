@@ -45,10 +45,16 @@ public class TaskDao {
 
     // Get tasks for a specific user
     public List<Task> getAllTasksForUser(Long id) {
-        List<Task> tasks = new ArrayList<>();
-        Streamable.of(taskRepository.findByUserId(id)).forEach(tasks::add);
+        List<Task> tasks = taskRepository.findByUserId(id);
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks found for user with ID: " + id);
+        } else {
+            System.out.println("Retrieved tasks for user with ID " + id + ": " + tasks);
+        }
         return tasks;
     }
+
+
 
     // Update task status
     public boolean updateTaskStatus(Long taskId, String newStatus) {
