@@ -61,6 +61,11 @@
     <string name="status">Status</string>
     <string name="enter_undertask_title">Enter undertask title</string>
     <string name="undertasks">Undertasks</string>
+    <string name="enter_undertask_description">Enter undertask description</string>
+    <string name="new_undertask">New Undertask</string>
+    <string name="add_new_undertask">Add new undertask</string>
+    <string name="save_undertasks">Save Undertasks</string>
+    <string name="add_undertask_to_friends">Add undertask to friends</string>
     <string-array name="spinner_priority_items">
         <item>Light</item>
         <item>Medium</item>

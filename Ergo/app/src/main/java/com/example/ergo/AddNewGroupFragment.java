@@ -101,4 +101,3 @@ public class AddNewGroupFragment extends Fragment {
 }
 
 
-

@@ -109,7 +109,7 @@ public class AddTaskFragment extends Fragment {
 
 
         // Set up the adapter for displaying all users
-                userAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, userList);
+        userAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, userList);
         userListView.setAdapter(userAdapter);
 
         // Set up search view to filter users by name

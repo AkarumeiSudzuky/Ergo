@@ -22,7 +22,7 @@ public class Task {
     private int status;
     private String title;
 
-//    @ManyToOne(cascade = CascadeType.PERSIST)
+    //    @ManyToOne(cascade = CascadeType.PERSIST)
 //    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 

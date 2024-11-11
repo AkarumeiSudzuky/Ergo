@@ -34,23 +34,23 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
     }
 
-        private boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
-            int id = item.getItemId();
+    private boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment selectedFragment = null;
+        int id = item.getItemId();
 
-            if (id == R.id.tasks_tab_item) {
-                selectedFragment = new TasksFragment();
-            } else if (id == R.id.new_task) {
-                selectedFragment = new AddTaskFragment();
-            } else if (id == R.id.friends) {
-                selectedFragment = new FriendsFragment();
-            }
-
-            if (selectedFragment != null) {
-                loadFragment(selectedFragment, activeUser);  // Pass activeUser to the fragment
-            }
-            return true;
+        if (id == R.id.tasks_tab_item) {
+            selectedFragment = new TasksFragment();
+        } else if (id == R.id.new_task) {
+            selectedFragment = new AddTaskFragment();
+        } else if (id == R.id.friends) {
+            selectedFragment = new FriendsFragment();
         }
+
+        if (selectedFragment != null) {
+            loadFragment(selectedFragment, activeUser);  // Pass activeUser to the fragment
+        }
+        return true;
+    }
 
 
     public void onLoginSuccess(User user) {

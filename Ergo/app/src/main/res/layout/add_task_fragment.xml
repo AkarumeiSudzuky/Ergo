@@ -173,7 +173,6 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/no_color_button" />
 
-
             <ListView
                 android:id="@+id/userListView"
                 android:layout_width="match_parent"
@@ -211,7 +210,7 @@
                     android:id="@+id/undertask_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Undertasks"
+                    android:text="@string/undertasks"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
