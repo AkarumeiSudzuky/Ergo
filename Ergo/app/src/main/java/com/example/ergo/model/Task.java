@@ -75,6 +75,14 @@ public class Task {
         return isoFormat.format(date);
     }
 
+    public String getStartDate() {
+        return startDateIso;
+    }
+
+    public String getStopDate() {
+        return stopDateIso;
+    }
+
     public int getStatus() {
         return status;
     }

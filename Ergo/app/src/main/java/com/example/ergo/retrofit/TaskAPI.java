@@ -13,7 +13,7 @@ public interface TaskAPI {
 
     //==============GET===========================
     @GET("/task/get-tasks-for-user")
-    Call<List<Task>> getTasksForUser(@Query("id") Long userId);
+    Call<List<Task>> getTasksForUser(@Query("userId") Long userId);
 
 
 
