@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -167,23 +168,28 @@ public class TasksFragment extends Fragment {
             switch (task.getPriority()) {
                 case 1:
                     priority = "Not Started";
-                    //taskStatus.setTextColor(R.color.status_yellow);
+                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_red));
                     break;
                 case 2:
+                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_yellow));
                     priority = "In Progress";
                     break;
                 case 3:
+                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_green));
                     priority = "Completed";
                     break;
             }
             switch (task.getStatus()) {
                 case 1:
+                    taskStatus.setTextColor(ContextCompat.getColor(context, R.color.status_green));
                     status = "Light";
                     break;
                 case 2:
+                    taskStatus.setTextColor(ContextCompat.getColor(context, R.color.status_yellow));
                     status = "Medium";
                     break;
                 case 3:
+                    taskStatus.setTextColor(ContextCompat.getColor(context, R.color.status_red));
                     status = "Severe";
                     break;
             }

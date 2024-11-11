@@ -52,13 +52,15 @@
                 android:id="@+id/PriorityLabel_in_task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Light" />
+                android:text="Light"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/StatusLabel_in_task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Not Started" />
+                android:text="Not Started"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
