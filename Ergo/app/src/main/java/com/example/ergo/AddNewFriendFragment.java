@@ -80,7 +80,7 @@ public class AddNewFriendFragment extends Fragment {
         fetchFriendByUsername(userAPI, friendUsername, new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful()) {
                     Long friendId = response.body().getId();
                     addFriend(userAPI, currentUserId, friendId);
                     Log.d("AddNewFriend", "Friend found and added successfully");

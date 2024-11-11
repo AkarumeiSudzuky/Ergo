@@ -23,8 +23,10 @@ import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -112,10 +114,17 @@ public class TasksFragment extends Fragment {
             }
         }
 
-        // Update the ListViews with the separated tasks
-        tasksListViewDueToday.setAdapter(new TaskAdapter(getContext(), tasksDueToday));
-        tasksListViewNotDue.setAdapter(new TaskAdapter(getContext(), tasksNotDue));
+        // Set the adapter for tasks due today
+        TaskAdapter dueTodayAdapter = new TaskAdapter(getContext(), tasksDueToday);
+        tasksListViewDueToday.setAdapter(dueTodayAdapter);
+        setListViewHeightBasedOnChildren(tasksListViewDueToday); // Adjust height based on content
+
+        // Set the adapter for tasks not due today
+        TaskAdapter notDueAdapter = new TaskAdapter(getContext(), tasksNotDue);
+        tasksListViewNotDue.setAdapter(notDueAdapter);
+        setListViewHeightBasedOnChildren(tasksListViewNotDue); // Adjust height based on content
     }
+
 
     private String getTodayDate() {
         // This can be replaced with dynamic date logic
@@ -158,6 +167,7 @@ public class TasksFragment extends Fragment {
             switch (task.getPriority()) {
                 case 1:
                     priority = "Not Started";
+                    //taskStatus.setTextColor(R.color.status_yellow);
                     break;
                 case 2:
                     priority = "In Progress";
@@ -188,21 +198,49 @@ public class TasksFragment extends Fragment {
 
         public String formatIsoDate(String isoDate) {
             try {
-                // Parse the ISO 8601 date string into an Instant
-                Instant instant = Instant.parse(isoDate);
+                if (isoDate == null || isoDate.isEmpty()) {
+                    return "Invalid date";
+                }
 
-                // Define a formatter for the desired date format
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd", Locale.getDefault())
-                        .withZone(ZoneId.systemDefault());
+                // Example if isoDate is in the form "2024-11-11" (date-only format)
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(isoDate, inputFormatter);
 
-                // Format the Instant into a readable date string
-                return formatter.format(instant);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "";
+                // Format the date to "MMMM dd"
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMMM dd", Locale.getDefault());
+                return date.format(outputFormatter);
+            } catch (DateTimeParseException e) {
+                Log.e("TasksFragment", "Failed to parse date: " + isoDate, e);
+                return "Invalid date";
             }
         }
+
+
+
     }
 
+
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ArrayAdapter adapter = (ArrayAdapter) listView.getAdapter();
+        if (adapter == null) {
+            // No adapter is assigned yet
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, listView);
+            listItem.measure(
+                    View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.UNSPECIFIED
+            );
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
 
 }
