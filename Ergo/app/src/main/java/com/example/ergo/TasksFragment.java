@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,9 +22,7 @@ import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -208,9 +205,13 @@ public class TasksFragment extends Fragment {
                     return "Invalid date";
                 }
 
-                // Example if isoDate is in the form "2024-11-11" (date-only format)
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate date = LocalDate.parse(isoDate, inputFormatter);
+                // Try parsing the date assuming the format might be with time (ISO-8601).
+                LocalDate date;
+                if (isoDate.contains("T")) {
+                    date = LocalDate.parse(isoDate, DateTimeFormatter.ISO_DATE_TIME);
+                } else {
+                    date = LocalDate.parse(isoDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                }
 
                 // Format the date to "MMMM dd"
                 DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMMM dd", Locale.getDefault());
@@ -220,6 +221,7 @@ public class TasksFragment extends Fragment {
                 return "Invalid date";
             }
         }
+
 
 
 

@@ -1,6 +1,5 @@
 package com.example.ergo;
 
-import static android.widget.Toast.LENGTH_LONG;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,7 +26,6 @@ import com.example.ergo.model.Task;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
-import com.example.ergo.retrofit.UserAPI;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

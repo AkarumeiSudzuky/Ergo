@@ -31,7 +31,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
                 android:text="SpanishOrVanish"
-                android:textColor="@color/darkest_purple_col" />
+                android:textColor="@color/darkest_purple_col"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/PeopleNamesInTask_in_list"
@@ -84,6 +85,7 @@
         android:layout_marginBottom="8dp"
         android:text="March 6 - March 26"
         android:textColor="@color/darkest_purple_col"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listView" />

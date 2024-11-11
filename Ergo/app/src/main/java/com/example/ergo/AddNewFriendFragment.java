@@ -13,18 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ergo.model.Friend;
-import com.example.ergo.model.Task;
 import com.example.ergo.retrofit.RetrofitService;
 
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.UserAPI;
 
 import java.io.IOException;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

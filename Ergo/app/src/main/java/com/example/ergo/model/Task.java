@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
