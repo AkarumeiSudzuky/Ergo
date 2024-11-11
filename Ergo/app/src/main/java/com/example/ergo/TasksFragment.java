@@ -20,25 +20,9 @@ public class TasksFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tasks, container, false);
 
-        // Retrieve the User object from the arguments
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable("user");
         }
-
-        // Use user data as needed
-//        if (user != null) {
-//            Toast.makeText(getActivity(), "Welcome " + user.getUsername(), Toast.LENGTH_LONG).show();
-//        }
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -39,17 +39,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/FriendListLayout"
+
+            <ListView
+                android:id="@+id/FriendListView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/FriendsText">
-
-                <include layout="@layout/choose_friends_list_item" />
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@id/FriendsText" />
 
             <Button
                 android:id="@+id/AddNewFriendButton"
@@ -62,7 +60,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/FriendListLayout" />
+                app:layout_constraintTop_toBottomOf="@id/FriendListView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

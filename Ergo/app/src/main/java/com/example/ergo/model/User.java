@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class User implements Serializable {
 
-    private int id;
+    private Long id;
     private String username;
     private String password;
     private String email;
@@ -64,11 +64,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
