@@ -1,5 +1,6 @@
 package com.example.ergo;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -10,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -107,7 +110,64 @@ public class FriendsFragment extends Fragment {
             friendNameTextView.setText(friend.getUsername()); // Assuming User model has a getUsername() method
             friendGroupsTextView.setText("In 0 groups with you"); // Replace this with actual data if available
 
+            convertView.setOnClickListener(v -> showPopupMenu(v, friend));
+
             return convertView;
         }
+
+        private void showPopupMenu(View v, User friend) {
+            PopupMenu popupMenu = new PopupMenu(context, v);
+            MenuInflater inflater = popupMenu.getMenuInflater();
+            inflater.inflate(R.menu.friend_options_menu, popupMenu.getMenu());
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.delete_friend) {
+                    showDeleteConfirmationDialog(friend);
+                    return true;
+                }
+                return false;
+            });
+
+            popupMenu.show();
+        }
+
+        private void showDeleteConfirmationDialog(User friend) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Delete Friend")
+                    .setMessage("Are you sure you want to delete " + friend.getUsername() + " from your friends list?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        deleteFriend(friend);
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
+
+        private void deleteFriend(User friend) {
+            RetrofitService retrofitService = new RetrofitService();
+            UserAPI userAPI = retrofitService.getRetrofit().create(UserAPI.class);
+
+            // Call the removeFriend API
+            Call<Void> call = userAPI.removeFriend(user.getId(), friend.getId());  // Adjust if necessary
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(context, friend.getUsername() + " has been deleted.", Toast.LENGTH_SHORT).show();
+                        friends.remove(friend);
+                        notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(context, "Failed to delete friend", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
+
     }
 }

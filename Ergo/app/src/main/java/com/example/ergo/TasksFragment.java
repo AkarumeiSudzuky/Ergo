@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,8 +22,12 @@ import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +35,7 @@ import retrofit2.Response;
 
 public class TasksFragment extends Fragment {
     private User user;
+    private ImageButton logOutButton;
     private ListView tasksListViewDueToday;
     private ListView tasksListViewNotDue;
     private List<Task> tasksDueToday = new ArrayList<>();
@@ -47,6 +54,15 @@ public class TasksFragment extends Fragment {
         // Initialize ListViews
         tasksListViewDueToday = view.findViewById(R.id.TasksListViewDueToday);
         tasksListViewNotDue = view.findViewById(R.id.TaskListViewNotDue);
+        logOutButton = view.findViewById(R.id.imageButton);
+
+        logOutButton.setOnClickListener(v -> {
+            // Ensure the activity is MainActivity
+            if (getActivity() instanceof MainActivity) {
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.logOut(); // Call the logOut method in MainActivity
+            }
+        });
 
         // Fetch tasks from the server
         fetchTasks();
@@ -136,12 +152,57 @@ public class TasksFragment extends Fragment {
             TextView taskStatus = convertView.findViewById(R.id.StatusLabel_in_task);
             TextView taskTimeRange = convertView.findViewById(R.id.TaskTimeRange_in_list);
 
+            String priority = "";
+            String status = "";
+
+            switch (task.getPriority()) {
+                case 1:
+                    priority = "Not Started";
+                    break;
+                case 2:
+                    priority = "In Progress";
+                    break;
+                case 3:
+                    priority = "Completed";
+                    break;
+            }
+            switch (task.getStatus()) {
+                case 1:
+                    status = "Light";
+                    break;
+                case 2:
+                    status = "Medium";
+                    break;
+                case 3:
+                    status = "Severe";
+                    break;
+            }
+
             taskTitle.setText(task.getTitle());
-            taskPriority.setText("Priority: " + task.getPriority());
-            taskStatus.setText("Status: " + task.getStatus());
-            taskTimeRange.setText("Due: " + task.getStopDate());
+            taskPriority.setText(priority);
+            taskStatus.setText(status);
+            taskTimeRange.setText(formatIsoDate(task.getStopDate()));
 
             return convertView;
         }
+
+        public String formatIsoDate(String isoDate) {
+            try {
+                // Parse the ISO 8601 date string into an Instant
+                Instant instant = Instant.parse(isoDate);
+
+                // Define a formatter for the desired date format
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd", Locale.getDefault())
+                        .withZone(ZoneId.systemDefault());
+
+                // Format the Instant into a readable date string
+                return formatter.format(instant);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
     }
+
+
 }

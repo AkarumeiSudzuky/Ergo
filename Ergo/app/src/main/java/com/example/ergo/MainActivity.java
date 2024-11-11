@@ -59,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setVisibility(View.VISIBLE);
     }
 
+    public void logOut() {
+        // Hide the BottomNavigationView after logout
+        bottomNavigationView.setVisibility(View.GONE);
+
+        // Clear the active user
+        activeUser = null;
+
+        // Reload the LoginFragment
+        loadFragment(new LoginFragment(), activeUser);
+    }
+
     protected void loadFragment(Fragment fragment, User user) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);

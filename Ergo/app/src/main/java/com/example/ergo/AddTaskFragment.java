@@ -299,13 +299,10 @@ public class AddTaskFragment extends Fragment {
                         statusSpinner.setBackgroundResource(R.drawable.status_and_priority_green);
                         break;
                 }
-                // Optionally show the selected item as a Toast
-                // Toast.makeText(requireContext(), "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                // Optional: handle no selection if needed
             }
         });
     }

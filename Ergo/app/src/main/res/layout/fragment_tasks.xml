@@ -77,7 +77,7 @@
                 android:id="@+id/TaskNotYetDueT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tasks_not_yet_due"
+                android:text="@string/task_not_due_today"
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="24sp"
                 android:textStyle="bold"

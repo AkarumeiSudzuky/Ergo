@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/no_color_button"
+        android:background="@drawable/bottom_navigation"
         android:visibility="gone"
         app:backgroundTint="#B688EE"
         app:layout_constraintBottom_toBottomOf="parent"

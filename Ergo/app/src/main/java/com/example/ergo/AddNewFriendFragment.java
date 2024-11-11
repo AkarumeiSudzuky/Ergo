@@ -83,6 +83,7 @@ public class AddNewFriendFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     Long friendId = response.body().getId();
                     addFriend(userAPI, currentUserId, friendId);
+                    Log.d("AddNewFriend", "Friend found and added successfully");
                 } else {
                     Toast.makeText(getActivity(), "Friend not found!", LENGTH_LONG).show();
                     Log.e("API Error", "Failed to find friend. Code: " + response.code() + ", Message: " + response.message());
@@ -92,7 +93,14 @@ public class AddNewFriendFragment extends Fragment {
             @Override
             public void onFailure(Call<User> call, Throwable throwable) {
                 Log.e("API Failure", "Error fetching friend by username", throwable);
-                Toast.makeText(getActivity(), "Error fetching friend!", LENGTH_LONG).show();
+                // You can add a specific message here to help identify the problem:
+                if (throwable instanceof IOException) {
+                    // Network issues
+                    Toast.makeText(getActivity(), "Network error. Please check your connection.", LENGTH_LONG).show();
+                } else {
+                    // Other failures
+                    Toast.makeText(getActivity(), "Error fetching friend!", LENGTH_LONG).show();
+                }
             }
         });
     }

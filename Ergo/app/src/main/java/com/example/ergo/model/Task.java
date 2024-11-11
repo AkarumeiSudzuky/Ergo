@@ -3,6 +3,7 @@ package com.example.ergo.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-public class Task {
+public class Task implements Serializable {
     private int id;
     private String description;
     private int priority;
