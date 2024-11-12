@@ -40,6 +40,8 @@ public class TasksFragment extends Fragment {
     private ListView tasksListViewNotDue;
     private List<Task> tasksDueToday = new ArrayList<>();
     private List<Task> tasksNotDue = new ArrayList<>();
+    private List<Task> completedTasks = new ArrayList<>();
+    private List<Task> notCompletedTasks = new ArrayList<>();
 
     @Nullable
     @Override
@@ -82,7 +84,7 @@ public class TasksFragment extends Fragment {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         List<Task> allTasks = response.body();
-                        separateTasksByDate(allTasks);  // Process tasks if the body is not null
+                        sortTasksByDate(allTasks);  // Process tasks if the body is not null
                     } else {
                         showToast("No tasks found in the response body.");
                     }
@@ -100,8 +102,8 @@ public class TasksFragment extends Fragment {
         });
     }
 
-    private void separateTasksByDate(List<Task> allTasks) {
-        String today = getTodayDate();  // Get today's date
+    private void sortTasksByDate(List<Task> allTasks) {
+        String today = String.valueOf(LocalDate.now());  // Get today's date
 
         // Separate tasks into "Due Today" and "Not Due"
         for (Task task : allTasks) {
@@ -123,10 +125,14 @@ public class TasksFragment extends Fragment {
         setListViewHeightBasedOnChildren(tasksListViewNotDue); // Adjust height based on content
     }
 
-
-    private String getTodayDate() {
-        // This can be replaced with dynamic date logic
-        return "2024-11-11";  // Example: hardcoded for now
+    private void sortTasksByProgress(List<Task> allTasks){
+        for (Task task : allTasks) {
+            if (task.getStatus() == 1) {
+                completedTasks.add(task);
+            } else {
+                notCompletedTasks.add(task);
+            }
+        }
     }
 
     private void showToast(String message) {
