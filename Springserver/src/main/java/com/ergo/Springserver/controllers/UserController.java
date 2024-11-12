@@ -26,8 +26,8 @@ public class UserController {
     }
 
     @GetMapping("/user/get-friends")
-    public List<User> getFriends(Long id) {
-        return userDao.getFriends(id);
+    public List<User> getFriends(Long userId) {
+        return userDao.getFriends(userId);
     }
 
     @GetMapping("/user/get-all")
@@ -47,6 +47,15 @@ public class UserController {
     public void addFriend(@RequestParam Long userId, @RequestParam Long friendId) {
         userDao.addFriend(userId,friendId);
     }
+
+
+    //=========DELETE=================
+    @DeleteMapping("/user/remove-friend")
+    public void removeFriend(@RequestParam Long userId, @RequestParam Long friendId) {
+        userDao.removeFriend(userId, friendId);
+    }
+
+
 
 
 }
