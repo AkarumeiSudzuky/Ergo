@@ -79,20 +79,25 @@ public class RegisterFragment extends Fragment {
             user.setUsername(username);
             user.setEmail(email);
             user.setPassword(password);
-            activeUser = user;
+
             userAPI.saveUser(user)
                     .enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
-//                            Toast.makeText(getActivity(),"Save successfull!", LENGTH_LONG).show();
-                            ((MainActivity) getActivity()).onLoginSuccess(user);
-
+                            if (response.isSuccessful()) {
+                                activeUser = response.body();
+                                // Pass the activeUser to the MainActivity or navigate further
+                                ((MainActivity) getActivity()).onLoginSuccess(activeUser);
+                            } else {
+                                // Handle the error response
+                                Toast.makeText(getActivity(), "Registration failed!", LENGTH_LONG).show();
+                            }
                         }
 
                         @Override
                         public void onFailure(Call<User> call, Throwable throwable) {
-                            Toast.makeText(getActivity(),"Save failed!", LENGTH_LONG).show();
-                            Logger.getLogger(RegisterFragment.class.getName()).log(Level.SEVERE,"Error occurred",throwable);
+                            Toast.makeText(getActivity(), "Save failed!", LENGTH_LONG).show();
+                            Logger.getLogger(RegisterFragment.class.getName()).log(Level.SEVERE, "Error occurred", throwable);
                         }
                     });
         });

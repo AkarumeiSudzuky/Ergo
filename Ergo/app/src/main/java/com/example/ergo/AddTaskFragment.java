@@ -385,6 +385,7 @@ public class AddTaskFragment extends Fragment {
         else {
             task.setUser(user);
         }
+        task.setTeam(null);
 
         // Log the Task object to debug the data being sent
         Log.d("Task Data", task.toString());

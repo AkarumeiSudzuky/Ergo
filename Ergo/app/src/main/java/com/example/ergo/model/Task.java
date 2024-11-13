@@ -99,6 +99,14 @@ public class Task implements Serializable {
         this.user = user;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
