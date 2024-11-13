@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class Team {
 
-    private int id;
+    private Integer id;
 
     private String name;
 
@@ -17,7 +17,7 @@ public class Team {
 
     // Getters and Setters
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

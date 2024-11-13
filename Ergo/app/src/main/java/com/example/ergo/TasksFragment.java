@@ -52,6 +52,11 @@ public class TasksFragment extends Fragment {
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable("user");
         }
+        if (user != null) {
+            Toast.makeText(getActivity(), "User ID: " + user.getId(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "User not found!", Toast.LENGTH_LONG).show();
+        }
 
         // Initialize ListViews
         tasksListViewDueToday = view.findViewById(R.id.TasksListViewDueToday);
