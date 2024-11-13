@@ -34,13 +34,13 @@
                 android:textColor="@color/darkest_purple_col"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/PeopleNamesInTask_in_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:text="Daniil, Natalya, Anton"
-                android:textColor="@color/darkest_purple_col" />
+<!--            <TextView-->
+<!--                android:id="@+id/PeopleNamesInTask_in_list"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="12dp"-->
+<!--                android:text="Daniil, Natalya, Anton"-->
+<!--                android:textColor="@color/darkest_purple_col" />-->
         </LinearLayout>
 
         <LinearLayout
@@ -62,20 +62,30 @@
                 android:layout_height="wrap_content"
                 android:text="Not Started"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/teamIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TaskHeaderLayout"
+        app:srcCompat="@drawable/icons8_team_96"
+        tools:visibility="visible" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/TaskHeaderLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/teamIcon" />
 
     <TextView
         android:id="@+id/TaskTimeRange_in_list"
