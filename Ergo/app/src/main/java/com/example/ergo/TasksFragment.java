@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -162,6 +163,7 @@ public class TasksFragment extends Fragment {
             TextView taskPriority = convertView.findViewById(R.id.PriorityLabel_in_task);
             TextView taskStatus = convertView.findViewById(R.id.StatusLabel_in_task);
             TextView taskTimeRange = convertView.findViewById(R.id.TaskTimeRange_in_list);
+            Button completionButton = convertView.findViewById(R.id.completedButton);
             View teamIcon = convertView.findViewById(R.id.teamIcon);
 
             //changed here!!!!!!!!!!!! visibility of team icon   remove! here to check
@@ -171,35 +173,49 @@ public class TasksFragment extends Fragment {
                 teamIcon.setVisibility(View.GONE);
             }
 
+            boolean[] isCompleted = {task.getStatus() == 3}; // Assume status 3 means completed; adjust if needed
+
+            // Set initial image
+            completionButton.setBackgroundResource(isCompleted[0] ? R.drawable.checkbox_on : R.drawable.checkbox_off);
+
+            completionButton.setOnClickListener(v -> {
+                isCompleted[0] = !isCompleted[0];
+                completionButton.setBackgroundResource(isCompleted[0] ? R.drawable.checkbox_on : R.drawable.checkbox_off);
+
+                // Update task status here
+
+            });
+
+
             String priority = "";
             String status = "";
 
             switch (task.getPriority()) {
-                case 1:
-                    priority = "Not Started";
-                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_red));
+                case 3:
+                    priority = "Light";
+                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_green));
                     break;
                 case 2:
                     taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_yellow));
-                    priority = "In Progress";
+                    priority = "Medium";
                     break;
-                case 3:
-                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_green));
-                    priority = "Completed";
+                case 1:
+                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_red));
+                    priority = "Severe";
                     break;
             }
             switch (task.getStatus()) {
                 case 1:
-                    taskStatus.setTextColor(ContextCompat.getColor(context, R.color.status_green));
-                    status = "Light";
+                    taskStatus.setTextColor(ContextCompat.getColor(context, R.color.status_red));
+                    status = "Not Started";
                     break;
                 case 2:
                     taskStatus.setTextColor(ContextCompat.getColor(context, R.color.status_yellow));
-                    status = "Medium";
+                    status = "In Progress";
                     break;
                 case 3:
-                    taskStatus.setTextColor(ContextCompat.getColor(context, R.color.status_red));
-                    status = "Severe";
+                    taskStatus.setTextColor(ContextCompat.getColor(context, R.color.status_green));
+                    status = "Completed";
                     break;
             }
 
@@ -232,6 +248,14 @@ public class TasksFragment extends Fragment {
             }
         }
     }
+
+
+    private void performCompleteTask(boolean isCompleted) {
+        if (isCompleted) {
+
+        }
+    }
+
 
     private void setListViewHeightBasedOnChildren(ListView listView) {
         ArrayAdapter adapter = (ArrayAdapter) listView.getAdapter();
