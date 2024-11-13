@@ -26,13 +26,16 @@ import com.example.ergo.model.Task;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
+import com.example.ergo.retrofit.UserAPI;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +51,7 @@ public class AddTaskFragment extends Fragment {
     private Calendar calendar;
 
     private User user;
+    private User friend;
     private Spinner PrioritySpinner;
     private Spinner StatusSpinner;
 
@@ -55,9 +59,12 @@ public class AddTaskFragment extends Fragment {
     //searching for users
     private SearchView userSearchView;
     private ListView userListView;
-    private ArrayAdapter<User> userAdapter;
-    private List<User> userList = new ArrayList<>();
-    private List<Integer> friendsList = new ArrayList<>();
+//    private ArrayAdapter<User> userAdapter;
+    private ArrayAdapter<Map<String, Object>> userAdapter;
+//    private List<User> userList = new ArrayList<>();
+    private List<Map<String, Object>> userList = new ArrayList<>();
+    private List<User> friendsList = new ArrayList<>();
+    private List<Map<String, Object>> filteredList = new ArrayList<>();
 
     //undertasks
     private LinearLayout elementsContainer;
@@ -106,7 +113,27 @@ public class AddTaskFragment extends Fragment {
 
 
         // Set up the adapter for displaying all users
-        userAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, userList);
+        userAdapter = new ArrayAdapter<Map<String, Object>>(getActivity(), android.R.layout.simple_list_item_1, userList) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                // Inflate the view if it does not exist
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+                }
+
+                // Get the current user map
+                Map<String, Object> currentUser = getItem(position);
+                String username = (String) currentUser.get("username");
+
+                // Set the username in the TextView
+                TextView textView = convertView.findViewById(android.R.id.text1);
+                textView.setText(username);
+
+                return convertView;
+            }
+        };
+
         userListView.setAdapter(userAdapter);
 
         // Set up search view to filter users by name
@@ -118,15 +145,43 @@ public class AddTaskFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                filterUsers(newText); // Filter users based on input text
+                if (newText.isEmpty()) {
+                    filteredList.clear();
+                    userAdapter.clear();
+                    userAdapter.notifyDataSetChanged();
+                    userListView.setVisibility(View.GONE);
+                } else {
+                    filterFriends(newText);
+                }
                 return true;
             }
         });
 
-//        loadFriends();
-//        // Load all users initially (only once)
-//        loadAllUsers();
+        // Set up the item click listener for the user list
+        userListView.setOnItemClickListener((parent, itemView, position, id) -> {
+            // Get the selected user's map
+            Map<String, Object> selectedUserMap = userAdapter.getItem(position);
 
+            // Extract the user's ID and username
+            Long userId = (Long) selectedUserMap.get("id");
+            String username = (String) selectedUserMap.get("username");
+
+            // Find the User object from the friends list based on the ID
+            for (User friend : friendsList) {
+                if (friend.getId() == userId) {
+                    this.friend = friend; // Assign the selected friend to the `friend` variable
+                    break;
+                }
+            }
+            userSearchView.setQuery(username, false);
+            filteredList.clear();
+            userAdapter.clear();
+            userAdapter.notifyDataSetChanged();
+            userListView.setVisibility(View.GONE);
+
+        });
+
+        loadFriends();
         elementsContainer = view.findViewById(R.id.elements_container);
         addElementButton = view.findViewById(R.id.add_element_button);
         addElementButton.setOnClickListener(v -> addElement());
@@ -138,109 +193,43 @@ public class AddTaskFragment extends Fragment {
         return view;
     }
 
+    private void loadFriends(){
+        UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
+        userAPI.getAllFriends(user.getId()).enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                friendsList = response.body();
+                Log.d("Friends", friendsList.toString());
+            }
 
-//    //PROBLEM FETCH FRIENDS
-//    private void loadFriends(){
-//        UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
-//        userAPI.getAllFriends(user.getId()).enqueue(new Callback<List<Integer>>() {
-//            @Override
-//            public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    friendsList.clear();
-//                    friendsList = response.body();
-//
-//                    Log.d("Friends list", friendsList.toString());
-//                    userAdapter.notifyDataSetChanged();
-//                } else {
-//                    Toast.makeText(getActivity(), "Failed to fetch friends", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Integer>> call, Throwable throwable) {
-//                Toast.makeText(getActivity(), "Error fetching users", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
-//
-//    private void loadAllUsers() {
-//        UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
-//        userAPI.getAllUsers().enqueue(new Callback<List<User>>() {
-//            @Override
-//            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    userList.clear();
-//                    List<User> allUsers = response.body();
-//
-//                    // Filter users whose IDs appear in friendsList
-//                    for (User user : allUsers) {
-//                        if (friendsList.contains(user.getId())) {
-//                            userList.add(user);
-//                        }
-//                    }
-//
-//                    Log.d("Filtered User list", userList.toString());
-//                    userAdapter.notifyDataSetChanged();
-//                } else {
-//                    Toast.makeText(getActivity(), "Failed to fetch users", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<User>> call, Throwable throwable) {
-//                Toast.makeText(getActivity(), "Error fetching users", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
-//
-//
-//    // Method to filter users locally
-//    private void filterUsers(String query) {
-//        List<User> filteredList = new ArrayList<>();
-//        for (User user : userList) {
-//            if (user.getUsername().toLowerCase().contains(query.toLowerCase())) {
-//                filteredList.add(user); // Only add matching users to the filtered list
-//            }
-//        }
-//
-//        userAdapter.clear(); // Clear previous suggestions
-//        userAdapter.addAll(filteredList); // Add filtered suggestions
-//        userAdapter.notifyDataSetChanged();
-//    }
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable throwable) {
+                Toast.makeText(getActivity(),"Fail to fetch friends",Toast.LENGTH_LONG);
+            }
+        });
+    }
 
 
-//    private void loadFriends() {
-//        //actual friends
-////        friends.add(new Friend("A"));
-//    }
 
-//
-//    private void setupFriendSelection(View view) {
-//        LinearLayout friendsLayout = view.findViewById(R.id.Friends_to_add_to_task);
-//
-//        for (Friend friend : friends) {
-//            View friendView = LayoutInflater.from(getContext()).inflate(R.layout.choose_friends_list_item, friendsLayout, false);
-//            TextView friendName = friendView.findViewById(R.id.Friend_item_name);
-//            Switch friendSwitch = friendView.findViewById(R.id.Friend_item_switch);
-//
-//            friendName.setText(friend.getName());
-//
-//            friendView.setOnClickListener(v -> {
-//                // Toggle the selected state
-//                friend.setSelected(!friend.isSelected());
-//                friendSwitch.setChecked(friend.isSelected());
-//
-//                // Change the background based on selection
-//                if (friend.isSelected()) {
-//                    friendSwitch.setBackgroundResource(R.drawable.switch_clicked);
-//                } else {
-//                    friendSwitch.setBackgroundResource(R.drawable.switch_not_clicked);
-//                }
-//            });
-//
-//            friendsLayout.addView(friendView);
-//        }
-//    }
+
+    // Method to filter users locally
+    private void filterFriends(String query) {
+
+        for (User friend : friendsList) {
+            if (friend.getUsername().toLowerCase().contains(query.toLowerCase())) {
+                Map<String, Object> userMap = new HashMap<>();
+                userMap.put("id", friend.getId());
+                userMap.put("username", friend.getUsername());
+                filteredList.add(userMap);
+                userListView.setVisibility(View.VISIBLE);
+            }
+        }
+        Log.d("Filter", "Filtered list size: " + filteredList.size());
+
+        userAdapter.clear();
+        userAdapter.addAll(filteredList);
+        userAdapter.notifyDataSetChanged();
+    }
 
     private void addElement() {
         View elementView = LayoutInflater.from(getActivity()).inflate(R.layout.dynamic_undertask,
@@ -387,9 +376,15 @@ public class AddTaskFragment extends Fragment {
         task.setStartDate(selectedStartDate);
         task.setStopDate(selectedEndDate);
         task.setDescription(description);
-        task.setUser(user);
         task.setStatus(status);
         task.setPriority(priority);
+
+        if (friend != null){
+            task.setUser(friend);
+        }
+        else {
+            task.setUser(user);
+        }
 
         // Log the Task object to debug the data being sent
         Log.d("Task Data", task.toString());

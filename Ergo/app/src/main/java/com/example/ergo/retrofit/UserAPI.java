@@ -26,7 +26,7 @@ public interface UserAPI {
     Call<List<User>> getAllUsers();
 
     @GET("/user/get-friends")
-    Call<List<User>> getAllFriends(@Query("id") Long id);
+    Call<List<User>> getAllFriends(@Query("userId") Long userId);
 
 
     //================POST=====================
