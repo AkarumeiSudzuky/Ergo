@@ -1,7 +1,9 @@
 package com.ergo.Springserver.model.task;
 
+import com.ergo.Springserver.model.team.Team;
 import com.ergo.Springserver.model.user.User;
 import jakarta.persistence.*;
+import org.apache.catalina.Group;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,9 +21,21 @@ public class Task {
     private String title;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id", nullable = true)
+    @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "group_id", nullable = true)
+    private Team team;
+
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 
     // Getters and Setters
     public int getId() {
@@ -100,6 +114,7 @@ public class Task {
                 ", status=" + status +
                 ", title='" + title + '\'' +
                 ", user=" + user +
+                ", team=" + team +
                 '}';
     }
 }
