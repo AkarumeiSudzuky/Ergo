@@ -1,5 +1,7 @@
 package com.ergo.Springserver.model.task;
 
+import com.ergo.Springserver.model.team.Team;
+import com.ergo.Springserver.model.team.TeamRepository;
 import com.ergo.Springserver.model.user.User;
 import com.ergo.Springserver.model.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,10 +22,14 @@ public class TaskDao {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TeamRepository teamRepository;
+
     @Transactional
     public void saveTask(Task task) {
         // Assuming the task has a method to get the associated User
         User user = task.getUser();
+        Team team = task.getTeam();
 
         // Save the user first if it's not already saved
         if (user.getId() == null) {
@@ -31,6 +37,13 @@ public class TaskDao {
         } else {
             user = userRepository.findById(user.getId())
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        }
+        if (team == null) {
+            team = teamRepository.save(team);
+        }
+        else{
+            team = teamRepository.findById(team.getId()).orElseThrow(() -> new EntityNotFoundException("Team not found"));
+            task.setTeam(team);
         }
 
         task.setUser(user);
@@ -54,6 +67,18 @@ public class TaskDao {
         return tasks;
     }
 
+
+    public List<Task> getAllTasksForTeam(int teamId) {
+        List<Task> tasks = taskRepository.findByTeamId(teamId);
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks found for team with ID: " + teamId);
+        }
+        else {
+            System.out.println("Retrieved tasks for team with ID " + teamId + ": " + tasks);
+        }
+
+        return tasks;
+    }
 
 
     // Update task status

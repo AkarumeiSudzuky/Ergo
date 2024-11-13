@@ -16,6 +16,9 @@ public interface TaskAPI {
     Call<List<Task>> getTasksForUser(@Query("userId") Long userId);
 
 
+    @GET("/task/get-tasks-for-team")
+    Call<List<Task>> getTasksForTeam(@Query("teamId") int teamId);
+
 
     //=============POST==========================
     @POST("/task/save")

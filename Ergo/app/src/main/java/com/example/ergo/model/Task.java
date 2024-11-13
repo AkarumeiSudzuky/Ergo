@@ -25,7 +25,7 @@ public class Task implements Serializable {
     //    @ManyToOne(cascade = CascadeType.PERSIST)
 //    @JoinColumn(name = "user_id", nullable = true)
     private User user;
-
+    private Team team;
 
     // Getters and Setters
     public int getId() {
@@ -52,14 +52,6 @@ public class Task implements Serializable {
         this.priority = priority;
     }
 
-//    public Date getStartDate() {
-//        return startDate;
-//    }
-
-
-//    public Date getStopDate() {
-//        return stopDate;
-//    }
 
     public void setStartDate(Date startDate) {
         this.startDateIso = formatToIso8601(startDate);
