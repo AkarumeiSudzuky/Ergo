@@ -40,6 +40,8 @@ public class TasksFragment extends Fragment {
     private ListView tasksListViewNotDue;
     private List<Task> tasksDueToday = new ArrayList<>();
     private List<Task> tasksNotDue = new ArrayList<>();
+    private List<Task> completedTasks = new ArrayList<>();
+    private List<Task> notCompletedTasks = new ArrayList<>();
 
     @Nullable
     @Override
@@ -80,7 +82,8 @@ public class TasksFragment extends Fragment {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         List<Task> allTasks = response.body();
-                        separateTasksByDate(allTasks);
+                        //!
+                        sortTasksByDate(allTasks);
                     } else {
                         showToast("No tasks found in the response body.");
                     }
@@ -97,9 +100,10 @@ public class TasksFragment extends Fragment {
         });
     }
 
-    private void separateTasksByDate(List<Task> allTasks) {
-        String today = getTodayDate();
+    private void sortTasksByDate(List<Task> allTasks) {
+        String today = String.valueOf(LocalDate.now());  // Get today's date
 
+        // Separate tasks into "Due Today" and "Not Due"
         for (Task task : allTasks) {
             if (task.getStopDate().substring(0, 10).equals(today)) {
                 tasksDueToday.add(task);
@@ -108,17 +112,25 @@ public class TasksFragment extends Fragment {
             }
         }
 
+        // Set the adapter for tasks due today
         TaskAdapter dueTodayAdapter = new TaskAdapter(getContext(), tasksDueToday, user);
         tasksListViewDueToday.setAdapter(dueTodayAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewDueToday);
+        setListViewHeightBasedOnChildren(tasksListViewDueToday); // Adjust height based on content
 
+        // Set the adapter for tasks not due today
         TaskAdapter notDueAdapter = new TaskAdapter(getContext(), tasksNotDue, user);
         tasksListViewNotDue.setAdapter(notDueAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewNotDue);
+        setListViewHeightBasedOnChildren(tasksListViewNotDue); // Adjust height based on content
     }
 
-    private String getTodayDate() {
-        return "2024-11-11"; // Example hardcoded date
+    private void sortTasksByProgress(List<Task> allTasks){
+        for (Task task : allTasks) {
+            if (task.getStatus() == 1) {
+                completedTasks.add(task);
+            } else {
+                notCompletedTasks.add(task);
+            }
+        }
     }
 
     private void showToast(String message) {
@@ -152,7 +164,7 @@ public class TasksFragment extends Fragment {
             TextView taskTimeRange = convertView.findViewById(R.id.TaskTimeRange_in_list);
             View teamIcon = convertView.findViewById(R.id.teamIcon);
 
-            //changed here!!!!!!!!!!!! visibility of team icon
+            //changed here!!!!!!!!!!!! visibility of team icon   remove! here to check
             if (currentUser != null && task.getUser() != null && !task.getUser().getId().equals(currentUser.getId())) {
                 teamIcon.setVisibility(View.VISIBLE);
             } else {

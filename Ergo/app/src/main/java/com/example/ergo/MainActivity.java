@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
             selectedFragment = new FriendsFragment();
         }
 
+        //TO-DO add here to if statement another screen. specifically groups
+
         if (selectedFragment != null) {
             loadFragment(selectedFragment, activeUser);  // Pass activeUser to the fragment
         }
