@@ -53,11 +53,6 @@ public class TasksFragment extends Fragment {
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable("user");
         }
-        if (user != null) {
-            Toast.makeText(getActivity(), "User ID: " + user.getId(), Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "User not found!", Toast.LENGTH_LONG).show();
-        }
 
         // Initialize ListViews
         tasksListViewDueToday = view.findViewById(R.id.TasksListViewDueToday);
@@ -129,15 +124,7 @@ public class TasksFragment extends Fragment {
         setListViewHeightBasedOnChildren(tasksListViewNotDue); // Adjust height based on content
     }
 
-    private void sortTasksByProgress(List<Task> allTasks){
-        for (Task task : allTasks) {
-            if (task.getStatus() == 1) {
-                completedTasks.add(task);
-            } else {
-                notCompletedTasks.add(task);
-            }
-        }
-    }
+
 
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
@@ -187,7 +174,11 @@ public class TasksFragment extends Fragment {
                 isCompleted[0] = !isCompleted[0];
                 completionButton.setBackgroundResource(isCompleted[0] ? R.drawable.checkbox_on : R.drawable.checkbox_off);
 
-                // Update task status here
+                if (isCompleted[0]) {
+                    updateTaskStatus(task.getId(), 3);
+                } else {
+                    updateTaskStatus(task.getId(), 2);
+                }
 
             });
 
@@ -254,12 +245,42 @@ public class TasksFragment extends Fragment {
         }
     }
 
+    private void updateTaskStatus(int taskId, int newStatus) {
+        RetrofitService retrofitService = new RetrofitService();
+        TaskAPI taskAPI = retrofitService.getRetrofit().create(TaskAPI.class);
 
-    private void performCompleteTask(boolean isCompleted) {
-        if (isCompleted) {
+        taskAPI.updateStatus(taskId, newStatus).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    for (Task task : tasksDueToday) {
+                        if (task.getId() == taskId) {
+                            task.setStatus(newStatus);
+                        }
+                    }
 
-        }
+                    for (Task task : tasksNotDue) {
+                        if (task.getId() == taskId) {
+                            task.setStatus(newStatus);
+                        }
+                    }
+
+                    // Notify adapters about data changes
+                    ((ArrayAdapter) tasksListViewDueToday.getAdapter()).notifyDataSetChanged();
+                    ((ArrayAdapter) tasksListViewNotDue.getAdapter()).notifyDataSetChanged();
+                } else {
+                    Log.e("TasksFragment", "Failed to update task status for task ID: " + taskId + ". Response code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                showToast("Error: Unable to update task status.");
+                Log.e("TasksFragment", "Error occurred while updating task status", throwable);
+            }
+        });
     }
+
 
 
     private void setListViewHeightBasedOnChildren(ListView listView) {
@@ -283,4 +304,6 @@ public class TasksFragment extends Fragment {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
+
 }

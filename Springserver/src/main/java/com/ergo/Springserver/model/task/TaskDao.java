@@ -72,8 +72,6 @@ public class TaskDao {
         List<Task> tasks = taskRepository.findByUserId(id);
         if (tasks.isEmpty()) {
             System.out.println("No tasks found for user with ID: " + id);
-        } else {
-            System.out.println("Retrieved tasks for user with ID " + id + ": " + tasks);
         }
         return tasks;
     }
@@ -84,20 +82,18 @@ public class TaskDao {
         if (tasks.isEmpty()) {
             System.out.println("No tasks found for team with ID: " + teamId);
         }
-        else {
-            System.out.println("Retrieved tasks for team with ID " + teamId + ": " + tasks);
-        }
+        
 
         return tasks;
     }
 
 
     // Update task status
-    public boolean updateTaskStatus(Long taskId, String newStatus) {
-        Optional<Task> optionalTask = taskRepository.findById(taskId);
+    public boolean updateTaskStatus(int taskId, int newStatus) {
+        Optional<Task> optionalTask = taskRepository.findById((long) taskId);
         if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
-            task.setStatus(Integer.parseInt(newStatus));
+            task.setStatus(newStatus);
             taskRepository.save(task);
             return true;
         } else {
