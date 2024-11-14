@@ -13,7 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="64dp">
+        android:layout_marginBottom="64dp"
+        tools:ignore="ScrollViewSize">
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -26,79 +27,37 @@
             app:srcCompat="@drawable/sign_in"
             tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/DueTodayLayout"
-            android:layout_width="0dp"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="48dp"
-            app:layout_constraintBottom_toTopOf="@+id/DueNotTodayLayout"
+            android:background="@color/app_background_col"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/imageButton">
 
-            <TextView
-                android:id="@+id/TaskDueTodayText"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/currentTabItemText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="16dp"
-                android:text="@string/tasks_due_today"
-                android:textColor="@color/darkest_purple_col"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="@string/current" />
 
-
-            <ListView
-                android:id="@+id/TasksListViewDueToday"
-                android:layout_width="0dp"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/completedTabItemText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TaskDueTodayText" />
+                android:text="@string/completed" />
+        </com.google.android.material.tabs.TabLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/DueNotTodayLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginBottom="100dp"
-            app:layout_constraintBottom_toBottomOf="@+id/DueTodayLayout"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="850dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/DueTodayLayout">
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
-            <TextView
-                android:id="@+id/TaskNotYetDueT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/task_not_due_today"
-                android:textColor="@color/darkest_purple_col"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ListView
-                android:id="@+id/TaskListViewNotDue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TaskNotYetDueT" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

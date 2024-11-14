@@ -68,6 +68,8 @@
     <string name="add_undertask_to_friends">Add undertask to friends</string>
     <string name="task_not_due_today">Task not due today</string>
     <string name="delete_friend">Delete Friend</string>
+    <string name="completed">Completed</string>
+    <string name="current">Current</string>
     <string-array name="spinner_priority_items">
         <item>Light</item>
         <item>Medium</item>
