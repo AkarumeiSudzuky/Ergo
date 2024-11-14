@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface TaskAPI {
@@ -23,4 +24,9 @@ public interface TaskAPI {
     //=============POST==========================
     @POST("/task/save")
     Call<Void>saveTask(@Body Task task);
+
+
+    //=============PUT============================
+    @PUT("/task/update-task-status")
+    Call<Void> updateStatus(@Query("taskId") int taskId, @Query("status") int status);
 }

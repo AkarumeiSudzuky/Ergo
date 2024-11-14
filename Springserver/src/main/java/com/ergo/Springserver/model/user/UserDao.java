@@ -34,6 +34,12 @@ public class UserDao {
 
     // Retrieve list of friends for a specific user by ID
     public List<User> getFriends(Long userId) {
+
+        if (userId == null) {
+            // Handle the case where userId is null, maybe log it or return an empty list
+            return new ArrayList<>();
+        }
+
         User user = usrRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
@@ -55,6 +61,7 @@ public class UserDao {
 
         return new ArrayList<>(allFriends);
     }
+
 
 
     // Add a friend to a specific user

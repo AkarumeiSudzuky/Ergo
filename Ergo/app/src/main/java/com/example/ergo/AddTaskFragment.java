@@ -387,10 +387,6 @@ public class AddTaskFragment extends Fragment {
         }
         task.setTeam(null);
 
-        // Log the Task object to debug the data being sent
-        Log.d("Task Data", task.toString());
-
-
 
         task.setStartDate(selectedStartDate);
         task.setStopDate(selectedEndDate);
