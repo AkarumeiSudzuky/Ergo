@@ -12,12 +12,15 @@ import com.example.ergo.model.User;
 
 import java.util.ArrayList;
 
-public class TasksPagerAdapter extends FragmentPagerAdapter {
-    private User user;  // Store the user object
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import androidx.fragment.app.FragmentStatePagerAdapter;
+
+public class TasksPagerAdapter extends FragmentStatePagerAdapter {
+    private User user;
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private final ArrayList<String> fragmentTitle = new ArrayList<>();
 
-    // Accept user in the constructor
     public TasksPagerAdapter(@NonNull FragmentManager fm, int behavior, User user) {
         super(fm, behavior);
         this.user = user;
@@ -27,14 +30,6 @@ public class TasksPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Fragment fragment = fragmentArrayList.get(position);
-
-//        // Pass the user to the fragments when required
-//        if (fragment instanceof CurrentTasksFragment) {
-//            ((CurrentTasksFragment) fragment).setUser(user);
-//        } else if (fragment instanceof CompletedTasksFragment) {
-//            ((CompletedTasksFragment) fragment).setUser(user);
-//        }
-
         return fragment;
     }
 
@@ -49,8 +44,6 @@ public class TasksPagerAdapter extends FragmentPagerAdapter {
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);
         fragment.setArguments(bundle);
-
-
     }
 
     @Nullable

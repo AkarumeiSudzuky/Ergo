@@ -68,25 +68,23 @@ public class CurrentTasksFragment extends Fragment {
     }
 
     private void fetchTasks() {
+        if (!tasksDueToday.isEmpty() || !tasksNotDue.isEmpty()) {
+            updateUI(); // If data already exists, just update the UI
+            return;
+        }
+
         RetrofitService retrofitService = new RetrofitService();
         TaskAPI taskAPI = retrofitService.getRetrofit().create(TaskAPI.class);
 
-        Call<List<Task>> call = taskAPI.getTasksForUser(user.getId());
-        call.enqueue(new Callback<List<Task>>() {
+        Long userId = user.getId();
+        taskAPI.getTasksForUser (userId).enqueue(new Callback<List<Task>>() {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         List<Task> allTasks = response.body();
-                        //!
                         sortTasksByDate(allTasks);
-                        updateUI();
-                    } else {
-                        showToast("No tasks found in the response body.");
                     }
-                } else {
-                    showToast("Failed to fetch tasks. HTTP Status: " + response.code());
-                    Log.e("CurrentTasksFragment", "Error response: " + response.code() + " " + response.message());
                 }
             }
 

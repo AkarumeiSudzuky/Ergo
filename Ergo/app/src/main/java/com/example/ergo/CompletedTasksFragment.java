@@ -75,28 +75,36 @@ public class CompletedTasksFragment extends Fragment {
         return view;
     }
 
+    private void updateUI() {
+        // Set the adapter for tasks due today
+        CompletedTasksFragment.TaskAdapter dueTodayAdapter = new CompletedTasksFragment.TaskAdapter(getContext(), tasksDueToday, user);
+        tasksListViewDueToday.setAdapter(dueTodayAdapter);
+        setListViewHeightBasedOnChildren(tasksListViewDueToday); // Adjust height based on content
+
+        // Set the adapter for tasks not due today
+        CompletedTasksFragment.TaskAdapter notDueAdapter = new CompletedTasksFragment.TaskAdapter(getContext(), tasksNotDue, user);
+        tasksListViewNotDue.setAdapter(notDueAdapter);
+        setListViewHeightBasedOnChildren(tasksListViewNotDue); // Adjust height based on content
+    }
+
     private void fetchTasks() {
+        if (!tasksDueToday.isEmpty() || !tasksNotDue.isEmpty()) {
+            updateUI(); // If data already exists, just update the UI
+            return;
+        }
+
         RetrofitService retrofitService = new RetrofitService();
         TaskAPI taskAPI = retrofitService.getRetrofit().create(TaskAPI.class);
 
         Long userId = user.getId();
-        Log.d("user_id", userId.toString());
-
-
-        taskAPI.getTasksForUser(userId).enqueue(new Callback<List<Task>>() {
+        taskAPI.getTasksForUser (userId).enqueue(new Callback<List<Task>>() {
             @Override
             public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         List<Task> allTasks = response.body();
-                        //!
                         sortTasksByDate(allTasks);
-                    } else {
-                        showToast("No tasks found in the response body.");
                     }
-                } else {
-                    showToast("Failed to fetch tasks. HTTP Status: " + response.code());
-                    Log.e("TasksFragment", "Error response: " + response.code() + " " + response.message());
                 }
             }
 
@@ -172,12 +180,9 @@ public class CompletedTasksFragment extends Fragment {
             Button completionButton = convertView.findViewById(R.id.completedButton);
             View teamIcon = convertView.findViewById(R.id.teamIcon);
 
+
             //changed here!!!!!!!!!!!! visibility of team icon   remove! here to check
-//            if (currentUser != null && task.getUser() != null && !task.getUser().getId().equals(currentUser.getId())) {
-//                teamIcon.setVisibility(View.VISIBLE);
-//            } else {
-//                teamIcon.setVisibility(View.GONE);
-//            }
+            // if (currentUser != null && task.getUser() != null && !task.getUser().getId().equals(currentUser.getId())) { // teamIcon.setVisibility(View.VISIBLE); // } else { // teamIcon.setVisibility(View.GONE); // }
 
             boolean[] isCompleted = {task.getStatus() == 3}; // Assume status 3 means completed; adjust if needed
 
