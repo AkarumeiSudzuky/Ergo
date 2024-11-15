@@ -242,7 +242,7 @@ public class CompletedTasksFragment extends Fragment {
                 FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                 TaskDetailsFragment taskDetailsFragment = new TaskDetailsFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("task", selectedTask);
+                bundle.putSerializable("task", selectedTask); // Pass the task object
                 taskDetailsFragment.setArguments(bundle);
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, taskDetailsFragment) // Replace with your container ID

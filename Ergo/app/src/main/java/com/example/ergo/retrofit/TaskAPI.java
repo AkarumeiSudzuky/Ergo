@@ -21,6 +21,9 @@ public interface TaskAPI {
     Call<List<Task>> getTasksForTeam(@Query("teamId") int teamId);
 
 
+    @GET("/task/get-task-by-id") // Update this path as per your API design
+    Call<Task> getTaskById(@Query("taskId") int taskId);
+
     //=============POST==========================
     @POST("/task/save")
     Call<Void>saveTask(@Body Task task);
