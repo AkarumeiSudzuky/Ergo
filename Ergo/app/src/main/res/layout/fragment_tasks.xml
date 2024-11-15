@@ -17,6 +17,23 @@
         android:minHeight="850dp"
         tools:ignore="ScrollViewSize">
 
+        <TextView
+            android:id="@+id/textView2"
+            style="bol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_edittext_background_pink"
+            android:paddingHorizontal="16dp"
+            android:text="Import"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
