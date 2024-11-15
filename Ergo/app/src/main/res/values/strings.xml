@@ -77,6 +77,8 @@
     <string name="priority_placeholder">priority placeholder</string>
     <string name="title_placeholder">title placeholder</string>
     <string name="task_details">Task Details</string>
+    <string name="add_task">Add Task</string>
+    <string name="tasks">Tasks</string>
     <string-array name="spinner_priority_items">
         <item>Light</item>
         <item>Medium</item>

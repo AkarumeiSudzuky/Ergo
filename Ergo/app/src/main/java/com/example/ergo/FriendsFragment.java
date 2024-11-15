@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class FriendsFragment extends Fragment {
     private Button addNewFriendButton;
-    private Button addNewGroupButton;
+    //private Button addNewGroupButton;
     private ListView friendsListView;
     private User user;
     private List<User> friendsList = new ArrayList<>();
@@ -45,11 +45,11 @@ public class FriendsFragment extends Fragment {
         }
 
         addNewFriendButton = view.findViewById(R.id.AddNewFriendButton);
-        addNewGroupButton = view.findViewById(R.id.AddNewGroupButton);
+        //addNewGroupButton = view.findViewById(R.id.AddNewGroupButton);
         friendsListView = view.findViewById(R.id.FriendListView);
 
         addNewFriendButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewFriendFragment(), user));
-        addNewGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewGroupFragment(), user));
+        //addNewGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewGroupFragment(), user));
 
         fetchFriendsList();
 

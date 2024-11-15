@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
             selectedFragment = new AddTaskFragment();
         } else if (id == R.id.friends) {
             selectedFragment = new FriendsFragment();
+        } else if (id == R.id.groups) {
+            selectedFragment = new GroupsFragment();
         }
 
         //TO-DO add here to if statement another screen. specifically groups

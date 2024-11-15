@@ -3,17 +3,22 @@
 
     <item
         android:id="@+id/tasks_tab_item"
-        android:title="Tasks"
+        android:title="@string/tasks"
         android:icon="@drawable/date_fill" />
 
     <item
         android:id="@+id/new_task"
         android:icon="@drawable/file_dock_add_fill"
         android:iconTint="#5A185F"
-        android:title="Add Task" />
+        android:title="@string/add_task" />
 
     <item
-        android:title="Friends"
+        android:title="@string/friends"
         android:icon="@drawable/group_fill"
         android:id="@+id/friends" />
+
+    <item
+        android:id="@+id/groups"
+        android:icon="@drawable/icons8_team_96"
+        android:title="@string/groups" />
 </menu>
