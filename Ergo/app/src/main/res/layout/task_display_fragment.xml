@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/app_background_col"
+    android:minHeight="850dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="48dp"
+        android:paddingTop="48dp"
+        android:paddingEnd="48dp">
+
+        <TextView
+            android:id="@+id/TaskDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:text="Task Details"
+            android:textColor="@color/darkest_purple_col"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/title"
+            android:textColor="@color/darkest_purple_col"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/no_color_button"
+            android:padding="10dp"
+            android:text="title placeholder"
+            android:textColor="@color/dark_purple_col"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/PriorityText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/priority"
+            android:textColor="@color/darkest_purple_col"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/PrioritySpinnerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/no_color_button"
+            android:padding="10dp"
+            android:text="priority placeholder"
+            android:textColor="@color/dark_purple_col"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/StatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/status"
+            android:textColor="@color/darkest_purple_col"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/StatusSpinnerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/no_color_button"
+            android:padding="10dp"
+            android:text="status placeholder"
+            android:textColor="@color/dark_purple_col"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/StartDateLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/start_date"
+            android:textColor="@color/darkest_purple_col"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/StartDateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/no_color_button"
+            android:padding="10dp"
+            android:text="start date placeholder"
+            android:textColor="@color/dark_purple_col"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/EndDateLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/end_date"
+            android:textColor="@color/darkest_purple_col"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/EndDateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/no_color_button"
+            android:padding="10dp"
+            android:text="end date placeholder"
+            android:textColor="@color/dark_purple_col"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/DescriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/description"
+            android:textColor="@color/darkest_purple_col"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/DescriptionPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/no_color_button"
+            android:padding="10dp"
+            android:text="description placeholder text"
+            android:textColor="@color/dark_purple_col"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</ScrollView>
