@@ -101,4 +101,10 @@ public class TaskDao {
         }
     }
 
+    //
+    public Task getTaskById(int taskId) {
+        return taskRepository.findById((long) taskId)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found with ID: " + taskId));
+    }
+
 }

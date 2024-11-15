@@ -25,6 +25,12 @@ public class TaskController {
         return taskDao.getAllTasksForTeam(teamId);
     }
 
+    //
+    @GetMapping("/task/get-task-by-id")
+    public Task getTaskById(@RequestParam int taskId) {
+        return taskDao.getTaskById(taskId);
+    }
+
 
     //=================Post===============
 
