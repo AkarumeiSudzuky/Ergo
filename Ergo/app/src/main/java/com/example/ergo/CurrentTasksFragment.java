@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.ergo.model.Task;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
@@ -233,6 +236,20 @@ public class CurrentTasksFragment extends Fragment {
             taskPriority.setText(priority);
             taskStatus.setText(status);
             taskTimeRange.setText(formatIsoDate(task.getStopDate()));
+
+            convertView.setOnClickListener(v -> {
+                Task selectedTask = tasks.get(position);
+                // Navigate to TaskDetailsFragment
+                FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+                TaskDetailsFragment taskDetailsFragment = new TaskDetailsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("task", selectedTask);
+                taskDetailsFragment.setArguments(bundle);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, taskDetailsFragment) // Replace with your container ID
+                        .addToBackStack(null) // Optional: Add to back stack
+                        .commit();
+            });
 
             return convertView;
         }
