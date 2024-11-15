@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -14,12 +16,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ergo.model.Team;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.UserAPI;
+import com.google.android.material.color.utilities.Contrast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +34,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GroupsFragment extends Fragment {
-    private Button addNewGroupButton;
     private User user;
+
+    private Button addNewGroupButton;
+    private SearchView userSearchView;
+    private ListView groupsListView;
 
     @Nullable
     @Override
@@ -42,122 +50,49 @@ public class GroupsFragment extends Fragment {
         }
 
         addNewGroupButton = view.findViewById(R.id.AddNewGroupButton);
+        groupsListView = view.findViewById(R.id.groupsListView);
+
+
 
         addNewGroupButton.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new AddNewGroupFragment(), user));
 
-//        fetchFriendsList();
+//        fetchGroupsList();
 
         return view;
     }
-//
-//    private void fetchFriendsList() {
-//        RetrofitService retrofitService = new RetrofitService();
-//        UserAPI userAPI = retrofitService.getRetrofit().create(UserAPI.class);
-//
-//        Call<List<User>> call = userAPI.getAllFriends(user.getId());  // Adjust the ID parameter if necessary
-//        call.enqueue(new Callback<List<User>>() {
-//            @Override
-//            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    friendsList = response.body();
-//                    // Use an ArrayAdapter to bind data to the ListView
-//                    FriendsAdapter adapter = new FriendsAdapter(getContext(), friendsList);
-//                    friendsListView.setAdapter(adapter);
-//                } else {
-//                    Toast.makeText(getContext(), "Failed to fetch friends", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<User>> call, Throwable t) {
-//                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    public class FriendsAdapter extends ArrayAdapter<User> {
+
+    //na przyszlosc
+    private void fetchGroupsList() {
+
+    }
+
+
+    //nie zrobione, na przyszlosc
+//    public class GroupsAdapter extends ArrayAdapter<User> {
 //        private Context context;
-//        private List<User> friends;
+//        private List<Team> groups;
 //
-//        public FriendsAdapter(Context context, List<User> friends) {
-//            super(context, R.layout.friend_list_item, friends);
+//        public GroupsAdapter(Context context, List<Team> groups) {
+//            super(context, R.layout.group_list_item, groups);
 //            this.context = context;
-//            this.friends = friends;
+//            this.groups = groups;
 //        }
 //
 //        @NonNull
 //        @Override
-//        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+//        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 //            if (convertView == null) {
-//                convertView = LayoutInflater.from(context).inflate(R.layout.friend_list_item, parent, false);
+//                convertView = LayoutInflater.from(context).inflate(R.layout.group_list_item, parent, false);
 //            }
 //
-//            User friend = friends.get(position);
+//            Team team = groups.get(position);
 //
-//            TextView friendNameTextView = convertView.findViewById(R.id.Friend_list_name);
-//            TextView friendGroupsTextView = convertView.findViewById(R.id.Friend_list_item_in_groups);
 //
-//            friendNameTextView.setText(friend.getUsername()); // Assuming User model has a getUsername() method
-//            friendGroupsTextView.setText("In 0 groups with you"); // Replace this with actual data if available
-//
-//            convertView.setOnClickListener(v -> showPopupMenu(v, friend));
+//            //add movement to new fragment with group info
+//            //convertView.setOnClickListener(v -> );
 //
 //            return convertView;
 //        }
-//
-//        private void showPopupMenu(View v, User friend) {
-//            PopupMenu popupMenu = new PopupMenu(context, v);
-//            MenuInflater inflater = popupMenu.getMenuInflater();
-//            inflater.inflate(R.menu.friend_options_menu, popupMenu.getMenu());
-//
-//            popupMenu.setOnMenuItemClickListener(item -> {
-//                if (item.getItemId() == R.id.delete_friend) {
-//                    showDeleteConfirmationDialog(friend);
-//                    return true;
-//                }
-//                return false;
-//            });
-//
-//            popupMenu.show();
-//        }
-//
-//        private void showDeleteConfirmationDialog(User friend) {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//            builder.setTitle("Delete Friend")
-//                    .setMessage("Are you sure you want to delete " + friend.getUsername() + " from your friends list?")
-//                    .setPositiveButton("Yes", (dialog, which) -> {
-//                        deleteFriend(friend);
-//                    })
-//                    .setNegativeButton("No", null)
-//                    .show();
-//        }
-//
-//        private void deleteFriend(User friend) {
-//            RetrofitService retrofitService = new RetrofitService();
-//            UserAPI userAPI = retrofitService.getRetrofit().create(UserAPI.class);
-//
-//            // Call the removeFriend API
-//            Call<Void> call = userAPI.removeFriend(user.getId(), friend.getId());  // Adjust if necessary
-//            call.enqueue(new Callback<Void>() {
-//                @Override
-//                public void onResponse(Call<Void> call, Response<Void> response) {
-//                    if (response.isSuccessful()) {
-//                        Toast.makeText(context, friend.getUsername() + " has been deleted.", Toast.LENGTH_SHORT).show();
-//                        friends.remove(friend);
-//                        notifyDataSetChanged();
-//                    } else {
-//                        Toast.makeText(context, "Failed to delete friend", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Void> call, Throwable t) {
-//                    Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-//
-//
-//
 //    }
+
 }

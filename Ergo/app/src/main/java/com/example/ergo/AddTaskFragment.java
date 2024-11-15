@@ -59,9 +59,7 @@ public class AddTaskFragment extends Fragment {
     //searching for users
     private SearchView userSearchView;
     private ListView userListView;
-    //    private ArrayAdapter<User> userAdapter;
     private ArrayAdapter<Map<String, Object>> userAdapter;
-    //    private List<User> userList = new ArrayList<>();
     private List<Map<String, Object>> userList = new ArrayList<>();
     private List<User> friendsList = new ArrayList<>();
     private List<Map<String, Object>> filteredList = new ArrayList<>();

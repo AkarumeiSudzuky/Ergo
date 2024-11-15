@@ -40,14 +40,11 @@
             app:layout_constraintTop_toBottomOf="@id/GroupsText">
 
             <ListView
+                android:id="@+id/groupsListView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <include
-                layout="@layout/group_list_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="16dp" />
+
         </LinearLayout>
 
         <Button
