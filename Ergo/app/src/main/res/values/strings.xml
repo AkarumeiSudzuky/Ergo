@@ -70,6 +70,13 @@
     <string name="delete_friend">Delete Friend</string>
     <string name="completed">Completed</string>
     <string name="current">Current</string>
+    <string name="description_placeholder_text">description placeholder text</string>
+    <string name="end_date_placeholder">end date placeholder</string>
+    <string name="start_date_placeholder">start date placeholder</string>
+    <string name="status_placeholder">status placeholder</string>
+    <string name="priority_placeholder">priority placeholder</string>
+    <string name="title_placeholder">title placeholder</string>
+    <string name="task_details">Task Details</string>
     <string-array name="spinner_priority_items">
         <item>Light</item>
         <item>Medium</item>
