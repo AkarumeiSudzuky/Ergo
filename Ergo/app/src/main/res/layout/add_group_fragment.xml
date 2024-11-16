@@ -35,8 +35,6 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <!-- Other Scrollable Content Below the Title -->
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,39 +63,21 @@
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-            <SearchView
-                android:id="@+id/userSearchViewGroup"
+
+            <Spinner
+                android:id="@+id/userSpinnerGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/selectedFriendsText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/no_color_button" />
-
-
-            <ListView
-                android:id="@+id/userListViewGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-
-
-
-<!--            <Button-->
-<!--                android:id="@+id/AddNewMemberButton"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:layout_marginBottom="112dp"-->
-<!--                android:background="@drawable/no_color_button"-->
-<!--                android:backgroundTint="@null"-->
-<!--                android:text="@string/add_a_new_member"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="20sp"-->
-<!--                app:cornerRadius="30dp" />-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:text=""
+                android:textColor="@color/dark_purple_col"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/SaveGroupButton"
@@ -114,5 +94,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

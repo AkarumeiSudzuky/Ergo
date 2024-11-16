@@ -10,11 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,13 +34,10 @@ import retrofit2.Response;
 public class AddNewGroupFragment extends Fragment {
     private User user;
     private Button SaveGroupButton;
-
-    // Searching for users
-    private SearchView userSearchView;
-    private ListView userListView;
-    private ArrayAdapter<Map<String, Object>> userAdapter;
+    private Spinner userSpinner;
+    private TextView selectedFriendsText;
     private List<Map<String, Object>> userList = new ArrayList<>();
-    private List<Map<String, Object>> filteredList = new ArrayList<>();
+    private List<String> selectedFriends = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -48,64 +45,43 @@ public class AddNewGroupFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_group_fragment, container, false);
 
-        // Retrieve the User object from the arguments
         if (getArguments() != null) {
             user = (User ) getArguments().getSerializable("user");
         }
 
         SaveGroupButton = view.findViewById(R.id.SaveGroupButton);
-        userSearchView = view.findViewById(R.id.userSearchViewGroup);
-        userListView = view.findViewById(R.id.userListViewGroup);
-
-        // Set up the adapter for displaying users
-        userAdapter = new ArrayAdapter<Map<String, Object>>(getActivity(), android.R.layout.simple_list_item_1, userList) {
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                // Inflate the view if it does not exist
-                if (convertView == null) {
-                    convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
-                }
-
-                // Get the current user map
-                Map<String, Object> currentUser  = getItem(position);
-                String username = (String) currentUser .get("username");
-
-                // Set the username in the TextView
-                TextView textView = convertView.findViewById(android.R.id.text1);
-                textView.setText(username);
-
-                return convertView;
-            }
-        };
-
-        userListView.setAdapter(userAdapter);
-
-        // Set up the search view to filter users
-        userSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterUsers(newText);
-                return true;
-            }
-        });
+        userSpinner = view.findViewById(R.id.userSpinnerGroup);
+        selectedFriendsText = view.findViewById(R.id.selectedFriendsText);
 
         // Load all users initially
         loadAllUsers();
 
-        // Set up the item click listener for the user list
-        userListView.setOnItemClickListener((parent, view1, position, id) -> {
-            Map<String, Object> selectedUserMap = userAdapter.getItem(position);
+        // Set up the spinner adapter
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userSpinner.setAdapter(spinnerAdapter);
 
-            Long userId = (Long) selectedUserMap.get("id");
-            String username = (String) selectedUserMap.get("username");
-            Toast.makeText(getActivity(), "Selected: " + username + " (ID: " + userId + ")", Toast.LENGTH_SHORT).show();
-            // Handle the selected user here (e.g., add to group)
+        userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) { // Assuming the first item is a prompt
+                    Map<String, Object> selectedUserMap = userList.get(position - 1); // Adjust for prompt
+                    String username = (String) selectedUserMap.get("username");
+                    if (!selectedFriends.contains(username)) {
+                        selectedFriends.add(username);
+                        updateSelectedFriendsText();
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        SaveGroupButton.setOnClickListener(v -> {
+            // Handle saving the group with selected friends
+            Toast.makeText(getActivity(), "Group saved with members: " + selectedFriends, Toast.LENGTH_SHORT).show();
         });
 
         return view;
@@ -116,15 +92,21 @@ public class AddNewGroupFragment extends Fragment {
         userAPI.getAllUsers().enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (response.isSuccessful() && response .body() != null) {
+                if (response.isSuccessful() && response.body() != null) {
                     userList.clear();
+                    List<String> usernames = new ArrayList<>();
+                    usernames.add("Select a friend"); // Prompt for spinner
                     for (User  user : response.body()) {
                         Map<String, Object> userMap = new HashMap<>();
                         userMap.put("id", user.getId());
                         userMap.put("username", user.getUsername());
                         userList.add(userMap);
+                        usernames.add(user.getUsername());
                     }
-                    userAdapter.notifyDataSetChanged();
+                    ArrayAdapter<String> spinnerAdapter = (ArrayAdapter<String>) userSpinner.getAdapter();
+                    spinnerAdapter.clear();
+                    spinnerAdapter.addAll(usernames);
+                    spinnerAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(getActivity(), "No users found", Toast.LENGTH_SHORT).show();
                 }
@@ -138,17 +120,7 @@ public class AddNewGroupFragment extends Fragment {
         });
     }
 
-    private void filterUsers(String query) {
-        filteredList.clear();
-        for (Map<String, Object> userMap : userList) {
-            String username = (String) userMap.get("username");
-            if (username.toLowerCase().contains(query.toLowerCase())) {
-                filteredList.add(userMap);
-            }
-        }
-        userAdapter.clear();
-        userAdapter.addAll(filteredList);
-        userAdapter.notifyDataSetChanged();
-        userListView.setVisibility(filteredList.isEmpty() ? View.GONE : View.VISIBLE);
+    private void updateSelectedFriendsText() {
+        selectedFriendsText.setText("Selected Friends: " + String.join(", ", selectedFriends));
     }
 }
