@@ -80,7 +80,7 @@ public class TaskDao {
     public List<Task> getAllTasksForTeam(int teamId) {
         List<Task> tasks = taskRepository.findByTeamId(teamId);
         if (tasks.isEmpty()) {
-            System.out.println("No tasks found for team with ID: " + teamId);
+//            System.out.println("No tasks found for team with ID: " + teamId);
         }
         
 
