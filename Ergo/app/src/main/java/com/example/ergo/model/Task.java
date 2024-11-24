@@ -22,6 +22,9 @@ public class Task implements Serializable {
     private int status;
     private String title;
 
+    private Long groupId;
+
+
     //    @ManyToOne(cascade = CascadeType.PERSIST)
 //    @JoinColumn(name = "user_id", nullable = true)
     private User user;
@@ -105,6 +108,14 @@ public class Task implements Serializable {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
     @Override

@@ -40,7 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CompletedTasksFragment extends Fragment {
+public class CompletedTasksFragment extends TasksFragment {
     private User user;
 
 
@@ -61,11 +61,7 @@ public class CompletedTasksFragment extends Fragment {
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable("user");
         }
-        if (user != null) {
-            Toast.makeText(getActivity(), "User ID: " + user.getId(), Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "User not found!", Toast.LENGTH_LONG).show();
-        }
+
 
         // Initialize ListViews
         tasksListViewDueToday = view.findViewById(R.id.TasksListViewDueTodayCompleted);
@@ -77,7 +73,22 @@ public class CompletedTasksFragment extends Fragment {
         return view;
     }
 
-    private void updateUI() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        clearData();
+        fetchTasks();
+    }
+
+    public void clearData(){
+        completedTasks.clear();
+        tasksNotDue.clear();
+        tasksDueToday.clear();
+
+        fetchTasks();
+    }
+
+    public void updateUI() {
         // Set the adapter for tasks due today
         CompletedTasksFragment.TaskAdapter dueTodayAdapter = new CompletedTasksFragment.TaskAdapter(getContext(), tasksDueToday, user);
         tasksListViewDueToday.setAdapter(dueTodayAdapter);
@@ -105,7 +116,8 @@ public class CompletedTasksFragment extends Fragment {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         List<Task> allTasks = response.body();
-                        sortTasksByDate(allTasks);
+                        sortTasksByProgress(allTasks);
+                        sortTasksByDate(completedTasks);
                     }
                 }
             }
@@ -122,9 +134,9 @@ public class CompletedTasksFragment extends Fragment {
 
         // Separate tasks into "Due Today" and "Not Due"
         for (Task task : allTasks) {
-            if (task.getStopDate().substring(0, 10).equals(today)) {
+            if (task.getStopDate().substring(0, 10).equals(today) && !containsTaskWithId(tasksDueToday, task.getId())) {
                 tasksDueToday.add(task);
-            } else {
+            } else if (!containsTaskWithId(tasksNotDue, task.getId())) {
                 tasksNotDue.add(task);
             }
         }
@@ -142,17 +154,31 @@ public class CompletedTasksFragment extends Fragment {
 
     private void sortTasksByProgress(List<Task> allTasks){
         for (Task task : allTasks) {
-            if (task.getStatus() == 1) {
+            if (task.getStatus() == 3 && !completedTasks.contains(task)) {
                 completedTasks.add(task);
-            } else {
+            } else if(!notCompletedTasks.contains(task)) {
                 notCompletedTasks.add(task);
             }
         }
+    }
+    private boolean containsTaskWithId(List<Task> taskList, long taskId) {
+        for (Task existingTask : taskList) {
+            if (existingTask.getId() == taskId) {
+                return true; // Task with this ID is already in the list
+            }
+        }
+        return false; // Task with this ID is not in the list
     }
 
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
+
+    public void addTask(Task task) {
+        completedTasks.add(task);
+        updateUI();
+    }
+
 
     private class TaskAdapter extends ArrayAdapter<Task> {
         private Context context;
@@ -184,7 +210,7 @@ public class CompletedTasksFragment extends Fragment {
 
 
             //changed here!!!!!!!!!!!! visibility of team icon   remove! here to check
-            // if (currentUser != null && task.getUser() != null && !task.getUser().getId().equals(currentUser.getId())) { // teamIcon.setVisibility(View.VISIBLE); // } else { // teamIcon.setVisibility(View.GONE); // }
+            //if (groupId != null) { // teamIcon.setVisibility(View.VISIBLE); // } else { // teamIcon.setVisibility(View.GONE); // }
 
             boolean[] isCompleted = {task.getStatus() == 3}; // Assume status 3 means completed; adjust if needed
 
@@ -196,6 +222,22 @@ public class CompletedTasksFragment extends Fragment {
                 completionButton.setBackgroundResource(isCompleted[0] ? R.drawable.checkbox_on : R.drawable.checkbox_off);
 
                 // Update task status here
+                if (isCompleted[0]) {
+                    updateTaskStatus(task.getId(), 3, tasksDueToday, tasksNotDue); // Assuming 3 represents "Completed"
+                    // Move task from notCompletedTasks to completedTasks
+                    notCompletedTasks.remove(task);
+                    completedTasks.add(task);
+                    ((ArrayAdapter) tasksListViewDueToday.getAdapter()).notifyDataSetChanged();
+                    ((ArrayAdapter) tasksListViewNotDue.getAdapter()).notifyDataSetChanged();
+
+                } else {
+                    updateTaskStatus(task.getId(), 2,tasksDueToday,tasksNotDue); // Assuming 2 represents "In Progress" or another relevant status
+                    // Move task from completedTasks back to notCompletedTasks
+                    completedTasks.remove(task);
+                    notCompletedTasks.add(task);
+                    ((ArrayAdapter) tasksListViewDueToday.getAdapter()).notifyDataSetChanged();
+                    ((ArrayAdapter) tasksListViewNotDue.getAdapter()).notifyDataSetChanged();
+                }
             });
 
 
@@ -272,13 +314,6 @@ public class CompletedTasksFragment extends Fragment {
                 Log.e("CompletedTasksFragment", "Failed to parse date: " + isoDate, e);
                 return "Invalid date";
             }
-        }
-    }
-
-
-    private void performCompleteTask(boolean isCompleted) {
-        if (isCompleted) {
-
         }
     }
 

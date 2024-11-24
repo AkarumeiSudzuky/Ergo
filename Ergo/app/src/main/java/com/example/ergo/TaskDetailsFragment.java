@@ -159,6 +159,7 @@ public class TaskDetailsFragment extends Fragment {
         }
     }
 
+
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }

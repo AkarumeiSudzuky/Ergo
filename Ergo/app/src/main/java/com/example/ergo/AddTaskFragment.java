@@ -52,6 +52,7 @@ public class AddTaskFragment extends Fragment {
 
     private User user;
     private User friend;
+    private Long groupId;
     private Spinner PrioritySpinner;
     private Spinner StatusSpinner;
 
@@ -78,6 +79,8 @@ public class AddTaskFragment extends Fragment {
         // Retrieve the User object from the arguments
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable("user");
+            groupId = getArguments().getLong("group_id", -1);
+            Log.d("AddTaskFragment", "Received group_id: " + groupId);
         }
 
         titleEditText = view.findViewById(R.id.TitleET);
@@ -383,7 +386,13 @@ public class AddTaskFragment extends Fragment {
         else {
             task.setUser(user);
         }
-        task.setTeam(null);
+
+        if (groupId != null && groupId != -1) {
+            //needed change here to correctly set team.
+            task.setTeam(null);
+        } else {
+            task.setTeam(null);
+        }
 
 
         task.setStartDate(selectedStartDate);

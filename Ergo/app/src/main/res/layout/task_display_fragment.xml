@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:background="@color/app_background_col"
     android:minHeight="850dp">
 
@@ -46,7 +45,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_edittext_background_pink"
             android:clickable="true"
-            android:text="Change Status"
+            android:text="Delete Task"
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold" />

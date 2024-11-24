@@ -1,12 +1,13 @@
 package com.example.ergo.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class Team {
+public class Team implements Serializable {
 
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -17,11 +18,11 @@ public class Team {
 
     // Getters and Setters
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -38,6 +39,10 @@ public class Team {
         return users;
     }
 
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
@@ -45,6 +50,8 @@ public class Team {
     public Set<Task> getTasks() {
         return tasks;
     }
+
+    public int getTasksCount() { return getTasks().size(); }
 
     @Override
     public String toString() {

@@ -107,7 +107,7 @@ public class AddNewFriendFragment extends Fragment {
     }
 
     private void addFriend(UserAPI userAPI, Long userId, Long friendId) {
-        userAPI.addFriend(userId, friendId).enqueue(new Callback<Void>() {  // Assuming the response body is Void or doesn't contain user data
+        userAPI.addFriend(userId, friendId).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
@@ -126,6 +126,4 @@ public class AddNewFriendFragment extends Fragment {
             }
         });
     }
-
-
 }

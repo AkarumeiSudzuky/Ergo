@@ -18,7 +18,7 @@
         tools:ignore="ScrollViewSize">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/importButton"
             style="bol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,8 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/imageButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <ImageButton
             android:id="@+id/imageButton"

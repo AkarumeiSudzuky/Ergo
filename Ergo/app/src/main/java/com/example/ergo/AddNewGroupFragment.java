@@ -10,22 +10,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ergo.model.Team;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
+import com.example.ergo.retrofit.TeamApi;
 import com.example.ergo.retrofit.UserAPI;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,11 +36,14 @@ import retrofit2.Response;
 
 public class AddNewGroupFragment extends Fragment {
     private User user;
-    private Button SaveGroupButton;
+    private Button saveGroupButton;
     private Spinner userSpinner;
     private TextView selectedFriendsText;
-    private List<Map<String, Object>> userList = new ArrayList<>();
-    private List<String> selectedFriends = new ArrayList<>();
+    private Set<User> selectedFriends = new HashSet<>();
+    private List<User> friendsList = new ArrayList<>();
+    private EditText titleEditText;
+    private RetrofitService retrofitService = new RetrofitService();
+    private TeamApi teamApi = retrofitService.getRetrofit().create(TeamApi.class);
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -46,15 +52,15 @@ public class AddNewGroupFragment extends Fragment {
         View view = inflater.inflate(R.layout.add_group_fragment, container, false);
 
         if (getArguments() != null) {
-            user = (User ) getArguments().getSerializable("user");
+            user = (User) getArguments().getSerializable("user");
         }
 
-        SaveGroupButton = view.findViewById(R.id.SaveGroupButton);
+        saveGroupButton = view.findViewById(R.id.SaveGroupButton);
         userSpinner = view.findViewById(R.id.userSpinnerGroup);
         selectedFriendsText = view.findViewById(R.id.selectedFriendsText);
+        titleEditText = view.findViewById(R.id.TitleET);
 
-        // Load all users initially
-        loadAllUsers();
+        loadFriends();
 
         // Set up the spinner adapter
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, new ArrayList<>());
@@ -65,10 +71,9 @@ public class AddNewGroupFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) { // Assuming the first item is a prompt
-                    Map<String, Object> selectedUserMap = userList.get(position - 1); // Adjust for prompt
-                    String username = (String) selectedUserMap.get("username");
-                    if (!selectedFriends.contains(username)) {
-                        selectedFriends.add(username);
+                    User selectedUser = friendsList.get(position - 1); // Adjust for prompt
+                    if (!selectedFriends.contains(selectedUser)) { // Add User object
+                        selectedFriends.add(selectedUser);
                         updateSelectedFriendsText();
                     }
                 }
@@ -79,48 +84,127 @@ public class AddNewGroupFragment extends Fragment {
             }
         });
 
-        SaveGroupButton.setOnClickListener(v -> {
-            // Handle saving the group with selected friends
-            Toast.makeText(getActivity(), "Group saved with members: " + selectedFriends, Toast.LENGTH_SHORT).show();
-        });
+        saveGroupButton.setOnClickListener(v -> saveGroupWithUsers());
 
         return view;
     }
 
-    private void loadAllUsers() {
+    private void loadFriends() {
         UserAPI userAPI = new RetrofitService().getRetrofit().create(UserAPI.class);
-        userAPI.getAllUsers().enqueue(new Callback<List<User>>() {
+        userAPI.getAllFriends(user.getId()).enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    userList.clear();
+                    friendsList = response.body();
                     List<String> usernames = new ArrayList<>();
-                    usernames.add("Select a friend"); // Prompt for spinner
-                    for (User  user : response.body()) {
-                        Map<String, Object> userMap = new HashMap<>();
-                        userMap.put("id", user.getId());
-                        userMap.put("username", user.getUsername());
-                        userList.add(userMap);
-                        usernames.add(user.getUsername());
+                    usernames.add("Select a friend");
+
+                    for (User friend : friendsList) {
+                        usernames.add(friend.getUsername());
                     }
-                    ArrayAdapter<String> spinnerAdapter = (ArrayAdapter<String>) userSpinner.getAdapter();
-                    spinnerAdapter.clear();
-                    spinnerAdapter.addAll(usernames);
-                    spinnerAdapter.notifyDataSetChanged();
+
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, usernames);
+                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    userSpinner.setAdapter(spinnerAdapter);
                 } else {
-                    Toast.makeText(getActivity(), "No users found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Failed to load friends", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable throwable) {
-                Log.e("API Failure", "Error occurred while loading users", throwable);
-                Toast.makeText(getActivity(), "Load failed!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Error loading friends", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void updateSelectedFriendsText() {
-        selectedFriendsText.setText("Selected Friends: " + String.join(", ", selectedFriends));
+        List<String> usernames = new ArrayList<>();
+        for (User user : selectedFriends) {
+            usernames.add(user.getUsername());
+        }
+        selectedFriendsText.setText("Selected Friends: " + String.join(", ", usernames));
+    }
+
+    private void saveGroupWithUsers() {
+        String title = titleEditText.getText().toString().trim();
+        if (title.isEmpty() || selectedFriends.isEmpty()) {
+            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Team team = new Team();
+        team.setName(title);
+
+        teamApi.saveTeam(team).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Team saved successfully!", Toast.LENGTH_SHORT).show();
+                    findLastTeam();
+                } else {
+                    Log.e("API Error", "Failed to save team: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                Log.e("API Failure", "Error occurred", throwable);
+                Toast.makeText(getActivity(), "Save team failed!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void findLastTeam() {
+        teamApi.getLastTeamId().enqueue(new Callback<Long>() {
+            @Override
+            public void onResponse(Call<Long> call, Response<Long> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Long lastTeamId = response.body();
+                    Long newTeamId = lastTeamId;
+                    Log.d("LastTeamId", "The last team ID is: " + lastTeamId + ", new team ID: " + newTeamId);
+                    // Proceed with the new team ID, for example, add users to the new team
+                    addUsersToTeam(newTeamId, selectedFriends);
+                } else {
+                    // If there is no team in the database, the response body will be null
+                    Log.d("LastTeamId", "No teams found, setting ID to 1");
+                    // Proceed with ID 1 as a new starting point
+//                    addUsersToTeam(1L, selectedFriends);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Long> call, Throwable throwable) {
+                Log.e("API Failure", "Error occurred", throwable);
+                Toast.makeText(getActivity(), "Failed to fetch last team ID", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
+    private void addUsersToTeam(Long teamId, Set<User> users) {
+        users.add(user);
+        teamApi.addUsersToTeam(teamId, users).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Members added successfully!", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.e("API Error", "Failed to add users: " + response.message());
+                    try {
+                        String errorBody = response.errorBody().string();
+                        Log.e("API Error", "Error body: " + errorBody);
+                    } catch (IOException e) {
+                        Log.e("API Error", "Failed to read error body", e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                Log.e("API Failure", "Error occurred", throwable);
+                Toast.makeText(getActivity(), "Failed to add users!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
+
