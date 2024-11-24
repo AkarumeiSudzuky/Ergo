@@ -136,7 +136,7 @@ public class CompletedTasksFragment extends TasksFragment {
         for (Task task : allTasks) {
             if (task.getStopDate().substring(0, 10).equals(today) && !containsTaskWithId(tasksDueToday, task.getId())) {
                 tasksDueToday.add(task);
-            } else if (!containsTaskWithId(tasksNotDue, task.getId())) {
+            } else if (!containsTaskWithId(tasksNotDue, task.getId()) && !containsTaskWithId(tasksDueToday, task.getId())) {
                 tasksNotDue.add(task);
             }
         }

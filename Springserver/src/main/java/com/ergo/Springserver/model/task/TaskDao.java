@@ -107,4 +107,15 @@ public class TaskDao {
                 .orElseThrow(() -> new EntityNotFoundException("Task not found with ID: " + taskId));
     }
 
+
+    public void deleteTaskById(int taskId) {
+
+        Optional<Task> optionalTask = taskRepository.findById((long) taskId);
+        if (optionalTask.isPresent()) {
+            Task task = optionalTask.get();
+            taskRepository.delete(task);
+        }
+
+    }
+
 }

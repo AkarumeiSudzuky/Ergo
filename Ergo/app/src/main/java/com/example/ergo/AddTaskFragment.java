@@ -402,7 +402,6 @@ public class AddTaskFragment extends Fragment {
         taskAPI.saveTask(task).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.d("API Response", "Code: " + response.code());
                 if (response.isSuccessful()) {
                     Toast.makeText(getActivity(), "Save successful!", Toast.LENGTH_LONG).show();
                 } else {

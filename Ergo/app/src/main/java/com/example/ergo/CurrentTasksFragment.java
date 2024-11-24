@@ -55,8 +55,6 @@ public class CurrentTasksFragment extends TasksFragment {
             user = (User) getArguments().getSerializable("user");
         }
 
-
-
         // Initialize ListViews
         tasksListViewDueToday = view.findViewById(R.id.TasksListViewDueTodayCurrent);
         tasksListViewNotDue = view.findViewById(R.id.TaskListViewNotDueCurrent);
@@ -117,7 +115,7 @@ public class CurrentTasksFragment extends TasksFragment {
         for (Task task : allTasks) {
             if (task.getStopDate().substring(0, 10).equals(today) && !containsTaskWithId(tasksDueToday, task.getId())) {
                 tasksDueToday.add(task);
-            } else if (!containsTaskWithId(tasksNotDue, task.getId())) {
+            } else if (!containsTaskWithId(tasksNotDue, task.getId()) && !containsTaskWithId(tasksDueToday, task.getId())) {
                 tasksNotDue.add(task);
             }
 

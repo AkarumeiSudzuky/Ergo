@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.ergo.model.Task;
 import com.example.ergo.model.User;
+import com.example.ergo.retrofit.RetrofitService;
+import com.example.ergo.retrofit.TaskAPI;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -27,12 +30,17 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class TaskDetailsFragment extends Fragment {
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 0;
     private Task task;
     private User user;
     private TextView exportButton;
+    private TextView deleteButton;
 
     @Nullable
     @Override
@@ -40,11 +48,12 @@ public class TaskDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.task_display_fragment, container, false);
 
         exportButton = view.findViewById(R.id.exportButton);
-
+        deleteButton = view.findViewById(R.id.statusChangeButton);
         if (getArguments() != null) {
             task = (Task) getArguments().getSerializable("task");
             user = (User) getArguments().getSerializable("user");
         }
+
 
         if (getArguments() != null) {
             task = (Task) getArguments().getSerializable("task");
@@ -52,6 +61,7 @@ public class TaskDetailsFragment extends Fragment {
         }
 
         exportButton.setOnClickListener(v -> exportTaskData());
+        deleteButton.setOnClickListener(v -> performdeleteTask());
 
         return view;
     }
@@ -102,6 +112,29 @@ public class TaskDetailsFragment extends Fragment {
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
+    }
+
+    private void performdeleteTask(){
+        RetrofitService retrofitService = new RetrofitService();
+        TaskAPI taskAPI = retrofitService.getRetrofit().create(TaskAPI.class);
+        taskAPI.deleteTask(task.getId()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getActivity(), "Delete successful!", Toast.LENGTH_LONG).show();
+
+                } else {
+                    // Log error response
+                    Log.e("API Error", "Response code: " + response.code() + ", message: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                Log.e("API Failure", "Error occurred", throwable);
+                Toast.makeText(getActivity(), "Delete failed!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void performExport() {
