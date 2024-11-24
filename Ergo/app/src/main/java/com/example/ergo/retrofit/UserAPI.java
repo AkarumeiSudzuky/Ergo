@@ -33,7 +33,7 @@ public interface UserAPI {
     Call<User> saveUser(@Body User user);
 
     @POST("/user/add-friend")
-    Call<User> addFriend(@Query("userId") Long userId, @Query("friendId") Long friendId);
+    Call<Void> addFriend(@Query("userId") Long userId, @Query("friendId") Long friendId);
 
 
 

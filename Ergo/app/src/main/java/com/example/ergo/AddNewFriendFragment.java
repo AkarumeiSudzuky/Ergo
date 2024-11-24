@@ -107,22 +107,25 @@ public class AddNewFriendFragment extends Fragment {
     }
 
     private void addFriend(UserAPI userAPI, Long userId, Long friendId) {
-        userAPI.addFriend(userId, friendId).enqueue(new Callback<User>() {
+        userAPI.addFriend(userId, friendId).enqueue(new Callback<Void>() {  // Assuming the response body is Void or doesn't contain user data
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
+                    // If the response body is empty, show a success message
                     Toast.makeText(getActivity(), "Friend added successfully!", LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getActivity(), "Failed to add friend. Try again!", LENGTH_LONG).show();
                     Log.e("API Error", "Failed to add friend. Code: " + response.code() + ", Message: " + response.message());
+                    Toast.makeText(getActivity(), "Failed to add friend. Try again!", LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable throwable) {
-                Log.e("API Failure", "Error adding friend", throwable);
+            public void onFailure(Call<Void> call, Throwable throwable) {
+                Log.e("API Failure in addFriend", "Error adding friend", throwable);
                 Toast.makeText(getActivity(), "Failed to add friend!", LENGTH_LONG).show();
             }
         });
     }
+
+
 }
