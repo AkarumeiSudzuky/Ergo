@@ -71,7 +71,7 @@ public class TaskDao {
     public List<Task> getAllTasksForUser(Long id) {
         List<Task> tasks = taskRepository.findByUserId(id);
         if (tasks.isEmpty()) {
-            System.out.println("No tasks found for user with ID: " + id);
+//            System.out.println("No tasks found for user with ID: " + id);
         }
         return tasks;
     }
