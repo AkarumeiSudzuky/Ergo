@@ -41,6 +41,21 @@ public class TaskController {
     }
 
 
+    //========================Put==========
+    @PutMapping("/task/update-task-status")
+    public void updateTaskStatus(@RequestParam int taskId, @RequestParam int status) {
+        taskDao.updateTaskStatus(taskId, status);
+    }
+
+
+
+    //================Delete================
+    @DeleteMapping("/task/delete")
+    public void deleteTask(@RequestParam int taskId) {
+        taskDao.deleteTaskById(taskId);
+    }
+
+
 
 
 }

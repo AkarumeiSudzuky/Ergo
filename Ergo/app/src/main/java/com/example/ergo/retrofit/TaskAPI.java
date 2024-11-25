@@ -5,7 +5,6 @@ import com.example.ergo.model.Task;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -33,9 +32,4 @@ public interface TaskAPI {
     //=============PUT============================
     @PUT("/task/update-task-status")
     Call<Void> updateStatus(@Query("taskId") int taskId, @Query("status") int status);
-
-
-    //===========Delete============================
-    @DELETE("/task/delete")
-    Call<Void> deleteTask(@Query("taskId") int taskId);
 }

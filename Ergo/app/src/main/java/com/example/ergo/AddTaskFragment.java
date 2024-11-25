@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ergo.model.Task;
+import com.example.ergo.model.Team;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
@@ -52,7 +53,7 @@ public class AddTaskFragment extends Fragment {
 
     private User user;
     private User friend;
-    private Long groupId;
+    private Team team;
     private Spinner PrioritySpinner;
     private Spinner StatusSpinner;
 
@@ -79,8 +80,8 @@ public class AddTaskFragment extends Fragment {
         // Retrieve the User object from the arguments
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable("user");
-            groupId = getArguments().getLong("group_id", -1);
-            Log.d("AddTaskFragment", "Received group_id: " + groupId);
+            team = (Team) getArguments().getSerializable("team");
+            Log.d("AddTaskFragment", "Received group_id: " + team.getId());
         }
 
         titleEditText = view.findViewById(R.id.TitleET);
@@ -387,9 +388,9 @@ public class AddTaskFragment extends Fragment {
             task.setUser(user);
         }
 
-        if (groupId != null && groupId != -1) {
+        if (team.getId()!= null && team.getId() != -1) {
             //needed change here to correctly set team.
-            task.setTeam(null);
+            task.setTeam(team);
         } else {
             task.setTeam(null);
         }
@@ -402,6 +403,7 @@ public class AddTaskFragment extends Fragment {
         taskAPI.saveTask(task).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("API Response", "Code: " + response.code());
                 if (response.isSuccessful()) {
                     Toast.makeText(getActivity(), "Save successful!", Toast.LENGTH_LONG).show();
                 } else {

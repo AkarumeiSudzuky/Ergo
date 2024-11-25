@@ -42,6 +42,8 @@ public class User {
     @JsonIgnore
     private Set<Team> groups = new HashSet<>();
 
+
+
     public void setFriends(Set<User> friends) {
         this.friends = friends;
     }

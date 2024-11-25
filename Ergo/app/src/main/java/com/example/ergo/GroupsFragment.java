@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class GroupsFragment extends Fragment {
                     teamList = response.body();
                     setupGroupsAdapter();
                 } else {
+
                     showToast("No teams found");
                 }
             }
@@ -168,6 +170,7 @@ public class GroupsFragment extends Fragment {
             String userString = getUsernamesFromTeam(team);
             users.setText(userString);
         }
+        }
 
         private String getUsernamesFromTeam(Team team) {
             Set<User> userSet = team.getUsers();
@@ -176,4 +179,3 @@ public class GroupsFragment extends Fragment {
                     .collect(Collectors.joining(", "));
         }
     }
-}

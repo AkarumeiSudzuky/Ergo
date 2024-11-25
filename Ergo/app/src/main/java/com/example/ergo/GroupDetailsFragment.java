@@ -63,9 +63,8 @@ public class GroupDetailsFragment extends Fragment {
 
             // Pass the group_id (assuming team has a method getId())
             if (team != null) {
-                long groupId = team.getId();
-                bundle.putLong("group_id", groupId); // Pass the team ID as group_id
-                Log.d("GroupDetailsFragment", "Passing group_id: " + groupId);
+                bundle.putSerializable("team", team);
+
             } else {
                 bundle.putLong("group_id", -1); // Pass an invalid ID if team is null
                 Log.d("GroupDetailsFragment", "Team is null, passing group_id: -1");

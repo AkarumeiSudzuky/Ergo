@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class TeamController {
@@ -21,17 +22,23 @@ public class TeamController {
         return teamDao.save(team);
     }
 
-    @PostMapping("/team/add-user")
-    public void addUser(@RequestParam Long teamId, @RequestParam Long userId) {
-        teamDao.addUserToTeam(teamId,userId);
+    @PostMapping("/team/add-users")
+    public void addUser(@RequestParam Long teamId, @RequestBody Set<User> users) {
+        teamDao.addUserToTeam(teamId, users);
     }
+
 
 
     //==========Get===================================
 
     @GetMapping("/team/get-all-forUser")
-    public List<Team> getAllTeams(long id) {
-        return teamDao.getTeamsForUser(id);
+    public List<Team> getAllTeams(@RequestParam("userId") long userId) {
+        return teamDao.getTeamsForUser(userId);
+    }
+
+    @GetMapping("/team/get-last")
+    public Long getLastTeam() {
+        return Long.valueOf(teamDao.getLastTeamId());
     }
 
     @GetMapping("/team/get-all-users")

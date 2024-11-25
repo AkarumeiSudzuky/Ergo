@@ -17,7 +17,7 @@ public interface TeamApi {
     @GET("/team/get-last")
     Call<Long> getLastTeamId();
 
-    @GET("/team/get-all-for-user")
+    @GET("/team/get-all-forUser")
     Call<List<Team>> getAllTeamsForUser(@Query("userId")Long userId);
 
 
