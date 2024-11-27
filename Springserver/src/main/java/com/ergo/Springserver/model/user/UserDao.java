@@ -1,35 +1,43 @@
 package com.ergo.Springserver.model.user;
 
+import com.sun.security.auth.UserPrincipal;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserDao {
+@Slf4j
+@RequiredArgsConstructor
+public class UserDao implements UserDetailsService {
 
     @Autowired
-    private UserRepository usrRepository;
+    private UserRepository userRepository;
 
     public User save(User user) {
-        return usrRepository.save(user);
+        return userRepository.save(user);
 
     }
     public void delete(User user) {
-        usrRepository.delete(user);
+        userRepository.delete(user);
     }
 
     public List<User> findAll() {
-        return (List<User>)usrRepository.findAll();
+        return (List<User>)userRepository.findAll();
     }
 
     public User findByUsername(String username) {
-        return usrRepository.findByUsername(username);
+        return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("Invalid username."));
     }
 
     public User findById(Long id) {
-        return usrRepository.findById(id) .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        return userRepository.findById(id) .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
     // Retrieve list of friends for a specific user by ID
@@ -40,7 +48,7 @@ public class UserDao {
             return new ArrayList<>();
         }
 
-        User user = usrRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
         // Get friends where the user is the source
@@ -48,7 +56,7 @@ public class UserDao {
 
         // Convert Iterable<User> to List<User>
         List<User> allUsers = new ArrayList<>();
-        usrRepository.findAll().forEach(allUsers::add);
+        userRepository.findAll().forEach(allUsers::add);
 
         // Get friends where the user is the target (i.e., others have this user as a friend)
         List<User> reciprocalFriends = allUsers.stream()
@@ -66,9 +74,9 @@ public class UserDao {
 
     // Add a friend to a specific user
     public void addFriend(Long userId, Long friendId) {
-        User user = usrRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        User friend = usrRepository.findById(friendId)
+        User friend = userRepository.findById(friendId)
                 .orElseThrow(() -> new RuntimeException("Friend not found with id: " + friendId));
 
         // Check if the friendship already exists for both users
@@ -77,16 +85,16 @@ public class UserDao {
             friend.getFriends().add(user); // Ensure the friend also has the user as a friend
 
             // Save both users to persist the bidirectional relationship
-            usrRepository.save(user);
-            usrRepository.save(friend);
+            userRepository.save(user);
+            userRepository.save(friend);
         }
     }
 
 
     public void removeFriend(Long userId, Long friendId) {
-        User user = usrRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        User friend = usrRepository.findById(friendId)
+        User friend = userRepository.findById(friendId)
                 .orElseThrow(() -> new RuntimeException("Friend not found with id: " + friendId));
 
         // Check if they are friends
@@ -96,11 +104,26 @@ public class UserDao {
             friend.getFriends().remove(user);
 
             // Save both users to persist the changes
-            usrRepository.save(user);
-            usrRepository.save(friend);
+            userRepository.save(user);
+            userRepository.save(friend);
         } else {
             throw new RuntimeException("No such friendship exists between users");
         }
+    }
+
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+
+        log.info("Loaded user with password: {}", user.getPassword()); // Verify the password
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                new ArrayList<>()
+        );
     }
 
 }

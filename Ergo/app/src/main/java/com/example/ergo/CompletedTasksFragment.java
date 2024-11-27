@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.ergo.model.Task;
+import com.example.ergo.model.Team;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
@@ -134,6 +135,7 @@ public class CompletedTasksFragment extends TasksFragment {
 
         // Separate tasks into "Due Today" and "Not Due"
         for (Task task : allTasks) {
+
             if (task.getStopDate().substring(0, 10).equals(today) && !containsTaskWithId(tasksDueToday, task.getId())) {
                 tasksDueToday.add(task);
             } else if (!containsTaskWithId(tasksNotDue, task.getId())) {
@@ -208,9 +210,13 @@ public class CompletedTasksFragment extends TasksFragment {
             Button completionButton = convertView.findViewById(R.id.completedButton);
             View teamIcon = convertView.findViewById(R.id.teamIcon);
 
+            Team team = task.getTeam();
 
-            //changed here!!!!!!!!!!!! visibility of team icon   remove! here to check
-            //if (groupId != null) { // teamIcon.setVisibility(View.VISIBLE); // } else { // teamIcon.setVisibility(View.GONE); // }
+            if (team == null || team.getId() == null) {
+                teamIcon.setVisibility(View.GONE);
+            } else {
+                teamIcon.setVisibility(View.VISIBLE);
+            }
 
             boolean[] isCompleted = {task.getStatus() == 3}; // Assume status 3 means completed; adjust if needed
 

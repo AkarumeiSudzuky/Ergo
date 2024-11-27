@@ -8,11 +8,15 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class TaskDao {
@@ -59,8 +63,6 @@ public class TaskDao {
 
         taskRepository.save(task); // Save the task
     }
-
-
 
 
     public void delete(Task task) {
@@ -117,5 +119,41 @@ public class TaskDao {
         }
 
     }
+
+//    @Scheduled(cron = "0 0 0 * * ?") // Executes daily at midnight
+//    public List<Task> getTasksExpiringToday() {
+//        LocalDate today = LocalDate.now();
+//
+//        // Convert Iterable to Stream
+//        List<Task> expiringTasks = StreamSupport.stream(taskRepository.findAll().spliterator(), false)
+//                .filter(task -> task.getStopDate() != null && task.getStopDate().equals(today))
+//                .collect(Collectors.toList());
+//
+//        // Log or process the tasks
+//        if (!expiringTasks.isEmpty()) {
+//            System.out.println("Tasks expiring today: " + expiringTasks);
+//        } else {
+//            System.out.println("No tasks expiring today.");
+//        }
+//
+//        return expiringTasks;
+//    }
+//
+//    @Scheduled(cron = "0 0 0 * * ?") // Executes daily at midnight
+//    public void notifyUsersAboutExpiringTasks() {
+//        List<Task> expiringTasks = getTasksExpiringToday();
+//        for (Task task : expiringTasks) {
+//            if (task.getUser() != null) {
+//                String userEmail = task.getUser().getEmail(); // Assuming User has an email field
+//                String message = "Your task '" + task.getTitle() + "' is expiring today!";
+//
+//                // Send notification (e.g., email, WebSocket, etc.)
+////                notificationService.sendNotification(userEmail, message); // Implement notification logic
+//            }
+//        }
+//    }
+
+
+
 
 }

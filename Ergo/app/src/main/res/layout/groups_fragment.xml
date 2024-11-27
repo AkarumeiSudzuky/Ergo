@@ -39,22 +39,23 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:minHeight="200dp"
-            app:layout_constraintBottom_toTopOf="@+id/AddNewGroupButton"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/GroupsText" />
+            app:layout_constraintTop_toBottomOf="@+id/AddNewGroupButton" />
 
         <Button
             android:id="@+id/AddNewGroupButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:background="@drawable/button_darkest_purple"
             android:paddingHorizontal="0dp"
             android:text="@string/add_a_new_group"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/GroupsText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

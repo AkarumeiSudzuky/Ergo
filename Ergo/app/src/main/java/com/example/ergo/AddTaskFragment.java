@@ -2,6 +2,7 @@ package com.example.ergo;
 
 
 import android.app.DatePickerDialog;
+import android.graphics.Rect;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -66,10 +68,6 @@ public class AddTaskFragment extends Fragment {
     private List<User> friendsList = new ArrayList<>();
     private List<Map<String, Object>> filteredList = new ArrayList<>();
 
-    //undertasks
-    private LinearLayout elementsContainer;
-    private Button addElementButton;
-
 
     @Nullable
     @Override
@@ -81,7 +79,6 @@ public class AddTaskFragment extends Fragment {
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable("user");
             team = (Team) getArguments().getSerializable("team");
-            Log.d("AddTaskFragment", "Received group_id: " + team.getId());
         }
 
         titleEditText = view.findViewById(R.id.TitleET);
@@ -91,7 +88,6 @@ public class AddTaskFragment extends Fragment {
         saveTaskButton = view.findViewById(R.id.SaveTaskButton);
         userSearchView = view.findViewById(R.id.userSearchView);
         userListView = view.findViewById(R.id.userListView);
-
 
         //spinners
         StatusSpinner = view.findViewById(R.id.StatusSpinner);
@@ -112,6 +108,27 @@ public class AddTaskFragment extends Fragment {
 
         userSearchView = view.findViewById(R.id.userSearchView);
         userListView = view.findViewById(R.id.userListView);
+
+
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                view.getWindowVisibleDisplayFrame(r);
+                int heightDiff = view.getRootView().getHeight() - (r.bottom - r.top);
+
+                if (heightDiff > 200) {
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).setBottomNavigationVisibility(false);
+                    }
+                } else {
+                    // Keyboard is hidden
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).setBottomNavigationVisibility(true);
+                    }
+                }
+            }
+        });
 
 
         // Set up the adapter for displaying all users
@@ -184,9 +201,6 @@ public class AddTaskFragment extends Fragment {
         });
 
         loadFriends();
-        elementsContainer = view.findViewById(R.id.elements_container);
-        addElementButton = view.findViewById(R.id.add_element_button);
-        addElementButton.setOnClickListener(v -> addElement());
 
 
 
@@ -231,36 +245,6 @@ public class AddTaskFragment extends Fragment {
         userAdapter.clear();
         userAdapter.addAll(filteredList);
         userAdapter.notifyDataSetChanged();
-    }
-
-    private void addElement() {
-        View elementView = LayoutInflater.from(getActivity()).inflate(R.layout.dynamic_undertask,
-                elementsContainer, false);
-
-        Button elementButton = elementView.findViewById(R.id.element_button);
-        TextView elementTitle = elementView.findViewById(R.id.element_title);
-
-        elementButton.setBackgroundResource(R.drawable.switch_not_clicked);
-
-        // Button click listener to toggle completion
-        elementButton.setOnClickListener(v -> {
-            boolean isCompleted = (elementButton.getTag() != null) && (boolean) elementButton.getTag();
-
-            if (isCompleted) {
-                // If already completed, mark as not completed
-                elementButton.setBackgroundResource(R.drawable.switch_not_clicked);
-                elementButton.setTag(false); // Mark it as not completed
-                Toast.makeText(getActivity(), "Task marked as not completed!", Toast.LENGTH_SHORT).show();
-            } else {
-                // If not completed, mark as completed
-                elementButton.setBackgroundResource(R.drawable.switch_clicked);
-                elementButton.setTag(true); // Mark it as completed
-                Toast.makeText(getActivity(), "Task marked as completed!", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-
-        elementsContainer.addView(elementView);
     }
 
     private void setupStatusSpinner(Spinner statusSpinner) {
@@ -388,7 +372,7 @@ public class AddTaskFragment extends Fragment {
             task.setUser(user);
         }
 
-        if (team.getId()!= null && team.getId() != -1) {
+        if (team != null && team.getId()!= null && team.getId() != -1) {
             //needed change here to correctly set team.
             task.setTeam(team);
         } else {

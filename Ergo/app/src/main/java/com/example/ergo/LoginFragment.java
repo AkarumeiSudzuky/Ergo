@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.ergo.model.JwtAuthenticationResponse;
+import com.example.ergo.model.SignInRequest;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.UserAPI;
@@ -28,6 +30,8 @@ public class LoginFragment extends Fragment {
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
     private User activeUser;
+    private RetrofitService retrofitService = new RetrofitService();
+    private UserAPI userAPI = retrofitService.getRetrofit().create(UserAPI.class);
 
     @Nullable
     @Override
@@ -40,24 +44,14 @@ public class LoginFragment extends Fragment {
         TextView noAccountYet = view.findViewById(R.id.RegisterText);
         noAccountYet.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new RegisterFragment(), activeUser));
 
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performLogin();
-            }
-        });
+        loginButton.setOnClickListener(v -> performLogin());
 
         return view;
     }
 
-
     public void performLogin() {
         final String email = emailEditText.getText().toString().trim();
         final String password = passwordEditText.getText().toString().trim();
-
-        RetrofitService retrofitService = new RetrofitService();
-        UserAPI userAPI = retrofitService.getRetrofit().create(UserAPI.class);
 
         // Check if email and password fields are empty
         if (email.isEmpty() || password.isEmpty()) {
@@ -65,29 +59,52 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        userAPI.getUserByUsername(email)
-                .enqueue(new Callback<User>() {
-                    @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            activeUser = response.body();
-                            if (activeUser.getPassword().equals(password)) {
-                                ((MainActivity) getActivity()).onLoginSuccess(activeUser);
+        // Create SignInRequest object
+        SignInRequest signInRequest = new SignInRequest(email, password);
 
-                            } else {
-                                Toast.makeText(getActivity(), "Invalid password!", LENGTH_LONG).show();
-                            }
-                        } else {
-                            Toast.makeText(getActivity(), "User not found!", LENGTH_LONG).show();
+        userAPI.signin(signInRequest).enqueue(new Callback<JwtAuthenticationResponse>() {
+            @Override
+            public void onResponse(Call<JwtAuthenticationResponse> call, Response<JwtAuthenticationResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    String token = response.body().getToken();
+                    getUserByToken(token, new UserCallback() {
+                        @Override
+                        public void onSuccess(User user) {
+                            activeUser = user;
+                            ((MainActivity) getActivity()).onLoginSuccess(activeUser);
                         }
-                    }
+                        @Override
+                        public void onFailure(String errorMessage) {
+                            Toast.makeText(getActivity(), errorMessage, LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getActivity(), "Invalid email or password!", LENGTH_LONG).show();
+                }
+            }
 
-                    @Override
-                    public void onFailure(Call<User> call, Throwable throwable) {
-                        Toast.makeText(getActivity(), "Login failed!", LENGTH_LONG).show();
-                    }
-                });
+            @Override
+            public void onFailure(Call<JwtAuthenticationResponse> call, Throwable throwable) {
+                Toast.makeText(getActivity(), "Login failed!", LENGTH_LONG).show();
+            }
+        });
     }
 
+    private void getUserByToken(String token, UserCallback callback) {
+        userAPI.getCurrentUser("Bearer " + token).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure("API error: User wasn't fetched");
+                }
+            }
 
+            @Override
+            public void onFailure(Call<User> call, Throwable throwable) {
+                callback.onFailure("Network error: " + throwable.getMessage());
+            }
+        });
+    }
 }

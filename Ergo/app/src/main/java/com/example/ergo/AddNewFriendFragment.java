@@ -2,15 +2,19 @@ package com.example.ergo;
 
 import static android.widget.Toast.LENGTH_LONG;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,10 +48,9 @@ public class AddNewFriendFragment extends Fragment {
         friendUsernameET = view.findViewById(R.id.GivenFriendNameET);
 
 
-        //actual performAddFriend() somewhere here:
         addNewFriend.setOnClickListener(v -> performAddFriend());
-//        addNewFriend.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new FriendsFragment()));
 
+        setupKeyboardListeners(view);
 
         return view;
     }
@@ -126,4 +129,55 @@ public class AddNewFriendFragment extends Fragment {
             }
         });
     }
+
+    private void setupKeyboardListeners(View view) {
+        MainActivity mainActivity = (MainActivity) getActivity();
+
+        // For EditText
+        friendUsernameET.setOnFocusChangeListener((view1, hasFocus) -> {
+            if (mainActivity != null) {
+                mainActivity.setBottomNavigationVisibility(!hasFocus);
+            }
+        });
+
+        // Optionally, add a TextWatcher to hide the BottomNavigationView while typing
+        friendUsernameET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mainActivity != null) {
+                    mainActivity.setBottomNavigationVisibility(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Add the global layout listener to detect keyboard visibility
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                view.getWindowVisibleDisplayFrame(r);
+                int heightDiff = view.getRootView().getHeight() - (r.bottom - r.top);
+
+                // If more than 200 pixels, its probably a keyboard...
+                if (heightDiff > 200) {
+                    // Keyboard is visible
+                    if (mainActivity != null) {
+                        mainActivity.setBottomNavigationVisibility(false);
+                    }
+                } else {
+                    // Keyboard is hidden
+                    if (mainActivity != null) {
+                        mainActivity.setBottomNavigationVisibility(true);
+                    }
+                }
+            }
+        });
+    }
+
 }

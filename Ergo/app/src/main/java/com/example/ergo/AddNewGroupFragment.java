@@ -1,15 +1,19 @@
 package com.example.ergo;
 
 import android.annotation.SuppressLint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -60,6 +64,7 @@ public class AddNewGroupFragment extends Fragment {
         selectedFriendsText = view.findViewById(R.id.selectedFriendsText);
         titleEditText = view.findViewById(R.id.TitleET);
 
+
         loadFriends();
 
         // Set up the spinner adapter
@@ -85,6 +90,8 @@ public class AddNewGroupFragment extends Fragment {
         });
 
         saveGroupButton.setOnClickListener(v -> saveGroupWithUsers());
+
+        setupKeyboardListeners(view);
 
         return view;
     }
@@ -203,6 +210,57 @@ public class AddNewGroupFragment extends Fragment {
             public void onFailure(Call<Void> call, Throwable throwable) {
                 Log.e("API Failure", "Error occurred", throwable);
                 Toast.makeText(getActivity(), "Failed to add users!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
+    private void setupKeyboardListeners(View view) {
+        MainActivity mainActivity = (MainActivity) getActivity();
+
+        // For EditText
+        titleEditText.setOnFocusChangeListener((view1, hasFocus) -> {
+            if (mainActivity != null) {
+                mainActivity.setBottomNavigationVisibility(!hasFocus);
+            }
+        });
+
+        // Optionally, add a TextWatcher to hide the BottomNavigationView while typing
+        titleEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mainActivity != null) {
+                    mainActivity.setBottomNavigationVisibility(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Add the global layout listener to detect keyboard visibility
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                view.getWindowVisibleDisplayFrame(r);
+                int heightDiff = view.getRootView().getHeight() - (r.bottom - r.top);
+
+                // If more than 200 pixels, its probably a keyboard...
+                if (heightDiff > 200) {
+                    // Keyboard is visible
+                    if (mainActivity != null) {
+                        mainActivity.setBottomNavigationVisibility(false);
+                    }
+                } else {
+                    // Keyboard is hidden
+                    if (mainActivity != null) {
+                        mainActivity.setBottomNavigationVisibility(true);
+                    }
+                }
             }
         });
     }

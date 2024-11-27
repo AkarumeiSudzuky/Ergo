@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.ergo.model.Task;
+import com.example.ergo.model.Team;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
@@ -56,13 +57,10 @@ public class CurrentTasksFragment extends TasksFragment {
         }
 
 
-
-        // Initialize ListViews
         tasksListViewDueToday = view.findViewById(R.id.TasksListViewDueTodayCurrent);
         tasksListViewNotDue = view.findViewById(R.id.TaskListViewNotDueCurrent);
 
 
-        // Fetch tasks from the server
         fetchTasks();
 
         return view;
@@ -78,7 +76,7 @@ public class CurrentTasksFragment extends TasksFragment {
 
     private void fetchTasks() {
         if (!tasksDueToday.isEmpty() || !tasksNotDue.isEmpty()) {
-            updateUI(); // If data already exists, just update the UI
+            updateUI(); // If data already exists, update the UI
             return;
         }
 
@@ -197,10 +195,16 @@ public class CurrentTasksFragment extends TasksFragment {
             View teamIcon = convertView.findViewById(R.id.teamIcon);
 
 
-            //changed here!!!!!!!!!!!! visibility of team icon   remove! here to check
-            // if (currentUser != null && task.getUser() != null && !task.getUser().getId().equals(currentUser.getId())) { // teamIcon.setVisibility(View.VISIBLE); // } else { // teamIcon.setVisibility(View.GONE); // }
+            Team team = task.getTeam();
 
-            boolean[] isCompleted = {task.getStatus() == 3}; // Assume status 3 means completed; adjust if needed
+            if (team == null || team.getId() == null) {
+                teamIcon.setVisibility(View.GONE);
+            } else {
+                teamIcon.setVisibility(View.VISIBLE);
+            }
+
+
+            boolean[] isCompleted = {task.getStatus() == 3};
 
             // Set initial image
             completionButton.setBackgroundResource(isCompleted[0] ? R.drawable.checkbox_on : R.drawable.checkbox_off);
@@ -211,7 +215,7 @@ public class CurrentTasksFragment extends TasksFragment {
 
                 // Update task status here
                 if (isCompleted[0]) {
-                    updateTaskStatus(task.getId(), 3, tasksDueToday, tasksNotDue); // Assuming 3 represents "Completed"
+                    updateTaskStatus(task.getId(), 3, tasksDueToday, tasksNotDue);
                     // Move task from notCompletedTasks to completedTasks
                     notCompletedTasks.remove(task);
                     completedTasks.add(task);
@@ -219,8 +223,8 @@ public class CurrentTasksFragment extends TasksFragment {
                     ((ArrayAdapter) tasksListViewNotDue.getAdapter()).notifyDataSetChanged();
 
                 } else {
-                    updateTaskStatus(task.getId(), 2,tasksDueToday,tasksNotDue); // Assuming 2 represents "In Progress" or another relevant status
-                    // Move task from completedTasks back to notCompletedTasks
+                    updateTaskStatus(task.getId(), 2,tasksDueToday,tasksNotDue);
+
                     completedTasks.remove(task);
                     notCompletedTasks.add(task);
                     ((ArrayAdapter) tasksListViewDueToday.getAdapter()).notifyDataSetChanged();
@@ -276,7 +280,7 @@ public class CurrentTasksFragment extends TasksFragment {
                 taskDetailsFragment.setArguments(bundle);
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, taskDetailsFragment) // Replace with your container ID
-                        .addToBackStack(null) // Optional: Add to back stack
+                        .addToBackStack(null)
                         .commit();
             });
 
@@ -302,29 +306,6 @@ public class CurrentTasksFragment extends TasksFragment {
                 Log.e("CompletedTasksFragment", "Failed to parse date: " + isoDate, e);
                 return "Invalid date";
             }
-        }
-    }
-
-
-
-    public String formatIsoDate(String isoDate) {
-        try {
-            if (isoDate == null || isoDate.isEmpty()) {
-                return "Invalid date";
-            }
-
-            LocalDate date;
-            if (isoDate.contains("T")) {
-                date = LocalDate.parse(isoDate, DateTimeFormatter.ISO_DATE_TIME);
-            } else {
-                date = LocalDate.parse(isoDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            }
-
-            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMMM dd", Locale.getDefault());
-            return date.format(outputFormatter);
-        } catch (DateTimeParseException e) {
-            Log.e("CurrentTasksFragment", "Failed to parse date: " + isoDate, e);
-            return "Invalid date";
         }
     }
 

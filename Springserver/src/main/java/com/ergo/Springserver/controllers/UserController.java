@@ -20,10 +20,10 @@ public class UserController {
         return userDao.findById(id);
     }
 
-    @GetMapping("/user/get-one-username")
-    public User getOneUserName(String username) {
-        return userDao.findByUsername(username);
-    }
+//    @GetMapping("/user/get-one-username")
+//    public User getOneUserName(String username) {
+//        return userDao.findByUsername(username);
+//    }
 
     @GetMapping("/user/get-friends")
     public List<User> getFriends(Long userId) {
@@ -38,10 +38,10 @@ public class UserController {
 
 
     //=========POST=================
-    @PostMapping("/user/save")
-    public User addUser(@RequestBody User user) {
-        return userDao.save(user);
-    }
+//    @PostMapping("/user/save")
+//    public User addUser(@RequestBody User user) {
+//        return userDao.save(user);
+//    }
 
     @PostMapping("/user/add-friend")
     public void addFriend(@RequestParam Long userId, @RequestParam Long friendId) {
