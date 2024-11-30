@@ -22,8 +22,11 @@ public class User implements UserDetails {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Getter @Setter
     private Long id;
+    @Setter
     private String username;
+    @Setter
     private String password;
+    @Setter
     private String email;
 
     // Getters and Setters for friends
@@ -98,13 +101,10 @@ public class User implements UserDetails {
                 '}';
     }
 
-    public void addFriend(User friend) {
-        this.friends.add(friend);
+    public User(Long id, String username, String password, String email) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
-
-    public void removeFriend(User friend) {
-        this.friends.remove(friend);
-    }
-
-
 }

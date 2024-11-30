@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+@SuppressWarnings("deprecation")
 public class TasksPagerAdapter extends FragmentStatePagerAdapter {
     private User user;
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
@@ -42,7 +43,7 @@ public class TasksPagerAdapter extends FragmentStatePagerAdapter {
         fragmentArrayList.add(fragment);
         fragmentTitle.add(title);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("user", user);
+        bundle.putParcelable("user", user);
         fragment.setArguments(bundle);
     }
 

@@ -19,10 +19,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="48dp"
-            android:paddingEnd="48dp"
-            android:gravity="center_horizontal">
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp">
 
             <TextView
                 android:id="@+id/NewTaskT"
@@ -52,7 +52,7 @@
                 android:background="@drawable/rounded_edittext_background"
                 android:inputType="text"
                 android:textColor="@color/dark_purple_col"
-                android:textColorHint="@color/dark_purple_col"/>
+                android:textColorHint="@color/dark_purple_col" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                 <LinearLayout
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="4dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -77,12 +77,12 @@
 
                     <Spinner
                         android:id="@+id/PrioritySpinner"
-                        android:layout_width="match_parent"
+                        android:layout_width="140dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/status_and_priority_red"
                         android:prompt="@string/spinner_status_prompt"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -102,12 +102,12 @@
 
                     <Spinner
                         android:id="@+id/StatusSpinner"
-                        android:layout_width="match_parent"
+                        android:layout_width="140dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/status_and_priority_green"
                         android:prompt="@string/spinner_priority_prompt"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -128,11 +128,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/no_color_button"
+                android:clickable="true"
+                android:focusable="true"
                 android:padding="10dp"
                 android:textColor="@color/dark_purple_col"
-                android:textSize="20sp"
-                android:clickable="true"
-                android:focusable="true"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/EndDateT"
@@ -150,11 +150,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/no_color_button"
+                android:clickable="true"
+                android:focusable="true"
                 android:padding="10dp"
                 android:textColor="@color/dark_purple_col"
-                android:textSize="20sp"
-                android:clickable="true"
-                android:focusable="true"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/MembersText"
@@ -199,37 +199,30 @@
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:textColor="@color/dark_purple_col"
-                android:textColorHighlight="@color/dark_purple_col"/>
+                android:textColorHighlight="@color/dark_purple_col" />
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="horizontal">-->
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:orientation="horizontal">-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/undertask_title"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/undertasks"-->
-<!--                    android:textColor="@android:color/black"-->
-<!--                    android:textSize="18sp" />-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/undertask_title"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/undertasks"-->
+            <!--                    android:textColor="@android:color/black"-->
+            <!--                    android:textSize="18sp" />-->
 
-<!--                <Button-->
-<!--                    android:id="@+id/add_element_button"-->
-<!--                    android:layout_width="40dp"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:background="@android:drawable/ic_input_add"-->
-<!--                    android:text="+"-->
-<!--                    android:textSize="24sp"-->
-<!--                    android:layout_marginTop="8dp"/>-->
-<!--            </LinearLayout>-->
-
-            <LinearLayout
-                android:id="@+id/elements_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp"/>
+            <!--                <Button-->
+            <!--                    android:id="@+id/add_element_button"-->
+            <!--                    android:layout_width="40dp"-->
+            <!--                    android:layout_height="40dp"-->
+            <!--                    android:background="@android:drawable/ic_input_add"-->
+            <!--                    android:text="+"-->
+            <!--                    android:textSize="24sp"-->
+            <!--                    android:layout_marginTop="8dp"/>-->
+            <!--            </LinearLayout>-->
 
             <Button
                 android:id="@+id/SaveTaskButton"

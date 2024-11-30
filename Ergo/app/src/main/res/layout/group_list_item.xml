@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="4dp"
-            android:text="@string/uni_mates" />
+            android:text="@string/uni_mates"
+            android:textColor="@color/darkest_purple_col" />
 
         <TextView
             android:id="@+id/friends_in_groupTV"
@@ -32,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginBottom="4dp"
-            android:text="Anya, Daniil, Anton" />
+            android:text="Anya, Daniil, Anton"
+            android:textColor="@color/darkest_purple_col" />
 
         <TextView
             android:id="@+id/TaskDueToday"
@@ -40,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:background="@drawable/rounded_edittext_background_pink"
-            android:text="3 Tasks Due Today" />
+            android:text="3 Tasks Due Today"
+            android:textColorLink="@color/darkest_purple_col" />
 
         <TextView
             android:id="@+id/TaskDueTotal"
@@ -49,7 +52,8 @@
             android:layout_marginVertical="4dp"
             android:layout_marginLeft="16dp"
             android:background="@drawable/rounded_edittext_background_pink"
-            android:text="3 Tasks Due Total" />
+            android:text="3 Tasks Due Total"
+            android:textColorLink="@color/darkest_purple_col" />
 
     </LinearLayout>
 

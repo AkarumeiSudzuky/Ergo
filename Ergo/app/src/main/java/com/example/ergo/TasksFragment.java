@@ -1,9 +1,13 @@
 package com.example.ergo;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +46,7 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+@SuppressWarnings("deprecation")
 public class TasksFragment extends Fragment {
     private static final int FILE_PICKER_REQUEST_CODE = 0;
     private User user;
@@ -52,6 +57,19 @@ public class TasksFragment extends Fragment {
     private CurrentTasksFragment currentTasksFragment;
     private CompletedTasksFragment completedTasksFragment;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MainActivity) {
+            MainActivity activity = (MainActivity) context;
+            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    // Handle back press, but prevent default swipe behavior
+                }
+            });
+        }
+    }
 
     @Nullable
     @Override
@@ -60,7 +78,7 @@ public class TasksFragment extends Fragment {
 
         // Get the user object passed from the previous fragment or activity
         if (getArguments() != null) {
-            user = (User) getArguments().getSerializable("user");
+            user = (User) getArguments().getParcelable("user");
         }
 
         // Initialize TabLayout and ViewPager
@@ -88,6 +106,26 @@ public class TasksFragment extends Fragment {
 
         importButton = view.findViewById(R.id.importButton);
         importButton.setOnClickListener(v -> openFilePicker());
+
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                view.getWindowVisibleDisplayFrame(r);
+                int heightDiff = view.getRootView().getHeight() - (r.bottom - r.top);
+
+                if (heightDiff > 200) {
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).setBottomNavigationVisibility(false);
+                    }
+                } else {
+                    // Keyboard is hidden
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).setBottomNavigationVisibility(true);
+                    }
+                }
+            }
+        });
 
         return view;
     }

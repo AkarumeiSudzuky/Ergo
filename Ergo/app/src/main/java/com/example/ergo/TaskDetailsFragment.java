@@ -2,7 +2,12 @@ package com.example.ergo;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -12,11 +17,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.example.ergo.model.Task;
 import com.example.ergo.model.User;
+import com.example.ergo.retrofit.RetrofitService;
+import com.example.ergo.retrofit.TaskAPI;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -27,12 +37,30 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+@SuppressWarnings("deprecation")
 public class TaskDetailsFragment extends Fragment {
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 0;
     private Task task;
     private User user;
     private TextView exportButton;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MainActivity) {
+            MainActivity activity = (MainActivity) context;
+            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    // Handle back press, but prevent default swipe behavior
+                }
+            });
+        }
+    }
 
     @Nullable
     @Override
@@ -43,7 +71,7 @@ public class TaskDetailsFragment extends Fragment {
 
         if (getArguments() != null) {
             task = (Task) getArguments().getSerializable("task");
-            user = (User) getArguments().getSerializable("user");
+            user = (User) getArguments().getParcelable("user");
         }
 
         if (getArguments() != null) {
@@ -55,6 +83,7 @@ public class TaskDetailsFragment extends Fragment {
 
         return view;
     }
+
 
     private void displayTaskDetails(View view) {
         TextView titleTextView = view.findViewById(R.id.TitleText);
@@ -122,12 +151,46 @@ public class TaskDetailsFragment extends Fragment {
                 fos.write(json.getBytes());
                 fos.flush();
                 showToast("Task exported to " + file.getAbsolutePath());
+                showExportNotification(file.getAbsolutePath());
             }
         } catch (IOException e) {
             e.printStackTrace();
             showToast("Failed to export task: " + e.getMessage());
         }
     }
+
+    private void showExportNotification(String filePath) {
+        String channelId = "task_export_channel";
+        String channelName = "Task Export Notifications";
+
+        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Create a notification channel for Android O and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    channelId,
+                    channelName,
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            channel.setDescription("Notifications for exported task files");
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        // Create the notification using Notification.Builder
+        Notification.Builder builder = new Notification.Builder(getContext())
+                .setSmallIcon(android.R.drawable.ic_dialog_info) // Default system icon
+                .setContentTitle("Task Exported")
+                .setContentText("Task file exported to: " + filePath)
+                .setAutoCancel(true);
+
+        // For Android O and above, set the channel ID
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(channelId);
+        }
+
+        notificationManager.notify(1, builder.build());
+    }
+
 
     public static class TaskExport {
         private String title;

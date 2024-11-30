@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.example.ergo.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+@SuppressWarnings("deprecation")
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private User activeUser;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void loadFragment(Fragment fragment, User user) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("user", user);
+        bundle.putParcelable("user", user);
         fragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()

@@ -28,14 +28,7 @@ class SpringserverApplicationTests {
 	@Autowired
 	private TeamDao teamDao;
 
-	@Test
-	void addUserTest() {
-		User user = new User();
-		user.setUsername("Jane");
-		user.setPassword("123");
-		user.setEmail("jane@gmail.com");
-		userDao.save(user);
-	}
+
 
 
 	@Transactional

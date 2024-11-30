@@ -1,5 +1,6 @@
 package com.example.ergo;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,27 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.ergo.model.Task;
 import com.example.ergo.model.Team;
 import com.example.ergo.model.User;
 import com.example.ergo.retrofit.RetrofitService;
 import com.example.ergo.retrofit.TaskAPI;
-import com.google.android.material.tabs.TabLayout;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -41,6 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@SuppressWarnings("deprecation")
 public class CompletedTasksFragment extends TasksFragment {
     private User user;
 
@@ -52,23 +49,31 @@ public class CompletedTasksFragment extends TasksFragment {
     private List<Task> completedTasks = new ArrayList<>();
     private List<Task> notCompletedTasks = new ArrayList<>();
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MainActivity) {
+            MainActivity activity = (MainActivity) context;
+            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                }
+            });
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.completed_tasks_fragment, container, false);
-//        Log.d("user_info", user.toString());
-        // Get the user object passed from the previous fragment or activity
+
         if (getArguments() != null) {
-            user = (User) getArguments().getSerializable("user");
+            user = (User) getArguments().getParcelable("user");
         }
 
-
-        // Initialize ListViews
         tasksListViewDueToday = view.findViewById(R.id.TasksListViewDueTodayCompleted);
         tasksListViewNotDue = view.findViewById(R.id.TaskListViewNotDueCompleted);
 
-        // Fetch tasks from the server
         fetchTasks();
 
         return view;
@@ -90,20 +95,18 @@ public class CompletedTasksFragment extends TasksFragment {
     }
 
     public void updateUI() {
-        // Set the adapter for tasks due today
         CompletedTasksFragment.TaskAdapter dueTodayAdapter = new CompletedTasksFragment.TaskAdapter(getContext(), tasksDueToday, user);
         tasksListViewDueToday.setAdapter(dueTodayAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewDueToday); // Adjust height based on content
+        setListViewHeightBasedOnChildren(tasksListViewDueToday);
 
-        // Set the adapter for tasks not due today
         CompletedTasksFragment.TaskAdapter notDueAdapter = new CompletedTasksFragment.TaskAdapter(getContext(), tasksNotDue, user);
         tasksListViewNotDue.setAdapter(notDueAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewNotDue); // Adjust height based on content
+        setListViewHeightBasedOnChildren(tasksListViewNotDue);
     }
 
     private void fetchTasks() {
         if (!tasksDueToday.isEmpty() || !tasksNotDue.isEmpty()) {
-            updateUI(); // If data already exists, just update the UI
+            updateUI();
             return;
         }
 
@@ -131,14 +134,12 @@ public class CompletedTasksFragment extends TasksFragment {
     }
 
     private void sortTasksByDate(List<Task> allTasks) {
-        String today = String.valueOf(LocalDate.now());  // Get today's date
+        String today = String.valueOf(LocalDate.now());
 
-        // Separate tasks into "Due Today" and "Not Due"
         for (Task task : allTasks) {
-
             if (task.getStopDate().substring(0, 10).equals(today) && !containsTaskWithId(tasksDueToday, task.getId())) {
                 tasksDueToday.add(task);
-            } else if (!containsTaskWithId(tasksNotDue, task.getId())) {
+            } else if (!containsTaskWithId(tasksNotDue, task.getId()) &&!containsTaskWithId(tasksDueToday, task.getId()) ) {
                 tasksNotDue.add(task);
             }
         }
@@ -146,12 +147,12 @@ public class CompletedTasksFragment extends TasksFragment {
         // Set the adapter for tasks due today
         CompletedTasksFragment.TaskAdapter dueTodayAdapter = new CompletedTasksFragment.TaskAdapter(getContext(), tasksDueToday, user);
         tasksListViewDueToday.setAdapter(dueTodayAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewDueToday); // Adjust height based on content
+        setListViewHeightBasedOnChildren(tasksListViewDueToday);
 
         // Set the adapter for tasks not due today
         CompletedTasksFragment.TaskAdapter notDueAdapter = new CompletedTasksFragment.TaskAdapter(getContext(), tasksNotDue, user);
         tasksListViewNotDue.setAdapter(notDueAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewNotDue); // Adjust height based on content
+        setListViewHeightBasedOnChildren(tasksListViewNotDue);
     }
 
     private void sortTasksByProgress(List<Task> allTasks){
@@ -166,10 +167,10 @@ public class CompletedTasksFragment extends TasksFragment {
     private boolean containsTaskWithId(List<Task> taskList, long taskId) {
         for (Task existingTask : taskList) {
             if (existingTask.getId() == taskId) {
-                return true; // Task with this ID is already in the list
+                return true;
             }
         }
-        return false; // Task with this ID is not in the list
+        return false;
     }
 
     private void showToast(String message) {
@@ -235,7 +236,7 @@ public class CompletedTasksFragment extends TasksFragment {
                     completedTasks.add(task);
                     ((ArrayAdapter) tasksListViewDueToday.getAdapter()).notifyDataSetChanged();
                     ((ArrayAdapter) tasksListViewNotDue.getAdapter()).notifyDataSetChanged();
-
+                    updateUI();
                 } else {
                     updateTaskStatus(task.getId(), 2,tasksDueToday,tasksNotDue); // Assuming 2 represents "In Progress" or another relevant status
                     // Move task from completedTasks back to notCompletedTasks
@@ -243,6 +244,7 @@ public class CompletedTasksFragment extends TasksFragment {
                     notCompletedTasks.add(task);
                     ((ArrayAdapter) tasksListViewDueToday.getAdapter()).notifyDataSetChanged();
                     ((ArrayAdapter) tasksListViewNotDue.getAdapter()).notifyDataSetChanged();
+                    updateUI();
                 }
             });
 
@@ -284,6 +286,11 @@ public class CompletedTasksFragment extends TasksFragment {
             taskStatus.setText(status);
             taskTimeRange.setText(formatIsoDate(task.getStopDate()));
 
+            convertView.setOnLongClickListener(v -> {
+                showDeleteConfirmationDialog(task, position);
+                return true;
+            });
+
             convertView.setOnClickListener(v -> {
                 Task selectedTask = tasks.get(position);
                 // Navigate to TaskDetailsFragment
@@ -300,6 +307,40 @@ public class CompletedTasksFragment extends TasksFragment {
 
             return convertView;
         }
+
+        private void showDeleteConfirmationDialog(Task task, int position) {
+            new AlertDialog.Builder(context)
+                    .setTitle("Delete Task")
+                    .setMessage("Are you sure you want to delete this task?")
+                    .setPositiveButton("Delete", (dialog, which) -> deleteTask(task, position))
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        }
+
+        private void deleteTask(Task task, int position) {
+            RetrofitService retrofitService = new RetrofitService();
+            TaskAPI taskAPI = retrofitService.getRetrofit().create(TaskAPI.class);
+
+            taskAPI.deleteTask(task.getId()).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(context, "Task deleted successfully", Toast.LENGTH_SHORT).show();
+                        tasks.remove(position);
+                        notifyDataSetChanged();
+                        updateUI();
+                    } else {
+                        Toast.makeText(context, "Failed to delete task: " + response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(context, "Error deleting task: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
 
         public String formatIsoDate(String isoDate) {
             try {

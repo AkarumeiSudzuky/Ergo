@@ -12,7 +12,7 @@ import java.util.Date;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String description;
     private int priority;
     private Date startDate;
@@ -27,6 +27,10 @@ public class Task {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "group_id", nullable = true)
     private Team team;
+
+    public Task() {
+
+    }
 
 
     public Team getTeam() {
@@ -116,5 +120,16 @@ public class Task {
                 ", user=" + user +
                 ", team=" + team +
                 '}';
+    }
+
+    public Task(Integer id, String description, int priority, Date startDate, Date stopDate, int status, String title, User user) {
+        this.id = id;
+        this.description = description;
+        this.priority = priority;
+        this.startDate = startDate;
+        this.stopDate = stopDate;
+        this.status = status;
+        this.title = title;
+        this.user = user;
     }
 }

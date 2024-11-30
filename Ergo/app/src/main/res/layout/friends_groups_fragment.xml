@@ -10,8 +10,7 @@
         android:id="@+id/FriendGroupMainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_background_col"
-        android:paddingTop="16dp">
+        android:background="@color/app_background_col">
 
         <!-- Friends Layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,15 +39,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <ListView
-                android:id="@+id/FriendListView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/FriendsText" />
-
             <Button
                 android:id="@+id/AddNewFriendButton"
                 android:layout_width="match_parent"
@@ -60,7 +50,19 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/FriendListView" />
+                app:layout_constraintTop_toBottomOf="@id/FriendsText" />
+
+            <ListView
+                android:id="@+id/FriendListView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical"
+                android:paddingBottom="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/AddNewFriendButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

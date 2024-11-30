@@ -1,13 +1,26 @@
 package com.example.ergo.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User implements Parcelable {
 
     private Long id;
     private String username;
     private String password;
     private String email;
+
+    public User (String username, String email, String password){
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+
 
 //    // Relationship for friends
 //    @ManyToMany
@@ -37,6 +50,29 @@ public class User implements Serializable {
 //    public void setFriends(Set<User> friends) {
 //        this.friends = friends;
 //    }
+
+    protected User(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        username = in.readString();
+        password = in.readString();
+        email = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getUsername() {
         return username;
@@ -78,6 +114,24 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(id);
+        }
+        parcel.writeString(username);
+        parcel.writeString(password);
+        parcel.writeString(email);
     }
 
 //    public void addFriend(User friend) {

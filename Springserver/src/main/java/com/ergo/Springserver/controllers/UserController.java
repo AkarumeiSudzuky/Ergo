@@ -1,8 +1,12 @@
 package com.ergo.Springserver.controllers;
 
+import com.ergo.Springserver.dto.FriendRequest;
 import com.ergo.Springserver.model.user.User;
 import com.ergo.Springserver.model.user.UserDao;
+import com.ergo.Springserver.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +24,10 @@ public class UserController {
         return userDao.findById(id);
     }
 
-//    @GetMapping("/user/get-one-username")
-//    public User getOneUserName(String username) {
-//        return userDao.findByUsername(username);
-//    }
+    @GetMapping("/user/get-one-username")
+    public User getOneUserName(@RequestParam String username) {
+        return userDao.findByUsername(username);
+    }
 
     @GetMapping("/user/get-friends")
     public List<User> getFriends(Long userId) {
@@ -36,26 +40,29 @@ public class UserController {
     }
 
 
-
     //=========POST=================
-//    @PostMapping("/user/save")
-//    public User addUser(@RequestBody User user) {
-//        return userDao.save(user);
-//    }
 
     @PostMapping("/user/add-friend")
-    public void addFriend(@RequestParam Long userId, @RequestParam Long friendId) {
-        userDao.addFriend(userId,friendId);
-    }
+    public ResponseEntity<String> addFriend(@RequestBody FriendRequest friendRequest) {
+        // Ensure that the friendRequest object contains both userId and friendId
+        if (friendRequest == null || friendRequest.getUserId() == null || friendRequest.getFriendId() == null) {
+            return ResponseEntity.badRequest().body("User ID and Friend ID must be provided.");
+        }
 
+        // Call your DAO method to add the friend
+        try {
+            userDao.addFriend(friendRequest.getUserId(), friendRequest.getFriendId());
+            return ResponseEntity.ok("Friend added successfully.");
+        } catch (Exception e) {
+            // Handle any exceptions, such as user not found or database errors
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding friend.");
+        }
+    }
 
     //=========DELETE=================
     @DeleteMapping("/user/remove-friend")
     public void removeFriend(@RequestParam Long userId, @RequestParam Long friendId) {
         userDao.removeFriend(userId, friendId);
     }
-
-
-
 
 }

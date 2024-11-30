@@ -42,8 +42,8 @@ public class TeamController {
     }
 
     @GetMapping("/team/get-all-users")
-    public List<User> getAllUsers(int id) {
-        return teamDao.getUsersInTeam(id);
+    public List<User> getAllUsers(@RequestParam("teamId") Integer teamId) {
+        return teamDao.getUsersInTeam(teamId);
     }
 
 

@@ -35,20 +35,10 @@
             android:clickable="true"
             android:text="Export"
             android:textAlignment="center"
+            android:textColor="@color/darkest_purple_col"
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/statusChangeButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/rounded_edittext_background_pink"
-            android:clickable="true"
-            android:text="Delete Task"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/Title"

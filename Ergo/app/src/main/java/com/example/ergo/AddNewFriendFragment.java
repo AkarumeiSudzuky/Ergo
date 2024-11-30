@@ -2,8 +2,11 @@ package com.example.ergo;
 
 import static android.widget.Toast.LENGTH_LONG;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -30,10 +33,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@SuppressWarnings("deprecation")
 public class AddNewFriendFragment extends Fragment {
     private Button addNewFriend;
     private EditText friendUsernameET;
     private User user;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof MainActivity) {
+            MainActivity activity = (MainActivity) context;
+            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    // Handle back press, but prevent default swipe behavior
+                }
+            });
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,7 +60,7 @@ public class AddNewFriendFragment extends Fragment {
 
         // Retrieve the User object from the arguments
         if (getArguments() != null) {
-            user = (User) getArguments().getSerializable("user");
+            user = (User) getArguments().getParcelable("user");
         }
 
         addNewFriend = view.findViewById(R.id.AddNewFriendButton);

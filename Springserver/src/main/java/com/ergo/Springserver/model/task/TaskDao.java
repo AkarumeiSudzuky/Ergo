@@ -120,40 +120,6 @@ public class TaskDao {
 
     }
 
-//    @Scheduled(cron = "0 0 0 * * ?") // Executes daily at midnight
-//    public List<Task> getTasksExpiringToday() {
-//        LocalDate today = LocalDate.now();
-//
-//        // Convert Iterable to Stream
-//        List<Task> expiringTasks = StreamSupport.stream(taskRepository.findAll().spliterator(), false)
-//                .filter(task -> task.getStopDate() != null && task.getStopDate().equals(today))
-//                .collect(Collectors.toList());
-//
-//        // Log or process the tasks
-//        if (!expiringTasks.isEmpty()) {
-//            System.out.println("Tasks expiring today: " + expiringTasks);
-//        } else {
-//            System.out.println("No tasks expiring today.");
-//        }
-//
-//        return expiringTasks;
-//    }
-//
-//    @Scheduled(cron = "0 0 0 * * ?") // Executes daily at midnight
-//    public void notifyUsersAboutExpiringTasks() {
-//        List<Task> expiringTasks = getTasksExpiringToday();
-//        for (Task task : expiringTasks) {
-//            if (task.getUser() != null) {
-//                String userEmail = task.getUser().getEmail(); // Assuming User has an email field
-//                String message = "Your task '" + task.getTitle() + "' is expiring today!";
-//
-//                // Send notification (e.g., email, WebSocket, etc.)
-////                notificationService.sendNotification(userEmail, message); // Implement notification logic
-//            }
-//        }
-//    }
-
-
 
 
 }

@@ -11,9 +11,6 @@
         android:id="@+id/constraintLay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="525dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,7 +19,12 @@
             android:id="@+id/include"
             layout="@layout/objects_image"
             android:layout_width="400dp"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"
+            android:layout_marginTop="36dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -52,7 +54,7 @@
             android:layout_height="wrap_content"
             android:text="@string/create_an_account"
             android:textColor="@color/darkest_purple_col"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/GettingStartedText" />
@@ -61,8 +63,8 @@
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="48dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/CreateAccountText">
@@ -71,12 +73,11 @@
                 android:id="@+id/EmailText"
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="256dp"
                 android:text="@string/email"
                 android:textColor="@color/darkest_purple_col"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="TextSizeCheck" />
@@ -179,7 +180,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="80dp"
-            android:layout_marginBottom="-128dp"
             android:clickable="true"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -193,7 +193,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="1dp"
-                android:text="@string/already_have_an_account" />
+                android:text="@string/already_have_an_account"
+                android:textColor="@color/darkest_purple_col" />
 
             <TextView
                 android:id="@+id/LogInText"
@@ -202,6 +203,7 @@
                 android:layout_marginHorizontal="1dp"
                 android:layout_weight="1"
                 android:text="@string/log_in_text"
+                android:textColor="@color/darkest_purple_col"
                 android:textStyle="bold" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
