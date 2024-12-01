@@ -82,7 +82,6 @@
     <string name="group_details">Group Details</string>
     <string name="placeholder_for_members">placeholder for members</string>
     <string name="team_tasks">Team Tasks</string>
-    <string name="delete_task">Delete Task</string>
     <string-array name="spinner_priority_items">
         <item>Light</item>
         <item>Medium</item>

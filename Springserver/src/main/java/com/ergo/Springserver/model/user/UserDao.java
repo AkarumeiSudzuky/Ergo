@@ -20,27 +20,58 @@ public class UserDao implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Saves a user to the repository.
+     * @param user the user to save
+     * @return the saved user
+     */
     public User save(User user) {
         return userRepository.save(user);
 
     }
+
+    /**
+     * Deletes a specific user from the repository.
+     * @param user the user to delete
+     */
     public void delete(User user) {
         userRepository.delete(user);
     }
 
+    /**
+     * Retrieves all users from the repository.
+     * @return a list of all users
+     */
     public List<User> findAll() {
         return (List<User>)userRepository.findAll();
     }
 
+    /**
+     * Finds a user by username.
+     * @param username the username of the user
+     * @return the user with the given username
+     * @throws IllegalArgumentException if the username is not found
+     */
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("Invalid username."));
     }
 
+    /**
+     * Finds a user by their ID.
+     * @param id the ID of the user
+     * @return the user with the given ID
+     * @throws RuntimeException if the user is not found
+     */
     public User findById(Long id) {
         return userRepository.findById(id) .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
-    // Retrieve list of friends for a specific user by ID
+    /**
+     * Retrieves a list of all friends for a specific user.
+     * @param userId the ID of the user
+     * @return a list of the user's friends
+     * @throws RuntimeException if the user is not found
+     */
     public List<User> getFriends(Long userId) {
 
         if (userId == null) {
@@ -71,8 +102,12 @@ public class UserDao implements UserDetailsService {
     }
 
 
-
-    // Add a friend to a specific user
+    /**
+     * Adds a friend to a specific user.
+     * @param userId the ID of the user
+     * @param friendId the ID of the friend
+     * @throws RuntimeException if the user or friend is not found or if the friendship already exists
+     */
     public void addFriend(Long userId, Long friendId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
@@ -90,7 +125,12 @@ public class UserDao implements UserDetailsService {
         }
     }
 
-
+    /**
+     * Removes a friend from a specific user's friend list.
+     * @param userId the ID of the user
+     * @param friendId the ID of the friend to remove
+     * @throws RuntimeException if the user or friend is not found or if no friendship exists
+     */
     public void removeFriend(Long userId, Long friendId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
@@ -112,13 +152,17 @@ public class UserDao implements UserDetailsService {
     }
 
 
-
+    /**
+     * Loads a user by their username for authentication.
+     * @param username the username of the user
+     * @return the user details for the specified username
+     * @throws UsernameNotFoundException if the username is not found
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
-        log.info("Loaded user with password: {}", user.getPassword()); // Verify the password
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),

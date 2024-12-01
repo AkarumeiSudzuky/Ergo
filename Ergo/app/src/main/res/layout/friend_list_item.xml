@@ -47,7 +47,6 @@
                 android:paddingHorizontal="4dp"
                 android:paddingBottom="4dp"
                 android:text="@string/friend_s_name"
-                android:textColor="@color/darkest_purple_col"
                 android:textSize="14sp" />
 
             <TextView
@@ -56,7 +55,6 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="4dp"
                 android:text="@string/in_0_group_s_with_you"
-                android:textColor="@color/darkest_purple_col"
                 android:textSize="14sp" />
         </LinearLayout>
 

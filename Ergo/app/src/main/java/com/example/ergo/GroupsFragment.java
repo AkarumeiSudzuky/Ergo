@@ -1,10 +1,7 @@
 package com.example.ergo;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Bundle;
-
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -33,27 +29,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@SuppressWarnings("deprecation")
 public class GroupsFragment extends Fragment {
     private User user;
     private Button addNewGroupButton;
     private ListView groupsListView;
     private TeamApi teamApi;
     private List<Team> teamList;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof MainActivity) {
-            MainActivity activity = (MainActivity) context;
-            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-                @Override
-                public void handleOnBackPressed() {
-                    // Handle back press, but prevent default swipe behavior
-                }
-            });
-        }
-    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.groups_fragment, container, false);
@@ -68,27 +49,6 @@ public class GroupsFragment extends Fragment {
             showToast("User  data is missing");
         }
 
-
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                view.getWindowVisibleDisplayFrame(r);
-                int heightDiff = view.getRootView().getHeight() - (r.bottom - r.top);
-
-                if (heightDiff > 200) {
-                    if (getActivity() instanceof MainActivity) {
-                        ((MainActivity) getActivity()).setBottomNavigationVisibility(false);
-                    }
-                } else {
-                    // Keyboard is hidden
-                    if (getActivity() instanceof MainActivity) {
-                        ((MainActivity) getActivity()).setBottomNavigationVisibility(true);
-                    }
-                }
-            }
-        });
-
         return view;
     }
 
@@ -99,7 +59,7 @@ public class GroupsFragment extends Fragment {
 
     private void retrieveUserFromArguments() {
         if (getArguments() != null) {
-            user = (User ) getArguments().getParcelable("user");
+            user = (User ) getArguments().getSerializable("user");
         }
     }
 
@@ -145,7 +105,7 @@ public class GroupsFragment extends Fragment {
 
     private void loadFragment(Fragment fragment, User user) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable("user", user);
+        bundle.putSerializable("user", user);
         fragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager().beginTransaction()
@@ -183,7 +143,7 @@ public class GroupsFragment extends Fragment {
                 // Pass the Team and User objects directly to GroupDetailsFragment
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("team", team); // Pass the Team object
-                bundle.putParcelable("user", user); // Pass the User object
+                bundle.putSerializable("user", user); // Pass the User object
                 groupDetailsFragment.setArguments(bundle);
 
                 // Load the GroupDetails Fragment directly from GroupsFragment

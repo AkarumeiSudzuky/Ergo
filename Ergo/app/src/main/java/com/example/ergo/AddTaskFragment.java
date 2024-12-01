@@ -2,11 +2,8 @@ package com.example.ergo;
 
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
-
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -47,7 +44,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@SuppressWarnings("deprecation")
 public class AddTaskFragment extends Fragment {
 
     private EditText titleEditText, descriptionEditText;
@@ -72,19 +68,6 @@ public class AddTaskFragment extends Fragment {
     private List<User> friendsList = new ArrayList<>();
     private List<Map<String, Object>> filteredList = new ArrayList<>();
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof MainActivity) {
-            MainActivity activity = (MainActivity) context;
-            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-                @Override
-                public void handleOnBackPressed() {
-                    // Handle back press, but prevent default swipe behavior
-                }
-            });
-        }
-    }
 
     @Nullable
     @Override
@@ -94,7 +77,7 @@ public class AddTaskFragment extends Fragment {
 
         // Retrieve the User object from the arguments
         if (getArguments() != null) {
-            user = (User) getArguments().getParcelable("user");
+            user = (User) getArguments().getSerializable("user");
             team = (Team) getArguments().getSerializable("team");
         }
 
@@ -276,11 +259,11 @@ public class AddTaskFragment extends Fragment {
                 String selectedItem = spinnerStatusItems[position];
                 switch (position) {
                     case 0:
-                        status = 1;
+                        status =1;
                         statusSpinner.setBackgroundResource(R.drawable.status_and_priority_red);
                         break;
                     case 1:
-                        status = 2;
+                        status =2;
                         statusSpinner.setBackgroundResource(R.drawable.status_and_priority_yellow);
                         break;
                     case 2:

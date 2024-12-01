@@ -35,7 +35,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@SuppressWarnings("deprecation")
 public class RegisterFragment extends Fragment {
     private EditText usernameEditText, passwordEditText, emailEditText;
     private Button createAccountButton;
@@ -47,9 +46,6 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.register_fragment, container, false);
-
-        ((MainActivity) getActivity()).setBottomNavigationVisibility(false);
-
         usernameEditText = view.findViewById(R.id.UsernameInput);
         passwordEditText = view.findViewById(R.id.PasswordInput);
         emailEditText = view.findViewById(R.id.EmailInput);
@@ -111,7 +107,7 @@ public class RegisterFragment extends Fragment {
     }
 
 
-    protected boolean checkFields(String username, String email, String password){
+    private boolean checkFields(String username, String email, String password){
         String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         String usernamePattern = "^[a-zA-Z0-9]{3,15}$"; // Username: 3-15 numbers and/or characters
         String passwordPattern = "^(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?])(?=.*[a-zA-Z]).{8,}$"; // Password: At least 8 characters in total: 1 number, 1 special character

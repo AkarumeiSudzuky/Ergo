@@ -1,11 +1,8 @@
 package com.example.ergo;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
-
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -41,7 +38,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@SuppressWarnings("deprecation")
 public class AddNewGroupFragment extends Fragment {
     private User user;
     private Button saveGroupButton;
@@ -53,20 +49,6 @@ public class AddNewGroupFragment extends Fragment {
     private RetrofitService retrofitService = new RetrofitService();
     private TeamApi teamApi = retrofitService.getRetrofit().create(TeamApi.class);
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof MainActivity) {
-            MainActivity activity = (MainActivity) context;
-            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-                @Override
-                public void handleOnBackPressed() {
-                    // Handle back press, but prevent default swipe behavior
-                }
-            });
-        }
-    }
-
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
@@ -74,7 +56,7 @@ public class AddNewGroupFragment extends Fragment {
         View view = inflater.inflate(R.layout.add_group_fragment, container, false);
 
         if (getArguments() != null) {
-            user = (User) getArguments().getParcelable("user");
+            user = (User) getArguments().getSerializable("user");
         }
 
         saveGroupButton = view.findViewById(R.id.SaveGroupButton);

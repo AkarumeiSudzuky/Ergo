@@ -3,6 +3,7 @@ package com.ergo.Springserver.model.team;
 import com.ergo.Springserver.model.task.Task;
 import com.ergo.Springserver.model.user.User;
 import jakarta.persistence.*;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,18 +14,20 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Setter
     private String name;
 
     // Relationship for users in the group
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(mappedBy = "teams")
     private Set<User> users = new HashSet<>();
 
     // Relationship for tasks associated with the team
+    @Setter
     @ManyToMany
     @JoinTable(
-            name = "Team_Task", // Name of the join table
-            joinColumns = @JoinColumn(name = "team_id"), // Foreign key to the Team
-            inverseJoinColumns = @JoinColumn(name = "task_id") // Foreign key to the Task
+            name = "Team_Task",
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
     )
     private Set<Task> tasks = new HashSet<>();
 
@@ -43,17 +46,9 @@ public class Team {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     // Getter for users
     public Set<User> getUsers() {
         return users;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
     }
 
     public Set<Task> getTasks() {

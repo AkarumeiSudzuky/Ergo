@@ -1,6 +1,5 @@
 package com.example.ergo;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,25 +20,10 @@ import com.example.ergo.model.User;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("deprecation")
 public class GroupDetailsFragment extends Fragment {
     private Team team;
     private User user;
     private Task task;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof MainActivity) {
-            MainActivity activity = (MainActivity) context;
-            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-                @Override
-                public void handleOnBackPressed() {
-                    // Handle back press, but prevent default swipe behavior
-                }
-            });
-        }
-    }
 
     @Nullable
     @Override
@@ -49,7 +32,7 @@ public class GroupDetailsFragment extends Fragment {
 
         if (getArguments() != null) {
             team = (Team) getArguments().getSerializable("team");
-            user = (User) getArguments().getParcelable("user");
+            user = (User) getArguments().getSerializable("user");
             task = (Task) getArguments().getSerializable("task");
         }
 
@@ -88,7 +71,7 @@ public class GroupDetailsFragment extends Fragment {
             }
 
             // Pass the user object if needed
-            bundle.putParcelable("user", user);
+            bundle.putSerializable("user", user);
 
             // Set the arguments for the fragment
             addTaskFragment.setArguments(bundle);

@@ -1,6 +1,5 @@
 package com.example.ergo;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -37,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-@SuppressWarnings("deprecation")
+
 public class CurrentTasksFragment extends TasksFragment {
     private User user;
 
@@ -48,30 +46,20 @@ public class CurrentTasksFragment extends TasksFragment {
     private List<Task> completedTasks = new ArrayList<>();
     private List<Task> notCompletedTasks = new ArrayList<>();
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof MainActivity) {
-            MainActivity activity = (MainActivity) context;
-            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-                @Override
-                public void handleOnBackPressed() {
-                }
-            });
-        }
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.current_tasks_fragment, container, false);
 
+        // Get the user object passed from the previous fragment or activity
         if (getArguments() != null) {
-            user = (User) getArguments().getParcelable("user");
+            user = (User) getArguments().getSerializable("user");
         }
+
 
         tasksListViewDueToday = view.findViewById(R.id.TasksListViewDueTodayCurrent);
         tasksListViewNotDue = view.findViewById(R.id.TaskListViewNotDueCurrent);
+
 
         fetchTasks();
 
@@ -85,9 +73,10 @@ public class CurrentTasksFragment extends TasksFragment {
         fetchTasks();
     }
 
+
     private void fetchTasks() {
         if (!tasksDueToday.isEmpty() || !tasksNotDue.isEmpty()) {
-            updateUI();
+            updateUI(); // If data already exists, update the UI
             return;
         }
 
@@ -119,10 +108,10 @@ public class CurrentTasksFragment extends TasksFragment {
         tasksNotDue.clear();
         tasksDueToday.clear();
     }
-
     private void sortTasksByDate(List<Task> allTasks) {
-        String today = String.valueOf(LocalDate.now());
+        String today = String.valueOf(LocalDate.now());  // Get today's date
 
+        // Separate tasks into "Due Today" and "Not Due"
         for (Task task : allTasks) {
             if (task.getStopDate().substring(0, 10).equals(today) && !containsTaskWithId(tasksDueToday, task.getId())) {
                 tasksDueToday.add(task);
@@ -132,24 +121,27 @@ public class CurrentTasksFragment extends TasksFragment {
 
         }
 
+        // Set the adapter for tasks due today
         CurrentTasksFragment.TaskAdapter dueTodayAdapter = new CurrentTasksFragment.TaskAdapter(getContext(), tasksDueToday, user);
         tasksListViewDueToday.setAdapter(dueTodayAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewDueToday);
+        setListViewHeightBasedOnChildren(tasksListViewDueToday); // Adjust height based on content
 
-
+        // Set the adapter for tasks not due today
         CurrentTasksFragment.TaskAdapter notDueAdapter = new CurrentTasksFragment.TaskAdapter(getContext(), tasksNotDue, user);
         tasksListViewNotDue.setAdapter(notDueAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewNotDue);
+        setListViewHeightBasedOnChildren(tasksListViewNotDue); // Adjust height based on content
     }
 
     private boolean containsTaskWithId(List<Task> taskList, long taskId) {
         for (Task existingTask : taskList) {
             if (existingTask.getId() == taskId) {
-                return true;
+                return true; // Task with this ID is already in the list
             }
         }
-        return false;
+        return false; // Task with this ID is not in the list
     }
+
+
 
     private void sortTasksByProgress(List<Task> allTasks){
         for (Task task : allTasks) {
@@ -163,13 +155,14 @@ public class CurrentTasksFragment extends TasksFragment {
 
 
     public void updateUI() {
+        // Ensure the adapter for both "Due Today" and "Not Due" tasks is updated
         TaskAdapter dueTodayAdapter = new TaskAdapter(getContext(), tasksDueToday, user);
         tasksListViewDueToday.setAdapter(dueTodayAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewDueToday);
+        setListViewHeightBasedOnChildren(tasksListViewDueToday); // Adjust height based on content
 
         TaskAdapter notDueAdapter = new TaskAdapter(getContext(), tasksNotDue, user);
         tasksListViewNotDue.setAdapter(notDueAdapter);
-        setListViewHeightBasedOnChildren(tasksListViewNotDue);
+        setListViewHeightBasedOnChildren(tasksListViewNotDue); // Adjust height based on content
     }
 
 
@@ -228,7 +221,7 @@ public class CurrentTasksFragment extends TasksFragment {
                     completedTasks.add(task);
                     ((ArrayAdapter) tasksListViewDueToday.getAdapter()).notifyDataSetChanged();
                     ((ArrayAdapter) tasksListViewNotDue.getAdapter()).notifyDataSetChanged();
-                    updateUI();
+
                 } else {
                     updateTaskStatus(task.getId(), 2,tasksDueToday,tasksNotDue);
 
@@ -236,7 +229,6 @@ public class CurrentTasksFragment extends TasksFragment {
                     notCompletedTasks.add(task);
                     ((ArrayAdapter) tasksListViewDueToday.getAdapter()).notifyDataSetChanged();
                     ((ArrayAdapter) tasksListViewNotDue.getAdapter()).notifyDataSetChanged();
-                    updateUI();
                 }
             });
 
@@ -246,16 +238,16 @@ public class CurrentTasksFragment extends TasksFragment {
 
             switch (task.getPriority()) {
                 case 3:
-                    priority = "Severe";
-                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_red));
+                    priority = "Light";
+                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_green));
                     break;
                 case 2:
                     taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_yellow));
                     priority = "Medium";
                     break;
                 case 1:
-                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_green));
-                    priority = "Light";
+                    taskPriority.setTextColor(ContextCompat.getColor(context, R.color.status_red));
+                    priority = "Severe";
                     break;
             }
             switch (task.getStatus()) {
@@ -278,11 +270,6 @@ public class CurrentTasksFragment extends TasksFragment {
             taskStatus.setText(status);
             taskTimeRange.setText(formatIsoDate(task.getStopDate()));
 
-            convertView.setOnLongClickListener(v -> {
-                showDeleteConfirmationDialog(task, position);
-                return true;
-            });
-
             convertView.setOnClickListener(v -> {
                 Task selectedTask = tasks.get(position);
                 // Navigate to TaskDetailsFragment
@@ -298,39 +285,6 @@ public class CurrentTasksFragment extends TasksFragment {
             });
 
             return convertView;
-        }
-
-        private void showDeleteConfirmationDialog(Task task, int position) {
-            new AlertDialog.Builder(context)
-                    .setTitle("Delete Task")
-                    .setMessage("Are you sure you want to delete this task?")
-                    .setPositiveButton("Delete", (dialog, which) -> deleteTask(task, position))
-                    .setNegativeButton("Cancel", null)
-                    .show();
-        }
-
-        private void deleteTask(Task task, int position) {
-            RetrofitService retrofitService = new RetrofitService();
-            TaskAPI taskAPI = retrofitService.getRetrofit().create(TaskAPI.class);
-
-            taskAPI.deleteTask(task.getId()).enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(context, "Task deleted successfully", Toast.LENGTH_SHORT).show();
-                        tasks.remove(position);
-                        notifyDataSetChanged();
-                        updateUI();
-                    } else {
-                        Toast.makeText(context, "Failed to delete task: " + response.message(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(context, "Error deleting task: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
         }
 
         public String formatIsoDate(String isoDate) {
@@ -377,4 +331,6 @@ public class CurrentTasksFragment extends TasksFragment {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
+
 }

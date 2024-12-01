@@ -17,16 +17,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import com.example.ergo.model.Task;
 import com.example.ergo.model.User;
-import com.example.ergo.retrofit.RetrofitService;
-import com.example.ergo.retrofit.TaskAPI;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -37,30 +32,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-@SuppressWarnings("deprecation")
 public class TaskDetailsFragment extends Fragment {
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 0;
     private Task task;
     private User user;
     private TextView exportButton;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof MainActivity) {
-            MainActivity activity = (MainActivity) context;
-            activity.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-                @Override
-                public void handleOnBackPressed() {
-                    // Handle back press, but prevent default swipe behavior
-                }
-            });
-        }
-    }
 
     @Nullable
     @Override
@@ -71,7 +48,7 @@ public class TaskDetailsFragment extends Fragment {
 
         if (getArguments() != null) {
             task = (Task) getArguments().getSerializable("task");
-            user = (User) getArguments().getParcelable("user");
+            user = (User) getArguments().getSerializable("user");
         }
 
         if (getArguments() != null) {
@@ -83,7 +60,6 @@ public class TaskDetailsFragment extends Fragment {
 
         return view;
     }
-
 
     private void displayTaskDetails(View view) {
         TextView titleTextView = view.findViewById(R.id.TitleText);

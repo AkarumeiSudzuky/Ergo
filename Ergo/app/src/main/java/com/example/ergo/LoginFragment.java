@@ -26,7 +26,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@SuppressWarnings("deprecation")
 public class LoginFragment extends Fragment {
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
@@ -38,9 +37,6 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
-
-        ((MainActivity) getActivity()).setBottomNavigationVisibility(false);
-
         emailEditText = view.findViewById(R.id.EmailET);
         passwordEditText = view.findViewById(R.id.TitleET);
         loginButton = view.findViewById(R.id.SaveTaskButton);
@@ -49,8 +45,6 @@ public class LoginFragment extends Fragment {
         noAccountYet.setOnClickListener(v -> ((MainActivity) getActivity()).loadFragment(new RegisterFragment(), activeUser));
 
         loginButton.setOnClickListener(v -> performLogin());
-
-
 
         return view;
     }

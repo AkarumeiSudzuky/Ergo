@@ -9,9 +9,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="400dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="525dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,19 +22,14 @@
             android:id="@+id/include"
             layout="@layout/objects_image"
             android:layout_width="400dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="36dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="200dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="@string/please_provide_details_for_your_account"
             android:textColor="@color/darkest_purple_col"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textLogIn" />
@@ -73,11 +70,13 @@
                 android:id="@+id/UsernameT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="256dp"
                 android:text="@string/username"
                 android:textColor="@color/darkest_purple_col"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,7 +129,7 @@
                 android:id="@+id/SaveTaskButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/button_darkest_purple"
                 android:text="@string/log_in_text"
                 android:textColor="#ffffff"
@@ -147,6 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="80dp"
+            android:layout_marginBottom="-196dp"
             android:clickable="true"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -160,8 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="1dp"
-                android:text="@string/don_t_have_an_account_yet"
-                android:textColor="@color/darkest_purple_col" />
+                android:text="@string/don_t_have_an_account_yet" />
 
             <TextView
                 android:id="@+id/RegisterText"
@@ -172,7 +171,6 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:text="@string/register"
-                android:textColor="@color/darkest_purple_col"
                 android:textStyle="bold" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

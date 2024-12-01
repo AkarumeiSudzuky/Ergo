@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TeamDao {
+
     @Autowired
     private TeamRepository teamRepository;
 
@@ -23,48 +24,72 @@ public class TeamDao {
     @Autowired
     private UserDao userDao;
 
+    /**
+     * Saves the given team to the repository.
+     * @param team the team to save
+     * @return the saved team
+     */
     public Team save(Team team) {
         return teamRepository.save(team);
     }
 
+    /**
+     * Deletes the specified team from the repository.
+     * @param team the team to delete
+     */
     public void delete(Team team) {
         teamRepository.delete(team);
     }
 
+    /**
+     * Finds a team by its ID.
+     * @param id the team ID
+     * @return the team with the specified ID
+     * @throws RuntimeException if the team is not found
+     */
     public Team findById(int id) {
-        return teamRepository.findById(id).orElseThrow(() -> new RuntimeException("Team not found with id: " + id));
+        return teamRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Team not found with id: " + id));
     }
 
-    public Team findByName(String name) {return teamRepository.findTeamByName(name);}
+    /**
+     * Finds a team by its name.
+     * @param name the name of the team
+     * @return the team with the specified name
+     */
+    public Team findByName(String name) {
+        return teamRepository.findTeamByName(name);
+    }
 
+    /**
+     * Retrieves the ID of the last team created (i.e., the team with the highest ID).
+     * @return the ID of the last team, or null if no teams exist
+     */
     public Integer getLastTeamId() {
-        // Get the team with the maximum ID
         return teamRepository.findTopByOrderByIdDesc()
-                .map(Team::getId)  // Extract the ID of the team
-                .orElse(null);  // Return null if no team is found
+                .map(Team::getId)
+                .orElse(null);
     }
 
-    // Add a user to a team
+    /**
+     * Adds a set of users to a team.
+     * @param teamId the ID of the team
+     * @param users the set of users to add to the team
+     * @throws IllegalArgumentException if the team or any user does not exist
+     */
     @Transactional
     public void addUserToTeam(Long teamId, Set<User> users) {
-        // Retrieve the team entity by its ID
         Team team = entityManager.find(Team.class, teamId);
         if (team == null) {
             throw new IllegalArgumentException("Team with ID " + teamId + " does not exist.");
         }
 
-        // Add each user to the team
         for (User user : users) {
-            // Check if the user exists in the database
             User persistedUser = entityManager.find(User.class, user.getId());
             if (persistedUser == null) {
                 throw new IllegalArgumentException("User with ID " + user.getId() + " does not exist.");
             }
-
-            // Add the user to the team's user set
             team.getUsers().add(persistedUser);
-
-            // Add the team to the user's group set
             persistedUser.getGroups().add(team);
         }
 
@@ -72,30 +97,41 @@ public class TeamDao {
         entityManager.merge(team);
     }
 
-
-    // Method to get all users in a specific team
+    /**
+     * Retrieves all users in a specific team.
+     * @param teamId the ID of the team
+     * @return a list of users in the specified team
+     * @throws RuntimeException if the team is not found
+     */
     public List<User> getUsersInTeam(int teamId) {
         Optional<Team> team = teamRepository.findById(teamId);
-        return team.map(t -> t.getUsers().stream().collect(Collectors.toList()))
+        return team.map(t -> new ArrayList<>(t.getUsers()))
                 .orElseThrow(() -> new RuntimeException("Team not found with id: " + teamId));
     }
 
-    // Method to get all teams for a specific user
+    /**
+     * Retrieves all teams for a specific user.
+     * @param userId the ID of the user
+     * @return a list of teams the user is a member of
+     * @throws RuntimeException if the user is not found
+     */
     public List<Team> getTeamsForUser(Long userId) {
         User user = userDao.findById(userId);
-        System.out.println(userId);
         if (user == null) {
             throw new RuntimeException("User not found with id: " + userId);
         }
         return new ArrayList<>(user.getGroups());
     }
 
-
-
-    // Method to get all tasks for a specific team
+    /**
+     * Retrieves all tasks for a specific team.
+     * @param teamId the ID of the team
+     * @return a list of tasks associated with the specified team
+     * @throws RuntimeException if the team is not found
+     */
     public List<Task> getTasksForTeam(int teamId) {
         Optional<Team> team = teamRepository.findById(teamId);
-        return team.map(t -> t.getTasks().stream().collect(Collectors.toList()))
+        return team.map(t -> new ArrayList<>(t.getTasks()))
                 .orElseThrow(() -> new RuntimeException("Team not found with id: " + teamId));
     }
 }

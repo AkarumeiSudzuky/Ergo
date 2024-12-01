@@ -2,52 +2,78 @@ package com.ergo.Springserver.controllers;
 
 import com.ergo.Springserver.model.team.Team;
 import com.ergo.Springserver.model.team.TeamDao;
-import com.ergo.Springserver.model.team.TeamRepository;
 import com.ergo.Springserver.model.user.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Controller for managing teams and their associated users.
+ */
 @RestController
+@RequestMapping("/team")
+@RequiredArgsConstructor
 public class TeamController {
-    @Autowired
-    private TeamDao teamDao;
 
+    private final TeamDao teamDao;
 
-    //===========Post================================
-    @PostMapping("/team/save")
+    //=========== Post Endpoints ============
+
+    /**
+     * Saves a new team to the database.
+     *
+     * @param team the team to be saved.
+     * @return the saved team.
+     */
+    @PostMapping("/save")
     public Team saveTeam(@RequestBody Team team) {
         return teamDao.save(team);
     }
 
-    @PostMapping("/team/add-users")
+    /**
+     * Adds users to a specific team.
+     *
+     * @param teamId the ID of the team.
+     * @param users  the set of users to add.
+     */
+    @PostMapping("/add-users")
     public void addUser(@RequestParam Long teamId, @RequestBody Set<User> users) {
         teamDao.addUserToTeam(teamId, users);
     }
 
+    //=========== Get Endpoints ============
 
-
-    //==========Get===================================
-
-    @GetMapping("/team/get-all-forUser")
+    /**
+     * Retrieves all teams for a specific user.
+     *
+     * @param userId the ID of the user.
+     * @return a list of teams associated with the user.
+     */
+    @GetMapping("/get-all-for-user")
     public List<Team> getAllTeams(@RequestParam("userId") long userId) {
         return teamDao.getTeamsForUser(userId);
     }
 
-    @GetMapping("/team/get-last")
+    /**
+     * Retrieves the ID of the last created team.
+     *
+     * @return the ID of the last team.
+     */
+    @GetMapping("/get-last")
     public Long getLastTeam() {
-        return Long.valueOf(teamDao.getLastTeamId());
+        return (long) teamDao.getLastTeamId();
     }
 
-    @GetMapping("/team/get-all-users")
+    /**
+     * Retrieves all users in a specific team.
+     *
+     * @param teamId the ID of the team.
+     * @return a list of users in the team.
+     */
+    @GetMapping("/get-all-users")
     public List<User> getAllUsers(@RequestParam("teamId") Integer teamId) {
         return teamDao.getUsersInTeam(teamId);
     }
-
-
-
-
-
 }

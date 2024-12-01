@@ -32,6 +32,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
+        <com.example.ergo.WrapContentListView
+            android:id="@+id/groupsListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:minHeight="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/AddNewGroupButton" />
+
         <Button
             android:id="@+id/AddNewGroupButton"
             android:layout_width="0dp"
@@ -44,19 +56,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/GroupsText" />
-
-        <com.example.ergo.WrapContentListView
-            android:id="@+id/groupsListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:minHeight="200dp"
-            android:paddingBottom="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/AddNewGroupButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

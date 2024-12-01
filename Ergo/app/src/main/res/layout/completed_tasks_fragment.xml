@@ -5,13 +5,14 @@
     android:id="@+id/TasksFragmentMainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="64dp"
     android:background="@color/app_background_col"
     android:backgroundTint="@color/app_background_col"
     android:minHeight="850dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="64dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,6 +40,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
             <ListView
                 android:id="@+id/TasksListViewDueTodayCompleted"
                 android:layout_width="0dp"
@@ -48,6 +50,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TaskDueTodayTextCompleted" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,7 +69,7 @@
             <TextView
                 android:id="@+id/TaskNotYetDueTCompleted"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="@string/task_not_due_today"
                 android:textColor="@color/darkest_purple_col"
                 android:textSize="24sp"
