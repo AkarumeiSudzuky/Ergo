@@ -18,7 +18,7 @@ public class Team {
     private String name;
 
     // Relationship for users in the group
-    @ManyToMany(mappedBy = "teams")
+    @ManyToMany(mappedBy = "groups")
     private Set<User> users = new HashSet<>();
 
     // Relationship for tasks associated with the team
